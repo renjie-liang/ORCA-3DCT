@@ -22,16 +22,16 @@ Grid average vs. ORCA at $B{=}216$ across all three evaluation surfaces (CT-RATE
 |                         | density  | 0.865 | **0.913** |
 |                         | location | 0.247 | **0.677** |
 |                         | texture  | 0.760 | **0.816** |
-| Measurement VQA (acc.)  | size     | 0.766 | **0.773** |
-|                         | density  | 0.807 | **0.844** |
-|                         | location | 0.649 | **0.707** |
+| Measurement VQA (acc.)  | size     | 0.766 | **0.778** |
+|                         | density  | 0.807 | **0.847** |
+|                         | location | 0.649 | **0.721** |
 |                         | texture  | 0.795 | **0.838** |
 | Report generation       | CE-F1    | **0.475** | 0.470 |
 |                         | CRG      | **0.438** | 0.436 |
 |                         | GREEN    | 0.319 | **0.329** |
 
 ORCA's advantage is largest where localized detail matters: location probing (0.68 vs 0.25) and VQA
-(0.71 vs 0.65). Report-generation metrics are near-saturated across compressors; ORCA leads on GREEN,
+(0.72 vs 0.65). Report-generation metrics are near-saturated across compressors; ORCA leads on GREEN,
 the strongest clinical score. ORCA also shrinks the LLM visual context $64\times$, its KV-cache $50\times$,
 and per-volume latency $31\times$. Numbers for every encoder, attribute, and budget are under `results/`.
 
