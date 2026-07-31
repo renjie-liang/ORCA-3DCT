@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 768,
+ "grid_shape": [
+  64,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "RENAMED from colipri_orca_b64 (2026-07-22). 768-d = ORCA organ-prior (lam=0.5) WITHOUT sinusoidal position; NOT the full method (orcafull_lam0p5_f4s2 = 792-d). Kept only as the 'no-position' ablation arm. ORCA (agglo_organ, budget=64, lam=0.5) PRECOMPUTED tokens; consume with token_selection=none. Built by precompute_orca.py reusing CompressToken agglo_organ+organ_vec.",
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orca_nosin_d768_b64_lam0p5/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orca_nosin_d768_b64_lam0p5/train",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

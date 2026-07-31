@@ -1,0 +1,23 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "suprem",
+ "dataset": "Merlin",
+ "visual_dim": 192,
+ "grid_shape": [12, 12, 12],
+ "axis_transpose": null,
+ "note": "SuPreM (Swin-UNETR, AbdomenAtlas seg-supervised) token grids over the FULL Merlin abdominal CT set (25,489 real-HU NIfTI). Weights supervised_suprem_swinunetr_2100.pth (load: ckpt['net'], strip 'module.backbone.'). Preprocess: RAS -> ScaleIntensityRange(-175,250)->[0,1] -> Resize whole volume to 96^3; tap swinViT(x, normalize)[2] (/8 stage) -> (12,12,12,192). Stored fp16, already [T,H,W,C]. Organ-coherence on Merlin = 0.39 (n=6, best of the encoders we tested there). CAVEAT: SuPreM is natively a 96^3-ROI model; we resize the whole volume (off-distribution) instead of sliding-window tiling. Reusable asset: same dir serves all splits; splits differ only by id list (Merlin official Split: train/val->valid/test).",
+ "splits": {
+  "train": {
+   "dir": "./data/Merlin/embeddings/suprem",
+   "ids": "./vendor/npy_manifests/merlin_train_ids.txt"
+  },
+  "valid": {
+   "dir": "./data/Merlin/embeddings/suprem",
+   "ids": "./vendor/npy_manifests/merlin_valid_ids.txt"
+  },
+  "test": {
+   "dir": "./data/Merlin/embeddings/suprem",
+   "ids": "./vendor/npy_manifests/merlin_test_ids.txt"
+  }
+ }
+}

@@ -1,0 +1,9 @@
+{
+  "pred_path": "results/from_collabrator/runs/reportgen_avgpack_b216/reportgen_avgpack_b216__s2/evaluations/step_006032/predictions.jsonl",
+  "step": "step_006032",
+  "epoch_selection": "best CRG on stage-2",
+  "model": "./checkpoints/GREEN-RadLlama2-7b",
+  "n_samples": 1564,
+  "green_mean": 0.3155686445760915,
+  "green_std": 0.26343938634662645
+}

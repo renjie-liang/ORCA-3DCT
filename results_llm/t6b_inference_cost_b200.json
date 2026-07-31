@@ -1,0 +1,112 @@
+{
+  "model": "Llama-3.1-8B (arch-exact, random init for timing)",
+  "attn": "sdpa",
+  "prompt_tokens": 64,
+  "gen_tokens": 128,
+  "kv_bytes_per_token": 131072,
+  "passes": 4,
+  "warmup_passes": 1,
+  "tag": "B200",
+  "rows": [
+    {
+      "B": 8,
+      "seq": 72,
+      "prefill_ms": 11.6,
+      "decode_ms_per_tok": 11.11,
+      "kv_cache_MB": 9.4,
+      "peak_mem_GB": 16.13,
+      "total_s_per_report": 1.43,
+      "n_eff": 3,
+      "prefill_ms_passes": [
+        11.6,
+        11.6,
+        11.7
+      ],
+      "total_s_passes": [
+        1.41,
+        1.44,
+        1.43
+      ]
+    },
+    {
+      "B": 27,
+      "seq": 91,
+      "prefill_ms": 11.6,
+      "decode_ms_per_tok": 11.08,
+      "kv_cache_MB": 11.9,
+      "peak_mem_GB": 16.14,
+      "total_s_per_report": 1.43,
+      "n_eff": 3,
+      "prefill_ms_passes": [
+        11.5,
+        11.7,
+        11.6
+      ],
+      "total_s_passes": [
+        1.41,
+        1.43,
+        1.44
+      ]
+    },
+    {
+      "B": 64,
+      "seq": 128,
+      "prefill_ms": 11.5,
+      "decode_ms_per_tok": 11.12,
+      "kv_cache_MB": 16.8,
+      "peak_mem_GB": 16.17,
+      "total_s_per_report": 1.43,
+      "n_eff": 3,
+      "prefill_ms_passes": [
+        11.4,
+        11.6,
+        11.5
+      ],
+      "total_s_passes": [
+        1.42,
+        1.43,
+        1.44
+      ]
+    },
+    {
+      "B": 216,
+      "seq": 280,
+      "prefill_ms": 11.8,
+      "decode_ms_per_tok": 11.1,
+      "kv_cache_MB": 36.7,
+      "peak_mem_GB": 16.29,
+      "total_s_per_report": 1.43,
+      "n_eff": 3,
+      "prefill_ms_passes": [
+        11.8,
+        11.9,
+        11.8
+      ],
+      "total_s_passes": [
+        1.43,
+        1.47,
+        1.42
+      ]
+    },
+    {
+      "B": 13824,
+      "seq": 13888,
+      "prefill_ms": 371.5,
+      "decode_ms_per_tok": 11.48,
+      "kv_cache_MB": 1820.3,
+      "peak_mem_GB": 27.07,
+      "total_s_per_report": 1.84,
+      "n_eff": 3,
+      "prefill_ms_passes": [
+        369.2,
+        371.7,
+        371.5
+      ],
+      "total_s_passes": [
+        1.78,
+        1.84,
+        1.98
+      ]
+    }
+  ]
+}

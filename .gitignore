@@ -1,0 +1,25 @@
+# heavy assets — download from the release bundle, do not commit
+data/
+checkpoints/
+weights/
+# model state / large arrays
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.ckpt
+*.npz
+*.npy
+*.h5
+*.pkl
+*.nii
+*.nii.gz
+# per-example predictions (large; regenerable)
+predictions.jsonl
+# logs / caches
+*.out
+*.err
+*.log
+__pycache__/
+*.pyc
+.DS_Store

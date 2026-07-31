@@ -1,0 +1,21 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "ct_clip",
+ "visual_dim": 512,
+ "grid_shape": [
+  24,
+  24,
+  24
+ ],
+ "axis_transpose": null,
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/ct_clip/zero_shot/valid/embeddings",
+   "ids": "./data/CT-RATE/embeddings/ct_clip/zero_shot/valid/ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/ct_clip/zero_shot/train/embeddings",
+   "ids": "./data/CT-RATE/embeddings/ct_clip/zero_shot/train/ids.txt"
+  }
+ }
+}

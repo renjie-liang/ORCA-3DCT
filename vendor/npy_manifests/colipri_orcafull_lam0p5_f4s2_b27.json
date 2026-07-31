@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 792,
+ "grid_shape": [
+  27,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "COMPLETE ORCA (agglo_organ lam=0.5 organ prior + f4s2 sinusoidal centroid), budget=27; token_selection=none. 792 = 768 features + 24 position. This is the FULL method: organ prior AND position, unlike colipri_orca_nosin_d768_b27_lam0p5 (lam=0.5, NO position, 768-d) or colipri_orcasin_f4s2_b27 (position, NO organ prior).",
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orcafull_lam0p5_f4s2_b27/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orcafull_lam0p5_f4s2_b27/train",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

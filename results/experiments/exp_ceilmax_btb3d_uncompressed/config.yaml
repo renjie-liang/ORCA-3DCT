@@ -1,0 +1,6 @@
+exp_id: exp_ceilmax_btb3d_uncompressed
+desc: "DEFINITIVE btb3d uncompressed ceiling: identity_pos (full 31744 tok + f4s2 position) + high-capacity readout (dim512/heads8), 20 epochs (10 was undertrained). Fair ceiling to confirm whether ORCA's exceed of the btb3d ceiling survives convergence -> tests the discrete-code DENOISING claim. 1-seed (17min/epoch)."
+encoder: btb3d
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 20, bs: 32, readout_dim: 512, readout_heads: 8, seeds: [2026]}
+data: {limit: 0, num_workers: 8}

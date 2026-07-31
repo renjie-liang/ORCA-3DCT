@@ -1,0 +1,6 @@
+exp_id: exp_ho_avgpack_colipri_b216
+desc: "held-out test: avgpack (r=4) colipri b216, train on trainho, eval valid+heldout. 3-seed."
+encoder: colipri
+compression: {method: avgpack, params: {r: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

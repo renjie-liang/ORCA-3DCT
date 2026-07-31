@@ -1,0 +1,13 @@
+exp_id: exp_093_agglocent_colipri_b512
+desc: "exp_093 — agglo+CENTROID (restore position) colipri b512, 5 families. Does centroid fix location vs agglo/avgpack?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 512
+  params: {centroid: true}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

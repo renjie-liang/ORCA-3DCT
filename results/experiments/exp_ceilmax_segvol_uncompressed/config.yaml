@@ -1,0 +1,12 @@
+exp_id: exp_ceilmax_segvol_uncompressed
+desc: "DEFINITIVE segvol uncompressed ceiling: strongest single probe = identity_pos (full 2048 tokens + sinusoidal f4s2 position) with HIGH-CAPACITY readout (dim512/heads8), 20 epochs (segvol probes still rising at 10), 3 seeds (segvol uncompressed is high-variance, size sd +-0.161). Settles whether ORCA's apparent exceed of the segvol ceiling is real or ceiling-estimation noise. If ORCA < this, exceed-ceiling is dead cleanly."
+encoder: merlin_segvol
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe:
+  families: [disease_merlin, density_merlin, size_merlin, location_merlin]
+  epochs: 20
+  bs: 64
+  readout_dim: 512
+  readout_heads: 8
+  seeds: [2026, 2027, 2028]
+data: {limit: 0, num_workers: 12}

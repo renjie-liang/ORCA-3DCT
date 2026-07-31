@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 792,
+ "grid_shape": [
+  8,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "ORCA+sin (agglo_merge + sinusoidal centroid re-injection, freqs=4, scale=2.0), budget=8; token_selection=none. 792 = 768 features + 24 position dims. Regenerated AFTER the position-block std-floor fix -- the pre-fix b8 cache had the position block at ~54x the feature scale.",
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orcasin_f4s2_b8/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orcasin_f4s2_b8/train",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

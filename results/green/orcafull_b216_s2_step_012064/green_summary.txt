@@ -1,0 +1,18 @@
+
+-------------GREEN-RadLlama2-7b----------------
+ [Summary]: Green average 0.3287552980623113 and standard deviation 0.26007915224747324 
+ [Clinically Significant Errors Analyses]: <accuracy>. <representative error>
+
+(a) False report of a finding in the candidate: 0.15601023017902813. 
+
+(b) Missing a finding present in the reference: 0.058184143222506396. 
+
+(c) Misidentification of a finding's anatomic location/position: 0.6867007672634271. 
+
+(d) Misassessment of the severity of a finding: 0.8976982097186701. 
+
+(e) Mentioning a comparison that isn't in the reference: 0.9315856777493606. 
+
+(f) Omitting a comparison detailing a change from a prior study: 0.9546035805626598. 
+
+----------------------------------

@@ -1,0 +1,21 @@
+{
+ "artifact_type": "organ_stack",
+ "encoder": "visd_boost",
+ "visual_dim": 256,
+ "organs": [
+  "aorta",
+  "esophagus",
+  "heart",
+  "lung"
+ ],
+ "splits": {
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/visd_boost/train",
+   "ids": "./data/CT-RATE/embeddings/visd_boost/train/ids.txt"
+  },
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/visd_boost/valid",
+   "ids": "./data/CT-RATE/embeddings/visd_boost/valid/ids.txt"
+  }
+ }
+}

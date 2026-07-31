@@ -1,0 +1,6 @@
+exp_id: exp_bc_orca_suprem_b8
+desc: "budget-curve point: FULL ORCA ({lam: 2, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}) merlin_suprem b8. F1-F3 budget curve, single seed."
+encoder: merlin_suprem
+compression: {method: agglo_organ, budget: 8, params: {lam: 2, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}}
+probe: {families: [density_merlin, size_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026]}
+data: {limit: 0, num_workers: 12}

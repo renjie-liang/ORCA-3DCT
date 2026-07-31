@@ -1,0 +1,6 @@
+exp_id: exp_fair_avgpackpos_segvol_b256
+desc: "FAIR-BASELINE: avgpack (fixed r2 grid, 256 tokens) WITH the same f4s2 sinusoidal centroid block, Merlin SegVol, 4 families, 3-seed. T4 control (position on the fixed grid)."
+encoder: merlin_segvol
+compression: {method: avgpack, params: {r: 2, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}}
+probe: {families: [disease_merlin, size_merlin, density_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

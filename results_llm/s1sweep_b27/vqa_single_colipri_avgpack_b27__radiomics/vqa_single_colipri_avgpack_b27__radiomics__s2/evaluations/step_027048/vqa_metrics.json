@@ -1,0 +1,35 @@
+{
+  "pred": "./results_llm/s1sweep_b27/vqa_single_colipri_avgpack_b27__radiomics/vqa_single_colipri_avgpack_b27__radiomics__s2/evaluations/step_027048/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa/per_family/valid_radiomics.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "radiomics/lung_Perc15@clinical": {
+      "acc": 0.9640795381654907,
+      "n": 1559,
+      "qtype": "catalog_clinical",
+      "chance": 0.5
+    },
+    "radiomics/lung_firstorder_Kurtosis@tertile": {
+      "acc": 0.8492623476587556,
+      "n": 1559,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "radiomics/vert_firstorder_Kurtosis@tertile": {
+      "acc": 0.4740218088518281,
+      "n": 1559,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    }
+  },
+  "per_axis": {
+    "radiomics": {
+      "acc": 0.7624545648920248,
+      "n": 4677
+    }
+  },
+  "overall": {
+    "acc": 0.7624545648920248,
+    "n": 4677
+  }
+}

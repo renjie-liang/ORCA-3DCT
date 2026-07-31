@@ -1,0 +1,23 @@
+{
+ "artifact_type": "codebook_grid",
+ "encoder": "btb3d_8x8",
+ "visual_dim": 18,
+ "grid_shape": [
+  31,
+  64,
+  64
+ ],
+ "axis_transpose": null,
+ "codebook": "./data/CT-RATE/embeddings/btb3d/8x8x8_msb/codebook.npy",
+ "_note": "SHELVED / UNVALIDATED (2026-07-14). avgpack probes gave chance disease (AUROC ~0.50) + negative R2 across budgets -> the token->feature reconstruction or grid layout is misaligned in a way channel-convention cannot fix (row order was RULED OUT: 8x8 ids.txt == btb3d_valid_ids). No 8x8 dense ground-truth exists to validate the reconstruction. DO NOT USE for experiments. btb3d results stand on 16x16 (btb3d.json), which is verified == dense. Revisit only with the original 8x8 reconstruction protocol from DTBD3D.",
+ "splits": {
+  "valid": {
+   "tokens": "./data/CT-RATE/embeddings/btb3d/8x8x8_msb/valid/tokens_int.npy",
+   "ids": "./vendor/npy_manifests/btb3d_valid_ids.txt"
+  },
+  "train": {
+   "tokens": "./data/CT-RATE/embeddings/btb3d/8x8x8_msb/train/tokens_int.npy",
+   "ids": "./vendor/npy_manifests/btb3d_train_ids.txt"
+  }
+ }
+}

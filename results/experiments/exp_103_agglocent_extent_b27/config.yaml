@@ -1,0 +1,13 @@
+exp_id: exp_103_agglocent_extent_b27
+desc: "centroid + region extent, scale 1 -- does spread help distributed attrs (lung_LR)?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, extent: true, centroid_scale: 1.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

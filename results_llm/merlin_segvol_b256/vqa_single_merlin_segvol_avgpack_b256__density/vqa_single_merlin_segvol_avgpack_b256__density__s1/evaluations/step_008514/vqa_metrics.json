@@ -1,0 +1,35 @@
+{
+  "pred": "./results_llm/merlin_segvol_b256/vqa_single_merlin_segvol_avgpack_b256__density/vqa_single_merlin_segvol_avgpack_b256__density__s1/evaluations/step_008514/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa_merlin_v1/per_family/valid_density_merlin.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "density_merlin/liver_spleen_diff@clinical": {
+      "acc": 0.725717776420281,
+      "n": 4911,
+      "qtype": "catalog_clinical",
+      "chance": 0.5
+    },
+    "density_merlin/muscle_auto_median@tertile": {
+      "acc": 0.33419074000791454,
+      "n": 5054,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "density_merlin/vert_L1T12_median@tertile": {
+      "acc": 0.32202380952380955,
+      "n": 5040,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    }
+  },
+  "per_axis": {
+    "density_merlin": {
+      "acc": 0.4582472509163612,
+      "n": 15005
+    }
+  },
+  "overall": {
+    "acc": 0.4582472509163612,
+    "n": 15005
+  }
+}

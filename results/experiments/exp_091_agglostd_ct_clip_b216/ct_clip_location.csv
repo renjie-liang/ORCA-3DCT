@@ -1,0 +1,17 @@
+epoch,family,target,metric,score
+1,location,0,r2,0.1945
+1,location,1,r2,0.2217
+1,location,2,r2,0.2831
+1,location,mean,r2,0.2331
+2,location,0,r2,0.2895
+2,location,1,r2,0.2859
+2,location,2,r2,0.3397
+2,location,mean,r2,0.305
+3,location,0,r2,0.3631
+3,location,1,r2,0.3393
+3,location,2,r2,0.3789
+3,location,mean,r2,0.3604
+4,location,0,r2,0.3443
+4,location,1,r2,0.3681
+4,location,2,r2,0.3229
+4,location,mean,r2,0.3451

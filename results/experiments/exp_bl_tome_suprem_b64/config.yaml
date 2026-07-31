@@ -1,0 +1,6 @@
+exp_id: exp_bl_tome_suprem_b64
+desc: "ToMe (cosine merge) on Merlin SuPreM b64, 4 families, 3-seed. T3 small-budget ToMe row."
+encoder: merlin_suprem
+compression: {method: tome, budget: 64, params: {}}
+probe: {families: [disease_merlin, density_merlin, size_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

@@ -1,0 +1,26 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri_pca18",
+ "visual_dim": 18,
+ "grid_shape": [
+  24,
+  24,
+  24
+ ],
+ "axis_transpose": [
+  1,
+  2,
+  3,
+  0
+ ],
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_pca18/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_pca18/train",
+   "ids": "./vendor/npy_manifests/colipri_pca18_train_ids.txt"
+  }
+ }
+}

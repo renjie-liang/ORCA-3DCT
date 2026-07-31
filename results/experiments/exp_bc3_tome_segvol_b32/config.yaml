@@ -1,0 +1,6 @@
+exp_id: exp_bc3_tome_segvol_b32
+desc: "F1-F3 budget curve, 3-seed (band). exp_bc3_tome_segvol_b32"
+encoder: merlin_segvol
+compression: {method: tome, budget: 32, params: {}}
+probe: {families: [density_merlin, size_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

@@ -1,0 +1,15 @@
+exp_id: exp_dins_colipri_b8
+desc: "MedPruner-DINS b8 colipri: top-B by encoder attention-received + residual folded into the nearest kept token. Tier-1 same-domain pruning baseline vs ORCA+sin at matched budget."
+encoder: colipri
+compression:
+  method: medpruner_dins
+  budget: 8
+  params: {}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data:
+  limit: 0
+  num_workers: 12

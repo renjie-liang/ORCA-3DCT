@@ -1,0 +1,6 @@
+exp_id: exp_ablfill_avg_btb3d_b512
+desc: "abl backfill config1 avgpack btb3d 3seed"
+encoder: btb3d
+compression: {method: avgpack, params: {r: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 8}

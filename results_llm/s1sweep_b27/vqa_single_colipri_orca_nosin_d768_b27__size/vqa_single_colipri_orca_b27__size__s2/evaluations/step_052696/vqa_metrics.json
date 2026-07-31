@@ -1,0 +1,47 @@
+{
+  "pred": "./results_llm/s1sweep_b27/vqa_single_colipri_orca_b27__size/vqa_single_colipri_orca_b27__size__s2/evaluations/step_052696/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa/per_family/valid_size.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "size/aorta_diameter_mm@clinical": {
+      "acc": 0.9309462915601023,
+      "n": 1564,
+      "qtype": "catalog_clinical",
+      "chance": 0.5
+    },
+    "size/heart_width_mm@tertile": {
+      "acc": 0.6867007672634271,
+      "n": 1564,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "size/sz_aorta_heart@tertile": {
+      "acc": 0.6221227621483376,
+      "n": 1564,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "size/sz_heart_lung@tertile": {
+      "acc": 0.8143405889884763,
+      "n": 1562,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "size/sz_ivc_aorta@tertile": {
+      "acc": 0.5781049935979513,
+      "n": 1562,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    }
+  },
+  "per_axis": {
+    "size": {
+      "acc": 0.7264585465711362,
+      "n": 7816
+    }
+  },
+  "overall": {
+    "acc": 0.7264585465711362,
+    "n": 7816
+  }
+}

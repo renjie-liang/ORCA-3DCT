@@ -1,0 +1,601 @@
+epoch,seed,family,target,metric,score
+1,2026,disease,Medical material,auroc,0.6738
+1,2026,disease,Arterial wall calcification,auroc,0.7534
+1,2026,disease,Cardiomegaly,auroc,0.8235
+1,2026,disease,Pericardial effusion,auroc,0.7363
+1,2026,disease,Coronary artery wall calcification,auroc,0.7407
+1,2026,disease,Hiatal hernia,auroc,0.6715
+1,2026,disease,Lymphadenopathy,auroc,0.6476
+1,2026,disease,Emphysema,auroc,0.6325
+1,2026,disease,Atelectasis,auroc,0.6473
+1,2026,disease,Lung nodule,auroc,0.5869
+1,2026,disease,Lung opacity,auroc,0.655
+1,2026,disease,Pulmonary fibrotic sequela,auroc,0.5734
+1,2026,disease,Pleural effusion,auroc,0.8726
+1,2026,disease,Mosaic attenuation pattern,auroc,0.7558
+1,2026,disease,Peribronchial thickening,auroc,0.647
+1,2026,disease,Consolidation,auroc,0.6971
+1,2026,disease,Bronchiectasis,auroc,0.6075
+1,2026,disease,Interlobular septal thickening,auroc,0.75
+1,2026,disease,macro,auroc,0.6929
+1,2026,disease,micro,auroc,0.7022
+2,2026,disease,Medical material,auroc,0.6916
+2,2026,disease,Arterial wall calcification,auroc,0.773
+2,2026,disease,Cardiomegaly,auroc,0.8479
+2,2026,disease,Pericardial effusion,auroc,0.7593
+2,2026,disease,Coronary artery wall calcification,auroc,0.7548
+2,2026,disease,Hiatal hernia,auroc,0.681
+2,2026,disease,Lymphadenopathy,auroc,0.6612
+2,2026,disease,Emphysema,auroc,0.6537
+2,2026,disease,Atelectasis,auroc,0.6572
+2,2026,disease,Lung nodule,auroc,0.6023
+2,2026,disease,Lung opacity,auroc,0.6559
+2,2026,disease,Pulmonary fibrotic sequela,auroc,0.5783
+2,2026,disease,Pleural effusion,auroc,0.8908
+2,2026,disease,Mosaic attenuation pattern,auroc,0.7752
+2,2026,disease,Peribronchial thickening,auroc,0.6775
+2,2026,disease,Consolidation,auroc,0.7103
+2,2026,disease,Bronchiectasis,auroc,0.6276
+2,2026,disease,Interlobular septal thickening,auroc,0.7629
+2,2026,disease,macro,auroc,0.7089
+2,2026,disease,micro,auroc,0.7123
+3,2026,disease,Medical material,auroc,0.686
+3,2026,disease,Arterial wall calcification,auroc,0.7887
+3,2026,disease,Cardiomegaly,auroc,0.8618
+3,2026,disease,Pericardial effusion,auroc,0.7665
+3,2026,disease,Coronary artery wall calcification,auroc,0.7722
+3,2026,disease,Hiatal hernia,auroc,0.6858
+3,2026,disease,Lymphadenopathy,auroc,0.6641
+3,2026,disease,Emphysema,auroc,0.6767
+3,2026,disease,Atelectasis,auroc,0.6688
+3,2026,disease,Lung nodule,auroc,0.6029
+3,2026,disease,Lung opacity,auroc,0.6567
+3,2026,disease,Pulmonary fibrotic sequela,auroc,0.586
+3,2026,disease,Pleural effusion,auroc,0.8985
+3,2026,disease,Mosaic attenuation pattern,auroc,0.7855
+3,2026,disease,Peribronchial thickening,auroc,0.7024
+3,2026,disease,Consolidation,auroc,0.7169
+3,2026,disease,Bronchiectasis,auroc,0.638
+3,2026,disease,Interlobular septal thickening,auroc,0.7631
+3,2026,disease,macro,auroc,0.7178
+3,2026,disease,micro,auroc,0.7179
+4,2026,disease,Medical material,auroc,0.6961
+4,2026,disease,Arterial wall calcification,auroc,0.7977
+4,2026,disease,Cardiomegaly,auroc,0.8697
+4,2026,disease,Pericardial effusion,auroc,0.7761
+4,2026,disease,Coronary artery wall calcification,auroc,0.7817
+4,2026,disease,Hiatal hernia,auroc,0.6974
+4,2026,disease,Lymphadenopathy,auroc,0.6708
+4,2026,disease,Emphysema,auroc,0.6903
+4,2026,disease,Atelectasis,auroc,0.6691
+4,2026,disease,Lung nodule,auroc,0.6076
+4,2026,disease,Lung opacity,auroc,0.6548
+4,2026,disease,Pulmonary fibrotic sequela,auroc,0.5918
+4,2026,disease,Pleural effusion,auroc,0.9069
+4,2026,disease,Mosaic attenuation pattern,auroc,0.7867
+4,2026,disease,Peribronchial thickening,auroc,0.721
+4,2026,disease,Consolidation,auroc,0.7217
+4,2026,disease,Bronchiectasis,auroc,0.6547
+4,2026,disease,Interlobular septal thickening,auroc,0.7716
+4,2026,disease,macro,auroc,0.7259
+4,2026,disease,micro,auroc,0.721
+5,2026,disease,Medical material,auroc,0.7058
+5,2026,disease,Arterial wall calcification,auroc,0.7987
+5,2026,disease,Cardiomegaly,auroc,0.8691
+5,2026,disease,Pericardial effusion,auroc,0.7764
+5,2026,disease,Coronary artery wall calcification,auroc,0.7821
+5,2026,disease,Hiatal hernia,auroc,0.6909
+5,2026,disease,Lymphadenopathy,auroc,0.672
+5,2026,disease,Emphysema,auroc,0.6965
+5,2026,disease,Atelectasis,auroc,0.667
+5,2026,disease,Lung nodule,auroc,0.6073
+5,2026,disease,Lung opacity,auroc,0.6542
+5,2026,disease,Pulmonary fibrotic sequela,auroc,0.5943
+5,2026,disease,Pleural effusion,auroc,0.9077
+5,2026,disease,Mosaic attenuation pattern,auroc,0.7848
+5,2026,disease,Peribronchial thickening,auroc,0.729
+5,2026,disease,Consolidation,auroc,0.7166
+5,2026,disease,Bronchiectasis,auroc,0.6574
+5,2026,disease,Interlobular septal thickening,auroc,0.772
+5,2026,disease,macro,auroc,0.7268
+5,2026,disease,micro,auroc,0.7239
+6,2026,disease,Medical material,auroc,0.6954
+6,2026,disease,Arterial wall calcification,auroc,0.8075
+6,2026,disease,Cardiomegaly,auroc,0.8787
+6,2026,disease,Pericardial effusion,auroc,0.7797
+6,2026,disease,Coronary artery wall calcification,auroc,0.7915
+6,2026,disease,Hiatal hernia,auroc,0.7028
+6,2026,disease,Lymphadenopathy,auroc,0.6772
+6,2026,disease,Emphysema,auroc,0.697
+6,2026,disease,Atelectasis,auroc,0.6739
+6,2026,disease,Lung nodule,auroc,0.6105
+6,2026,disease,Lung opacity,auroc,0.6556
+6,2026,disease,Pulmonary fibrotic sequela,auroc,0.5991
+6,2026,disease,Pleural effusion,auroc,0.9122
+6,2026,disease,Mosaic attenuation pattern,auroc,0.7903
+6,2026,disease,Peribronchial thickening,auroc,0.7294
+6,2026,disease,Consolidation,auroc,0.7221
+6,2026,disease,Bronchiectasis,auroc,0.6623
+6,2026,disease,Interlobular septal thickening,auroc,0.7751
+6,2026,disease,macro,auroc,0.7311
+6,2026,disease,micro,auroc,0.722
+7,2026,disease,Medical material,auroc,0.7
+7,2026,disease,Arterial wall calcification,auroc,0.8128
+7,2026,disease,Cardiomegaly,auroc,0.884
+7,2026,disease,Pericardial effusion,auroc,0.7878
+7,2026,disease,Coronary artery wall calcification,auroc,0.7987
+7,2026,disease,Hiatal hernia,auroc,0.7075
+7,2026,disease,Lymphadenopathy,auroc,0.6772
+7,2026,disease,Emphysema,auroc,0.7067
+7,2026,disease,Atelectasis,auroc,0.6799
+7,2026,disease,Lung nodule,auroc,0.6101
+7,2026,disease,Lung opacity,auroc,0.6539
+7,2026,disease,Pulmonary fibrotic sequela,auroc,0.6108
+7,2026,disease,Pleural effusion,auroc,0.9138
+7,2026,disease,Mosaic attenuation pattern,auroc,0.7868
+7,2026,disease,Peribronchial thickening,auroc,0.7301
+7,2026,disease,Consolidation,auroc,0.7295
+7,2026,disease,Bronchiectasis,auroc,0.6676
+7,2026,disease,Interlobular septal thickening,auroc,0.7775
+7,2026,disease,macro,auroc,0.7353
+7,2026,disease,micro,auroc,0.7353
+8,2026,disease,Medical material,auroc,0.7053
+8,2026,disease,Arterial wall calcification,auroc,0.8118
+8,2026,disease,Cardiomegaly,auroc,0.8824
+8,2026,disease,Pericardial effusion,auroc,0.778
+8,2026,disease,Coronary artery wall calcification,auroc,0.7973
+8,2026,disease,Hiatal hernia,auroc,0.6989
+8,2026,disease,Lymphadenopathy,auroc,0.6777
+8,2026,disease,Emphysema,auroc,0.7003
+8,2026,disease,Atelectasis,auroc,0.6789
+8,2026,disease,Lung nodule,auroc,0.6098
+8,2026,disease,Lung opacity,auroc,0.6563
+8,2026,disease,Pulmonary fibrotic sequela,auroc,0.6009
+8,2026,disease,Pleural effusion,auroc,0.9134
+8,2026,disease,Mosaic attenuation pattern,auroc,0.7913
+8,2026,disease,Peribronchial thickening,auroc,0.7316
+8,2026,disease,Consolidation,auroc,0.7305
+8,2026,disease,Bronchiectasis,auroc,0.6643
+8,2026,disease,Interlobular septal thickening,auroc,0.777
+8,2026,disease,macro,auroc,0.7336
+8,2026,disease,micro,auroc,0.7182
+9,2026,disease,Medical material,auroc,0.6957
+9,2026,disease,Arterial wall calcification,auroc,0.8106
+9,2026,disease,Cardiomegaly,auroc,0.8813
+9,2026,disease,Pericardial effusion,auroc,0.7804
+9,2026,disease,Coronary artery wall calcification,auroc,0.7979
+9,2026,disease,Hiatal hernia,auroc,0.708
+9,2026,disease,Lymphadenopathy,auroc,0.6773
+9,2026,disease,Emphysema,auroc,0.6995
+9,2026,disease,Atelectasis,auroc,0.6769
+9,2026,disease,Lung nodule,auroc,0.6122
+9,2026,disease,Lung opacity,auroc,0.6522
+9,2026,disease,Pulmonary fibrotic sequela,auroc,0.6075
+9,2026,disease,Pleural effusion,auroc,0.9142
+9,2026,disease,Mosaic attenuation pattern,auroc,0.7899
+9,2026,disease,Peribronchial thickening,auroc,0.7292
+9,2026,disease,Consolidation,auroc,0.7237
+9,2026,disease,Bronchiectasis,auroc,0.669
+9,2026,disease,Interlobular septal thickening,auroc,0.7775
+9,2026,disease,macro,auroc,0.7335
+9,2026,disease,micro,auroc,0.7301
+10,2026,disease,Medical material,auroc,0.7017
+10,2026,disease,Arterial wall calcification,auroc,0.8121
+10,2026,disease,Cardiomegaly,auroc,0.882
+10,2026,disease,Pericardial effusion,auroc,0.7803
+10,2026,disease,Coronary artery wall calcification,auroc,0.7989
+10,2026,disease,Hiatal hernia,auroc,0.7107
+10,2026,disease,Lymphadenopathy,auroc,0.679
+10,2026,disease,Emphysema,auroc,0.7078
+10,2026,disease,Atelectasis,auroc,0.6773
+10,2026,disease,Lung nodule,auroc,0.615
+10,2026,disease,Lung opacity,auroc,0.6576
+10,2026,disease,Pulmonary fibrotic sequela,auroc,0.6177
+10,2026,disease,Pleural effusion,auroc,0.9156
+10,2026,disease,Mosaic attenuation pattern,auroc,0.7914
+10,2026,disease,Peribronchial thickening,auroc,0.7322
+10,2026,disease,Consolidation,auroc,0.7296
+10,2026,disease,Bronchiectasis,auroc,0.6751
+10,2026,disease,Interlobular septal thickening,auroc,0.7754
+10,2026,disease,macro,auroc,0.7366
+10,2026,disease,micro,auroc,0.7393
+1,2027,disease,Medical material,auroc,0.6921
+1,2027,disease,Arterial wall calcification,auroc,0.7514
+1,2027,disease,Cardiomegaly,auroc,0.8194
+1,2027,disease,Pericardial effusion,auroc,0.7456
+1,2027,disease,Coronary artery wall calcification,auroc,0.7405
+1,2027,disease,Hiatal hernia,auroc,0.655
+1,2027,disease,Lymphadenopathy,auroc,0.6512
+1,2027,disease,Emphysema,auroc,0.624
+1,2027,disease,Atelectasis,auroc,0.6437
+1,2027,disease,Lung nodule,auroc,0.5723
+1,2027,disease,Lung opacity,auroc,0.6558
+1,2027,disease,Pulmonary fibrotic sequela,auroc,0.5774
+1,2027,disease,Pleural effusion,auroc,0.876
+1,2027,disease,Mosaic attenuation pattern,auroc,0.7409
+1,2027,disease,Peribronchial thickening,auroc,0.6582
+1,2027,disease,Consolidation,auroc,0.7009
+1,2027,disease,Bronchiectasis,auroc,0.6078
+1,2027,disease,Interlobular septal thickening,auroc,0.757
+1,2027,disease,macro,auroc,0.6927
+1,2027,disease,micro,auroc,0.6954
+2,2027,disease,Medical material,auroc,0.695
+2,2027,disease,Arterial wall calcification,auroc,0.7764
+2,2027,disease,Cardiomegaly,auroc,0.8507
+2,2027,disease,Pericardial effusion,auroc,0.7625
+2,2027,disease,Coronary artery wall calcification,auroc,0.7607
+2,2027,disease,Hiatal hernia,auroc,0.6837
+2,2027,disease,Lymphadenopathy,auroc,0.6619
+2,2027,disease,Emphysema,auroc,0.6663
+2,2027,disease,Atelectasis,auroc,0.6626
+2,2027,disease,Lung nodule,auroc,0.584
+2,2027,disease,Lung opacity,auroc,0.656
+2,2027,disease,Pulmonary fibrotic sequela,auroc,0.5953
+2,2027,disease,Pleural effusion,auroc,0.8916
+2,2027,disease,Mosaic attenuation pattern,auroc,0.7735
+2,2027,disease,Peribronchial thickening,auroc,0.693
+2,2027,disease,Consolidation,auroc,0.702
+2,2027,disease,Bronchiectasis,auroc,0.628
+2,2027,disease,Interlobular septal thickening,auroc,0.7703
+2,2027,disease,macro,auroc,0.7119
+2,2027,disease,micro,auroc,0.693
+3,2027,disease,Medical material,auroc,0.6957
+3,2027,disease,Arterial wall calcification,auroc,0.7896
+3,2027,disease,Cardiomegaly,auroc,0.8614
+3,2027,disease,Pericardial effusion,auroc,0.7752
+3,2027,disease,Coronary artery wall calcification,auroc,0.777
+3,2027,disease,Hiatal hernia,auroc,0.69
+3,2027,disease,Lymphadenopathy,auroc,0.6676
+3,2027,disease,Emphysema,auroc,0.6794
+3,2027,disease,Atelectasis,auroc,0.6663
+3,2027,disease,Lung nodule,auroc,0.5997
+3,2027,disease,Lung opacity,auroc,0.6589
+3,2027,disease,Pulmonary fibrotic sequela,auroc,0.6003
+3,2027,disease,Pleural effusion,auroc,0.9008
+3,2027,disease,Mosaic attenuation pattern,auroc,0.7815
+3,2027,disease,Peribronchial thickening,auroc,0.7084
+3,2027,disease,Consolidation,auroc,0.7142
+3,2027,disease,Bronchiectasis,auroc,0.6432
+3,2027,disease,Interlobular septal thickening,auroc,0.7744
+3,2027,disease,macro,auroc,0.7213
+3,2027,disease,micro,auroc,0.7165
+4,2027,disease,Medical material,auroc,0.7033
+4,2027,disease,Arterial wall calcification,auroc,0.8
+4,2027,disease,Cardiomegaly,auroc,0.8634
+4,2027,disease,Pericardial effusion,auroc,0.7778
+4,2027,disease,Coronary artery wall calcification,auroc,0.7849
+4,2027,disease,Hiatal hernia,auroc,0.6901
+4,2027,disease,Lymphadenopathy,auroc,0.6685
+4,2027,disease,Emphysema,auroc,0.6906
+4,2027,disease,Atelectasis,auroc,0.6669
+4,2027,disease,Lung nodule,auroc,0.6023
+4,2027,disease,Lung opacity,auroc,0.6584
+4,2027,disease,Pulmonary fibrotic sequela,auroc,0.6059
+4,2027,disease,Pleural effusion,auroc,0.9045
+4,2027,disease,Mosaic attenuation pattern,auroc,0.7866
+4,2027,disease,Peribronchial thickening,auroc,0.7164
+4,2027,disease,Consolidation,auroc,0.7168
+4,2027,disease,Bronchiectasis,auroc,0.6414
+4,2027,disease,Interlobular septal thickening,auroc,0.7823
+4,2027,disease,macro,auroc,0.7256
+4,2027,disease,micro,auroc,0.7372
+5,2027,disease,Medical material,auroc,0.7068
+5,2027,disease,Arterial wall calcification,auroc,0.802
+5,2027,disease,Cardiomegaly,auroc,0.8709
+5,2027,disease,Pericardial effusion,auroc,0.7871
+5,2027,disease,Coronary artery wall calcification,auroc,0.7889
+5,2027,disease,Hiatal hernia,auroc,0.6922
+5,2027,disease,Lymphadenopathy,auroc,0.6716
+5,2027,disease,Emphysema,auroc,0.698
+5,2027,disease,Atelectasis,auroc,0.6714
+5,2027,disease,Lung nodule,auroc,0.6019
+5,2027,disease,Lung opacity,auroc,0.6585
+5,2027,disease,Pulmonary fibrotic sequela,auroc,0.6137
+5,2027,disease,Pleural effusion,auroc,0.909
+5,2027,disease,Mosaic attenuation pattern,auroc,0.7842
+5,2027,disease,Peribronchial thickening,auroc,0.7149
+5,2027,disease,Consolidation,auroc,0.7173
+5,2027,disease,Bronchiectasis,auroc,0.6526
+5,2027,disease,Interlobular septal thickening,auroc,0.7816
+5,2027,disease,macro,auroc,0.729
+5,2027,disease,micro,auroc,0.73
+6,2027,disease,Medical material,auroc,0.7033
+6,2027,disease,Arterial wall calcification,auroc,0.8067
+6,2027,disease,Cardiomegaly,auroc,0.8731
+6,2027,disease,Pericardial effusion,auroc,0.7879
+6,2027,disease,Coronary artery wall calcification,auroc,0.7922
+6,2027,disease,Hiatal hernia,auroc,0.6976
+6,2027,disease,Lymphadenopathy,auroc,0.6733
+6,2027,disease,Emphysema,auroc,0.7013
+6,2027,disease,Atelectasis,auroc,0.672
+6,2027,disease,Lung nodule,auroc,0.6018
+6,2027,disease,Lung opacity,auroc,0.6645
+6,2027,disease,Pulmonary fibrotic sequela,auroc,0.6038
+6,2027,disease,Pleural effusion,auroc,0.9104
+6,2027,disease,Mosaic attenuation pattern,auroc,0.7889
+6,2027,disease,Peribronchial thickening,auroc,0.725
+6,2027,disease,Consolidation,auroc,0.724
+6,2027,disease,Bronchiectasis,auroc,0.6491
+6,2027,disease,Interlobular septal thickening,auroc,0.782
+6,2027,disease,macro,auroc,0.7309
+6,2027,disease,micro,auroc,0.7345
+7,2027,disease,Medical material,auroc,0.6967
+7,2027,disease,Arterial wall calcification,auroc,0.8098
+7,2027,disease,Cardiomegaly,auroc,0.8721
+7,2027,disease,Pericardial effusion,auroc,0.7884
+7,2027,disease,Coronary artery wall calcification,auroc,0.7982
+7,2027,disease,Hiatal hernia,auroc,0.6996
+7,2027,disease,Lymphadenopathy,auroc,0.6715
+7,2027,disease,Emphysema,auroc,0.7017
+7,2027,disease,Atelectasis,auroc,0.6753
+7,2027,disease,Lung nodule,auroc,0.6052
+7,2027,disease,Lung opacity,auroc,0.6582
+7,2027,disease,Pulmonary fibrotic sequela,auroc,0.6098
+7,2027,disease,Pleural effusion,auroc,0.9119
+7,2027,disease,Mosaic attenuation pattern,auroc,0.7745
+7,2027,disease,Peribronchial thickening,auroc,0.7357
+7,2027,disease,Consolidation,auroc,0.7212
+7,2027,disease,Bronchiectasis,auroc,0.6589
+7,2027,disease,Interlobular septal thickening,auroc,0.7843
+7,2027,disease,macro,auroc,0.7318
+7,2027,disease,micro,auroc,0.7351
+8,2027,disease,Medical material,auroc,0.6948
+8,2027,disease,Arterial wall calcification,auroc,0.8084
+8,2027,disease,Cardiomegaly,auroc,0.8794
+8,2027,disease,Pericardial effusion,auroc,0.7862
+8,2027,disease,Coronary artery wall calcification,auroc,0.7942
+8,2027,disease,Hiatal hernia,auroc,0.7069
+8,2027,disease,Lymphadenopathy,auroc,0.6732
+8,2027,disease,Emphysema,auroc,0.705
+8,2027,disease,Atelectasis,auroc,0.6781
+8,2027,disease,Lung nodule,auroc,0.6084
+8,2027,disease,Lung opacity,auroc,0.6629
+8,2027,disease,Pulmonary fibrotic sequela,auroc,0.6143
+8,2027,disease,Pleural effusion,auroc,0.9124
+8,2027,disease,Mosaic attenuation pattern,auroc,0.7894
+8,2027,disease,Peribronchial thickening,auroc,0.7411
+8,2027,disease,Consolidation,auroc,0.7262
+8,2027,disease,Bronchiectasis,auroc,0.6691
+8,2027,disease,Interlobular septal thickening,auroc,0.781
+8,2027,disease,macro,auroc,0.7351
+8,2027,disease,micro,auroc,0.7343
+9,2027,disease,Medical material,auroc,0.7111
+9,2027,disease,Arterial wall calcification,auroc,0.8074
+9,2027,disease,Cardiomegaly,auroc,0.8789
+9,2027,disease,Pericardial effusion,auroc,0.791
+9,2027,disease,Coronary artery wall calcification,auroc,0.7906
+9,2027,disease,Hiatal hernia,auroc,0.7028
+9,2027,disease,Lymphadenopathy,auroc,0.6732
+9,2027,disease,Emphysema,auroc,0.7003
+9,2027,disease,Atelectasis,auroc,0.6714
+9,2027,disease,Lung nodule,auroc,0.6104
+9,2027,disease,Lung opacity,auroc,0.6587
+9,2027,disease,Pulmonary fibrotic sequela,auroc,0.6093
+9,2027,disease,Pleural effusion,auroc,0.9139
+9,2027,disease,Mosaic attenuation pattern,auroc,0.7929
+9,2027,disease,Peribronchial thickening,auroc,0.7243
+9,2027,disease,Consolidation,auroc,0.7252
+9,2027,disease,Bronchiectasis,auroc,0.6597
+9,2027,disease,Interlobular septal thickening,auroc,0.7821
+9,2027,disease,macro,auroc,0.7335
+9,2027,disease,micro,auroc,0.7354
+10,2027,disease,Medical material,auroc,0.7057
+10,2027,disease,Arterial wall calcification,auroc,0.8122
+10,2027,disease,Cardiomegaly,auroc,0.8804
+10,2027,disease,Pericardial effusion,auroc,0.7898
+10,2027,disease,Coronary artery wall calcification,auroc,0.8003
+10,2027,disease,Hiatal hernia,auroc,0.7
+10,2027,disease,Lymphadenopathy,auroc,0.6775
+10,2027,disease,Emphysema,auroc,0.7092
+10,2027,disease,Atelectasis,auroc,0.6738
+10,2027,disease,Lung nodule,auroc,0.6078
+10,2027,disease,Lung opacity,auroc,0.6653
+10,2027,disease,Pulmonary fibrotic sequela,auroc,0.6183
+10,2027,disease,Pleural effusion,auroc,0.9148
+10,2027,disease,Mosaic attenuation pattern,auroc,0.7953
+10,2027,disease,Peribronchial thickening,auroc,0.7335
+10,2027,disease,Consolidation,auroc,0.7228
+10,2027,disease,Bronchiectasis,auroc,0.6654
+10,2027,disease,Interlobular septal thickening,auroc,0.7854
+10,2027,disease,macro,auroc,0.7365
+10,2027,disease,micro,auroc,0.7382
+1,2028,disease,Medical material,auroc,0.6553
+1,2028,disease,Arterial wall calcification,auroc,0.7488
+1,2028,disease,Cardiomegaly,auroc,0.8165
+1,2028,disease,Pericardial effusion,auroc,0.7402
+1,2028,disease,Coronary artery wall calcification,auroc,0.7389
+1,2028,disease,Hiatal hernia,auroc,0.6664
+1,2028,disease,Lymphadenopathy,auroc,0.6476
+1,2028,disease,Emphysema,auroc,0.6325
+1,2028,disease,Atelectasis,auroc,0.6517
+1,2028,disease,Lung nodule,auroc,0.5908
+1,2028,disease,Lung opacity,auroc,0.6463
+1,2028,disease,Pulmonary fibrotic sequela,auroc,0.5609
+1,2028,disease,Pleural effusion,auroc,0.8656
+1,2028,disease,Mosaic attenuation pattern,auroc,0.7552
+1,2028,disease,Peribronchial thickening,auroc,0.6541
+1,2028,disease,Consolidation,auroc,0.6976
+1,2028,disease,Bronchiectasis,auroc,0.6102
+1,2028,disease,Interlobular septal thickening,auroc,0.746
+1,2028,disease,macro,auroc,0.6903
+1,2028,disease,micro,auroc,0.6991
+2,2028,disease,Medical material,auroc,0.6853
+2,2028,disease,Arterial wall calcification,auroc,0.7831
+2,2028,disease,Cardiomegaly,auroc,0.8494
+2,2028,disease,Pericardial effusion,auroc,0.7615
+2,2028,disease,Coronary artery wall calcification,auroc,0.767
+2,2028,disease,Hiatal hernia,auroc,0.6875
+2,2028,disease,Lymphadenopathy,auroc,0.66
+2,2028,disease,Emphysema,auroc,0.6603
+2,2028,disease,Atelectasis,auroc,0.6608
+2,2028,disease,Lung nodule,auroc,0.5967
+2,2028,disease,Lung opacity,auroc,0.6596
+2,2028,disease,Pulmonary fibrotic sequela,auroc,0.5824
+2,2028,disease,Pleural effusion,auroc,0.894
+2,2028,disease,Mosaic attenuation pattern,auroc,0.7721
+2,2028,disease,Peribronchial thickening,auroc,0.6868
+2,2028,disease,Consolidation,auroc,0.7134
+2,2028,disease,Bronchiectasis,auroc,0.6298
+2,2028,disease,Interlobular septal thickening,auroc,0.7588
+2,2028,disease,macro,auroc,0.7116
+2,2028,disease,micro,auroc,0.7035
+3,2028,disease,Medical material,auroc,0.6891
+3,2028,disease,Arterial wall calcification,auroc,0.789
+3,2028,disease,Cardiomegaly,auroc,0.8608
+3,2028,disease,Pericardial effusion,auroc,0.7704
+3,2028,disease,Coronary artery wall calcification,auroc,0.7749
+3,2028,disease,Hiatal hernia,auroc,0.6926
+3,2028,disease,Lymphadenopathy,auroc,0.6641
+3,2028,disease,Emphysema,auroc,0.6818
+3,2028,disease,Atelectasis,auroc,0.6664
+3,2028,disease,Lung nodule,auroc,0.6061
+3,2028,disease,Lung opacity,auroc,0.6589
+3,2028,disease,Pulmonary fibrotic sequela,auroc,0.5899
+3,2028,disease,Pleural effusion,auroc,0.9013
+3,2028,disease,Mosaic attenuation pattern,auroc,0.7786
+3,2028,disease,Peribronchial thickening,auroc,0.6977
+3,2028,disease,Consolidation,auroc,0.7225
+3,2028,disease,Bronchiectasis,auroc,0.6467
+3,2028,disease,Interlobular septal thickening,auroc,0.764
+3,2028,disease,macro,auroc,0.7197
+3,2028,disease,micro,auroc,0.7229
+4,2028,disease,Medical material,auroc,0.7006
+4,2028,disease,Arterial wall calcification,auroc,0.7931
+4,2028,disease,Cardiomegaly,auroc,0.8641
+4,2028,disease,Pericardial effusion,auroc,0.7698
+4,2028,disease,Coronary artery wall calcification,auroc,0.7818
+4,2028,disease,Hiatal hernia,auroc,0.6963
+4,2028,disease,Lymphadenopathy,auroc,0.6693
+4,2028,disease,Emphysema,auroc,0.6883
+4,2028,disease,Atelectasis,auroc,0.6654
+4,2028,disease,Lung nodule,auroc,0.6021
+4,2028,disease,Lung opacity,auroc,0.6594
+4,2028,disease,Pulmonary fibrotic sequela,auroc,0.594
+4,2028,disease,Pleural effusion,auroc,0.9059
+4,2028,disease,Mosaic attenuation pattern,auroc,0.7825
+4,2028,disease,Peribronchial thickening,auroc,0.7191
+4,2028,disease,Consolidation,auroc,0.7192
+4,2028,disease,Bronchiectasis,auroc,0.6642
+4,2028,disease,Interlobular septal thickening,auroc,0.7697
+4,2028,disease,macro,auroc,0.7247
+4,2028,disease,micro,auroc,0.7296
+5,2028,disease,Medical material,auroc,0.7002
+5,2028,disease,Arterial wall calcification,auroc,0.803
+5,2028,disease,Cardiomegaly,auroc,0.8749
+5,2028,disease,Pericardial effusion,auroc,0.7771
+5,2028,disease,Coronary artery wall calcification,auroc,0.7881
+5,2028,disease,Hiatal hernia,auroc,0.7046
+5,2028,disease,Lymphadenopathy,auroc,0.6758
+5,2028,disease,Emphysema,auroc,0.6923
+5,2028,disease,Atelectasis,auroc,0.67
+5,2028,disease,Lung nodule,auroc,0.6067
+5,2028,disease,Lung opacity,auroc,0.6575
+5,2028,disease,Pulmonary fibrotic sequela,auroc,0.6029
+5,2028,disease,Pleural effusion,auroc,0.9097
+5,2028,disease,Mosaic attenuation pattern,auroc,0.7826
+5,2028,disease,Peribronchial thickening,auroc,0.7239
+5,2028,disease,Consolidation,auroc,0.7239
+5,2028,disease,Bronchiectasis,auroc,0.6541
+5,2028,disease,Interlobular septal thickening,auroc,0.7704
+5,2028,disease,macro,auroc,0.7288
+5,2028,disease,micro,auroc,0.7168
+6,2028,disease,Medical material,auroc,0.6957
+6,2028,disease,Arterial wall calcification,auroc,0.808
+6,2028,disease,Cardiomegaly,auroc,0.8754
+6,2028,disease,Pericardial effusion,auroc,0.7781
+6,2028,disease,Coronary artery wall calcification,auroc,0.794
+6,2028,disease,Hiatal hernia,auroc,0.7042
+6,2028,disease,Lymphadenopathy,auroc,0.6778
+6,2028,disease,Emphysema,auroc,0.6964
+6,2028,disease,Atelectasis,auroc,0.6739
+6,2028,disease,Lung nodule,auroc,0.6114
+6,2028,disease,Lung opacity,auroc,0.6559
+6,2028,disease,Pulmonary fibrotic sequela,auroc,0.6039
+6,2028,disease,Pleural effusion,auroc,0.9126
+6,2028,disease,Mosaic attenuation pattern,auroc,0.7839
+6,2028,disease,Peribronchial thickening,auroc,0.7206
+6,2028,disease,Consolidation,auroc,0.7223
+6,2028,disease,Bronchiectasis,auroc,0.6657
+6,2028,disease,Interlobular septal thickening,auroc,0.7718
+6,2028,disease,macro,auroc,0.7306
+6,2028,disease,micro,auroc,0.7271
+7,2028,disease,Medical material,auroc,0.7045
+7,2028,disease,Arterial wall calcification,auroc,0.8082
+7,2028,disease,Cardiomegaly,auroc,0.8795
+7,2028,disease,Pericardial effusion,auroc,0.7814
+7,2028,disease,Coronary artery wall calcification,auroc,0.7967
+7,2028,disease,Hiatal hernia,auroc,0.7069
+7,2028,disease,Lymphadenopathy,auroc,0.677
+7,2028,disease,Emphysema,auroc,0.7001
+7,2028,disease,Atelectasis,auroc,0.6707
+7,2028,disease,Lung nodule,auroc,0.6109
+7,2028,disease,Lung opacity,auroc,0.6578
+7,2028,disease,Pulmonary fibrotic sequela,auroc,0.5931
+7,2028,disease,Pleural effusion,auroc,0.9138
+7,2028,disease,Mosaic attenuation pattern,auroc,0.7856
+7,2028,disease,Peribronchial thickening,auroc,0.7188
+7,2028,disease,Consolidation,auroc,0.7256
+7,2028,disease,Bronchiectasis,auroc,0.6665
+7,2028,disease,Interlobular septal thickening,auroc,0.7753
+7,2028,disease,macro,auroc,0.7318
+7,2028,disease,micro,auroc,0.7376
+8,2028,disease,Medical material,auroc,0.6943
+8,2028,disease,Arterial wall calcification,auroc,0.8104
+8,2028,disease,Cardiomegaly,auroc,0.8768
+8,2028,disease,Pericardial effusion,auroc,0.7833
+8,2028,disease,Coronary artery wall calcification,auroc,0.7954
+8,2028,disease,Hiatal hernia,auroc,0.7045
+8,2028,disease,Lymphadenopathy,auroc,0.6767
+8,2028,disease,Emphysema,auroc,0.6975
+8,2028,disease,Atelectasis,auroc,0.6785
+8,2028,disease,Lung nodule,auroc,0.6146
+8,2028,disease,Lung opacity,auroc,0.6559
+8,2028,disease,Pulmonary fibrotic sequela,auroc,0.6053
+8,2028,disease,Pleural effusion,auroc,0.9141
+8,2028,disease,Mosaic attenuation pattern,auroc,0.7835
+8,2028,disease,Peribronchial thickening,auroc,0.7231
+8,2028,disease,Consolidation,auroc,0.7232
+8,2028,disease,Bronchiectasis,auroc,0.6708
+8,2028,disease,Interlobular septal thickening,auroc,0.7732
+8,2028,disease,macro,auroc,0.7323
+8,2028,disease,micro,auroc,0.7266
+9,2028,disease,Medical material,auroc,0.7026
+9,2028,disease,Arterial wall calcification,auroc,0.8133
+9,2028,disease,Cardiomegaly,auroc,0.8808
+9,2028,disease,Pericardial effusion,auroc,0.788
+9,2028,disease,Coronary artery wall calcification,auroc,0.8005
+9,2028,disease,Hiatal hernia,auroc,0.7047
+9,2028,disease,Lymphadenopathy,auroc,0.6804
+9,2028,disease,Emphysema,auroc,0.7091
+9,2028,disease,Atelectasis,auroc,0.6752
+9,2028,disease,Lung nodule,auroc,0.613
+9,2028,disease,Lung opacity,auroc,0.654
+9,2028,disease,Pulmonary fibrotic sequela,auroc,0.6088
+9,2028,disease,Pleural effusion,auroc,0.9168
+9,2028,disease,Mosaic attenuation pattern,auroc,0.7846
+9,2028,disease,Peribronchial thickening,auroc,0.7235
+9,2028,disease,Consolidation,auroc,0.7262
+9,2028,disease,Bronchiectasis,auroc,0.6671
+9,2028,disease,Interlobular septal thickening,auroc,0.7811
+9,2028,disease,macro,auroc,0.735
+9,2028,disease,micro,auroc,0.7356
+10,2028,disease,Medical material,auroc,0.6997
+10,2028,disease,Arterial wall calcification,auroc,0.8155
+10,2028,disease,Cardiomegaly,auroc,0.8799
+10,2028,disease,Pericardial effusion,auroc,0.7892
+10,2028,disease,Coronary artery wall calcification,auroc,0.804
+10,2028,disease,Hiatal hernia,auroc,0.7051
+10,2028,disease,Lymphadenopathy,auroc,0.6758
+10,2028,disease,Emphysema,auroc,0.7042
+10,2028,disease,Atelectasis,auroc,0.679
+10,2028,disease,Lung nodule,auroc,0.6159
+10,2028,disease,Lung opacity,auroc,0.6561
+10,2028,disease,Pulmonary fibrotic sequela,auroc,0.6077
+10,2028,disease,Pleural effusion,auroc,0.9162
+10,2028,disease,Mosaic attenuation pattern,auroc,0.7935
+10,2028,disease,Peribronchial thickening,auroc,0.7257
+10,2028,disease,Consolidation,auroc,0.723
+10,2028,disease,Bronchiectasis,auroc,0.6744
+10,2028,disease,Interlobular septal thickening,auroc,0.7746
+10,2028,disease,macro,auroc,0.7355
+10,2028,disease,micro,auroc,0.7342

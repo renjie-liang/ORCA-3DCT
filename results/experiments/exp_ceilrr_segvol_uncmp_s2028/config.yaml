@@ -1,0 +1,6 @@
+exp_id: exp_ceilrr_segvol_uncmp_s2028
+desc: "Re-run SegVol uncompressed+sin (identity_pos), 40ep, single seed 2028. Observe per-seed epoch curve to diagnose epoch-vs-convergence on the unstable size reference."
+encoder: merlin_segvol
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [size_merlin, density_merlin, location_merlin, disease_merlin], epochs: 40, bs: 64, seeds: [2028]}
+data: {limit: 0, num_workers: 8}

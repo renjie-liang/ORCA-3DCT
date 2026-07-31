@@ -1,0 +1,13 @@
+exp_id: exp_ctorgl10000_b64_exactmask
+desc: "ct_clip agglo_organ lam=10000 b64. EXACT mask (organ_masks_ctclip: CT-CLIP-geometry spacing-resample + crop/pad, IoU-verified identity align)."
+encoder: ct_clip
+compression:
+  method: agglo_organ
+  budget: 64
+  params: {lam: 10000}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 8}

@@ -1,0 +1,14 @@
+exp_id: exp_bl_slice_colipri
+desc: "Slice pooling (one token per axial z-plane, N=24) on colipri, 5 families, 3-seed. Fixed token count; the T1 B column reports N=24. Doubles as the R2-ablation (global slice tokens only, no organ region tokens)."
+encoder: colipri
+compression:
+  method: slice_mean
+  params: {}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data:
+  limit: 0
+  num_workers: 12

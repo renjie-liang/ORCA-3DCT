@@ -1,0 +1,197 @@
+{
+  "clinical": {
+    "confusion": {
+      "FN": 2754,
+      "FP": 3363,
+      "TN": 19431,
+      "TP": 2604
+    },
+    "crg": 0.4304642710951166,
+    "crg_components": {
+      "A": 5358,
+      "S_max": 11397.0,
+      "T": 28152,
+      "s": -3682.0649496080623,
+      "w_FN": 2.1270996640537514,
+      "w_FP": 1.0,
+      "w_TP": 2.1270996640537514
+    },
+    "f1": 0.4541149200983972,
+    "per_finding": {
+      "Arterial wall calcification": {
+        "f1": 0.6324607329842933,
+        "precision": 0.5807692307692308,
+        "recall": 0.6942528735632184,
+        "support": 435
+      },
+      "Atelectasis": {
+        "f1": 0.43693107932379716,
+        "precision": 0.4148148148148148,
+        "recall": 0.46153846153846156,
+        "support": 364
+      },
+      "Bronchiectasis": {
+        "f1": 0.07547169811320754,
+        "precision": 0.18604651162790697,
+        "recall": 0.047337278106508875,
+        "support": 169
+      },
+      "Cardiomegaly": {
+        "f1": 0.42675159235668786,
+        "precision": 0.44666666666666666,
+        "recall": 0.40853658536585363,
+        "support": 164
+      },
+      "Consolidation": {
+        "f1": 0.5596026490066226,
+        "precision": 0.5522875816993464,
+        "recall": 0.5671140939597316,
+        "support": 298
+      },
+      "Coronary artery wall calcification": {
+        "f1": 0.6148282097649186,
+        "precision": 0.4735376044568245,
+        "recall": 0.8762886597938144,
+        "support": 388
+      },
+      "Emphysema": {
+        "f1": 0.4125177809388335,
+        "precision": 0.36432160804020103,
+        "recall": 0.47540983606557374,
+        "support": 305
+      },
+      "Hiatal hernia": {
+        "f1": 0.22929936305732485,
+        "precision": 0.17560975609756097,
+        "recall": 0.3302752293577982,
+        "support": 218
+      },
+      "Interlobular septal thickening": {
+        "f1": 0.22522522522522523,
+        "precision": 0.25510204081632654,
+        "recall": 0.20161290322580644,
+        "support": 124
+      },
+      "Lung nodule": {
+        "f1": 0.5429141716566867,
+        "precision": 0.5106382978723404,
+        "recall": 0.5795454545454546,
+        "support": 704
+      },
+      "Lung opacity": {
+        "f1": 0.6327586206896552,
+        "precision": 0.6624548736462094,
+        "recall": 0.6056105610561056,
+        "support": 606
+      },
+      "Lymphadenopathy": {
+        "f1": 0.28789808917197446,
+        "precision": 0.29198966408268734,
+        "recall": 0.28391959798994976,
+        "support": 398
+      },
+      "Medical material": {
+        "f1": 0.26086956521739135,
+        "precision": 0.2765957446808511,
+        "recall": 0.2468354430379747,
+        "support": 158
+      },
+      "Mosaic attenuation pattern": {
+        "f1": 0.29107981220657275,
+        "precision": 0.3563218390804598,
+        "recall": 0.24603174603174602,
+        "support": 126
+      },
+      "Peribronchial thickening": {
+        "f1": 0.20851063829787236,
+        "precision": 0.16610169491525423,
+        "recall": 0.28,
+        "support": 175
+      },
+      "Pericardial effusion": {
+        "f1": 0.2019230769230769,
+        "precision": 0.21428571428571427,
+        "recall": 0.19090909090909092,
+        "support": 110
+      },
+      "Pleural effusion": {
+        "f1": 0.6256410256410256,
+        "precision": 0.6069651741293532,
+        "recall": 0.6455026455026455,
+        "support": 189
+      },
+      "Pulmonary fibrotic sequela": {
+        "f1": 0.4030612244897959,
+        "precision": 0.4425770308123249,
+        "recall": 0.3700234192037471,
+        "support": 427
+      }
+    },
+    "precision": 0.4404169425276832,
+    "recall": 0.48600223964165734
+  },
+  "clinical_labels": {
+    "count": 1564,
+    "findings": [
+      "Medical material",
+      "Arterial wall calcification",
+      "Cardiomegaly",
+      "Pericardial effusion",
+      "Coronary artery wall calcification",
+      "Hiatal hernia",
+      "Lymphadenopathy",
+      "Emphysema",
+      "Atelectasis",
+      "Lung nodule",
+      "Lung opacity",
+      "Pulmonary fibrotic sequela",
+      "Pleural effusion",
+      "Mosaic attenuation pattern",
+      "Peribronchial thickening",
+      "Consolidation",
+      "Bronchiectasis",
+      "Interlobular septal thickening"
+    ],
+    "jsonl": "/orange/anon/anon/RJ_CT_compresstoken/runs/reportgen_avgpack_b27/reportgen_avgpack_b27__s2/evaluations/step_013572/clinical_labels.jsonl",
+    "npz": "/orange/anon/anon/RJ_CT_compresstoken/runs/reportgen_avgpack_b27/reportgen_avgpack_b27__s2/evaluations/step_013572/clinical_labels.npz"
+  },
+  "input_file": "/orange/anon/anon/RJ_CT_compresstoken/runs/reportgen_avgpack_b27/reportgen_avgpack_b27__s2/evaluations/step_013572/predictions.jsonl",
+  "n_predictions": 1564,
+  "summary": {
+    "bleu_1": 0.44244658280481663,
+    "bleu_2": 0.3187964335045785,
+    "bleu_3": 0.24649276474846488,
+    "bleu_4": 0.20150580585041208,
+    "bleu_sacre": 0.9703380917625966,
+    "cider": 0.06218766952995185,
+    "clinical_crg": 0.4304642710951166,
+    "clinical_f1": 0.4541149200983972,
+    "clinical_fn": 2754,
+    "clinical_fp": 3363,
+    "clinical_precision": 0.4404169425276832,
+    "clinical_recall": 0.48600223964165734,
+    "clinical_tn": 19431,
+    "clinical_tp": 2604,
+    "crg": 0.4304642710951166,
+    "meteor": 0.20813503647027776,
+    "n_predictions": 1564,
+    "rouge_l": 0.312074910313676,
+    "validation_metric_samples": 1564
+  },
+  "text": {
+    "bleu_1": 0.44244658280481663,
+    "bleu_2": 0.3187964335045785,
+    "bleu_3": 0.24649276474846488,
+    "bleu_4": 0.20150580585041208,
+    "bleu_sacre": 0.9703380917625966,
+    "cider": 0.06218766952995185,
+    "meteor": 0.20813503647027776,
+    "rouge_l": 0.312074910313676
+  },
+  "valid_loss": 0.5507728382590212,
+  "valid_loss_batches": 1564,
+  "valid_loss_path": "/orange/anon/anon/RJ_CT_compresstoken/runs/reportgen_avgpack_b27/reportgen_avgpack_b27__s2/evaluations/step_013572/valid_loss.json",
+  "valid_loss_samples": 1564,
+  "valid_ppl": 1.7345930598633306,
+  "valid_target_tokens": 531816
+}

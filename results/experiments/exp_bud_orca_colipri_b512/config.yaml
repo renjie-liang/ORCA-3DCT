@@ -1,0 +1,6 @@
+exp_id: exp_bud_orca_colipri_b512
+desc: "budget-curve full ORCA (agglo_organ) @512 colipri 3seed"
+encoder: colipri
+compression: {method: agglo_organ, budget: 512, params: {lam: 0.5, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

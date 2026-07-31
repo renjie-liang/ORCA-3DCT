@@ -1,0 +1,6 @@
+exp_id: exp_bc3_tome_colipri_b27
+desc: "F1-F3 budget curve, 3-seed (band). exp_bc3_tome_colipri_b27"
+encoder: colipri
+compression: {method: tome, budget: 27, params: {}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

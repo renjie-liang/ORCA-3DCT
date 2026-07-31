@@ -1,0 +1,21 @@
+{
+ "artifact_type": "organ_stack",
+ "encoder": "fvlm",
+ "visual_dim": 256,
+ "organs": [
+  "aorta",
+  "esophagus",
+  "heart",
+  "lung"
+ ],
+ "splits": {
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/fvlm/train",
+   "ids": "./data/CT-RATE/embeddings/fvlm/train/ids.txt"
+  },
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/fvlm/valid",
+   "ids": "./data/CT-RATE/embeddings/fvlm/valid/ids.txt"
+  }
+ }
+}

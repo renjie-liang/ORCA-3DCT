@@ -1,0 +1,23 @@
+{
+ "artifact_type": "codebook_grid",
+ "encoder": "btb3d",
+ "visual_dim": 18,
+ "grid_shape": [
+  31,
+  32,
+  32
+ ],
+ "axis_transpose": null,
+ "codebook": "./data/CT-RATE/embeddings/btb3d/16x16x8_msb/codebook.npy",
+ "_note": "codebook_grid on the explicit MSB (msb_reverse_channels) artifacts under 16x16x8_msb/. codebook is already channel-reversed on disk (no runtime reverse); codebook[tokens_int] == old dense_grid exactly. tokens_int are symlinks to 16x16x8/. ~7x faster cold read than the deleted per-file dense_grid path.",
+ "splits": {
+  "valid": {
+   "tokens": "./data/CT-RATE/embeddings/btb3d/16x16x8_msb/valid/tokens_int.npy",
+   "ids": "./vendor/npy_manifests/btb3d_valid_ids.txt"
+  },
+  "train": {
+   "tokens": "./data/CT-RATE/embeddings/btb3d/16x16x8_msb/train/tokens_int.npy",
+   "ids": "./vendor/npy_manifests/btb3d_train_ids.txt"
+  }
+ }
+}

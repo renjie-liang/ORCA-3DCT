@@ -1,0 +1,13 @@
+exp_id: exp_098_agglocent_s0p5_b27
+desc: "centroid scale 0.5 (RMS-norm), b27 -- is position underweighted?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_scale: 0.5}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

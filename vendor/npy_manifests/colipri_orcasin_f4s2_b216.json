@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 792,
+ "grid_shape": [
+  216,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "ORCA+sin (agglo_merge + sinusoidal centroid re-injection, freqs=4, scale=2.0), budget=216; token_selection=none. 792 = 768 features + 24 position dims. f4s2 is what the colipri probing sweep chose and the merge-parameter ablation confirmed (6-conn/Ward/no-standardize).",
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orcasin_f4s2_b216/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orcasin_f4s2_b216/train",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

@@ -1,0 +1,6 @@
+exp_id: exp_ho_avgpack_colipri_b27
+desc: "held-out test: Grid average (avgpack r8 = 27 tok) colipri b27. 3-seed."
+encoder: colipri
+compression: {method: avgpack, params: {r: 8}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

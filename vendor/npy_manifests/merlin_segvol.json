@@ -1,0 +1,23 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "segvol",
+ "dataset": "Merlin",
+ "visual_dim": 768,
+ "grid_shape": [8, 16, 16],
+ "axis_transpose": null,
+ "note": "SegVol (BAAI, organ-seg-supervised 3D ViT) token grids over the FULL Merlin abdominal CT set (25,489 real-HU NIfTI). Preprocess: transpose to (Z,X,Y) -> resize (32,256,256) -> ScaleIntensityRange(-1000,1000)->[0,1]; tap model.model.image_encoder -> (8,16,16,768). Stored fp16, already [T,H,W,C] (no transpose needed). Organ-coherence on Merlin = 0.35 (n=6). Reusable asset: same dir serves all splits; splits differ only by id list (Merlin official Split column: train/val->valid/test).",
+ "splits": {
+  "train": {
+   "dir": "./data/Merlin/embeddings/segvol",
+   "ids": "./vendor/npy_manifests/merlin_train_ids.txt"
+  },
+  "valid": {
+   "dir": "./data/Merlin/embeddings/segvol",
+   "ids": "./vendor/npy_manifests/merlin_valid_ids.txt"
+  },
+  "test": {
+   "dir": "./data/Merlin/embeddings/segvol",
+   "ids": "./vendor/npy_manifests/merlin_test_ids.txt"
+  }
+ }
+}

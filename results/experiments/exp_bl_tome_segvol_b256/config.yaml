@@ -1,0 +1,10 @@
+exp_id: exp_bl_tome_segvol_b256
+desc: "ToMe (cosine bipartite merge) on Merlin SegVol b256, 4 families, 3-seed. Fills T3's ToMe/SegVol row."
+encoder: merlin_segvol
+compression: {method: tome, budget: 256, params: {}}
+probe:
+  families: [disease_merlin, density_merlin, size_merlin, location_merlin]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data: {limit: 0, num_workers: 12}

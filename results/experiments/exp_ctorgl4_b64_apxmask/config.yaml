@@ -1,0 +1,13 @@
+exp_id: exp_ctorgl4_b64_apxmask
+desc: "ct_clip agglo_organ lam=4 b64. APPROX mask (organ_masks_24 native, MISALIGNED for ct_clip: no spacing-resample/crop). Rough lower-bound."
+encoder: ct_clip
+compression:
+  method: agglo_organ
+  budget: 64
+  params: {lam: 4}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 8}

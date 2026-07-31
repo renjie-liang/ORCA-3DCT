@@ -1,0 +1,26 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 768,
+ "grid_shape": [
+  24,
+  24,
+  24
+ ],
+ "axis_transpose": [
+  1,
+  2,
+  3,
+  0
+ ],
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_official_like_hu/valid/dense_patch_float16",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_official_like_hu/train/dense_patch_float16",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 768,
+ "grid_shape": [
+  216,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "RENAMED from colipri_orcabase_b216 (2026-07-22): 768-d ORCA-base = Ward merge only (lam=0, NO organ prior, NO position). ORCA-base (agglo_merge, 6-connectivity Ward, NO organ prior, NO position block), budget=216; token_selection=none. The CLEAN base arm -- the older colipri_orca_b27/b64 caches are agglo_ORGAN lam=0.5.",
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orca_nosin_noorgan_d768_b216/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_orca_nosin_noorgan_d768_b216/train",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

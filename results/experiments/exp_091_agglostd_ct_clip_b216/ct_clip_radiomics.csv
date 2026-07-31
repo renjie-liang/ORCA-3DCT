@@ -1,0 +1,17 @@
+epoch,family,target,metric,score
+1,radiomics,0,r2,0.7353
+1,radiomics,1,r2,0.0409
+1,radiomics,2,r2,0.6046
+1,radiomics,mean,r2,0.4603
+2,radiomics,0,r2,0.7636
+2,radiomics,1,r2,0.073
+2,radiomics,2,r2,0.6668
+2,radiomics,mean,r2,0.5011
+3,radiomics,0,r2,0.7998
+3,radiomics,1,r2,0.0476
+3,radiomics,2,r2,0.6542
+3,radiomics,mean,r2,0.5005
+4,radiomics,0,r2,0.8159
+4,radiomics,1,r2,0.0987
+4,radiomics,2,r2,0.6995
+4,radiomics,mean,r2,0.538

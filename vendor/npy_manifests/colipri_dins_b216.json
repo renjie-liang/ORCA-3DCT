@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "colipri",
+ "visual_dim": 768,
+ "grid_shape": [
+  216,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "MedPruner-DINS (top-B by encoder attention-received + residual merge), budget=216, 768-d, no position.",
+ "splits": {
+  "valid": {
+   "dir": "./data/CT-RATE/embeddings/colipri_dins_b216/valid",
+   "ids": "./vendor/npy_manifests/colipri_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/CT-RATE/embeddings/colipri_dins_b216/train",
+   "ids": "./vendor/npy_manifests/colipri_train_ids.txt"
+  }
+ }
+}

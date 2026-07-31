@@ -1,0 +1,6 @@
+exp_id: exp_ceilmax_btb3d_uncompressed_proj
+desc: "DEFINITIVE btb3d ceiling WITH proj front-end: identity_pos + dim512/heads8 + proj 42->256 (learnable embedding of the 18-d discrete LFQ codes before pooling), 20 epochs. The STRICTEST fair ceiling for discrete tokens: gives the uncompressed grid the same continuous-space preprocessing ORCA's aggregation provides. If ORCA still exceeds THIS, the denoising-exceed result is solid; if this catches up to ORCA, exceed was a missing-front-end artifact. 1-seed."
+encoder: btb3d
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 20, bs: 32, readout_dim: 512, readout_heads: 8, proj: 256, seeds: [2026]}
+data: {limit: 0, num_workers: 8}

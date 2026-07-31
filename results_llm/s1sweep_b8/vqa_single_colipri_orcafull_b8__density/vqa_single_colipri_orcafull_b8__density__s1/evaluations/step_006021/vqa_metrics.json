@@ -1,0 +1,41 @@
+{
+  "pred": "./results_llm/s1sweep_b8/vqa_single_colipri_orcafull_b8__density/vqa_single_colipri_orcafull_b8__density__s1/evaluations/step_006021/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa/per_family/valid_density.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "density/hu_aorta_calc@clinical": {
+      "acc": 0.8444730077120822,
+      "n": 1556,
+      "qtype": "catalog_clinical",
+      "chance": 0.5
+    },
+    "density/hu_lung_haacon@tertile": {
+      "acc": 0.7250639386189258,
+      "n": 1564,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "density/lung_mean@tertile": {
+      "acc": 0.8312020460358056,
+      "n": 1564,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "density/vert_median@tertile": {
+      "acc": 0.5620204603580563,
+      "n": 1564,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    }
+  },
+  "per_axis": {
+    "density": {
+      "acc": 0.7405569782330346,
+      "n": 6248
+    }
+  },
+  "overall": {
+    "acc": 0.7405569782330346,
+    "n": 6248
+  }
+}

@@ -1,0 +1,16 @@
+exp_id: exp_108_ctsin_b27
+desc: "ct_clip ORCA + sinusoidal centroid (freqs 4, scale 1), b27, 5 families. Dissociation test: on a
+  LOW-coherence encoder (ct_clip 0.13) ORCA-merge loses all families (exp_ctagglo_b27). Does the sinusoidal
+  position injection -- which is computed from grid coords, NOT ct_clip features -- still recover location?
+  Baselines: exp_ctavg_b27 (avgpack), exp_ctagglo_b27 (ORCA base)."
+encoder: ct_clip
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 1.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

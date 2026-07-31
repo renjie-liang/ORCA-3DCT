@@ -1,0 +1,22 @@
+{
+ "artifact_type": "npy_grid",
+ "encoder": "merlin_segvol",
+ "visual_dim": 792,
+ "grid_shape": [
+  32,
+  1,
+  1
+ ],
+ "axis_transpose": null,
+ "note": "Merlin/segvol COMPLETE ORCA (agglo_organ lam=2 + f4s2 sinusoidal centroid), budget=32; token_selection=none. 792 = 768 feat + 24 pos.",
+ "splits": {
+  "valid": {
+   "dir": "./data/Merlin/embeddings/merlin_segvol_orcafull_lam2_f4s2_b32/valid",
+   "ids": "./vendor/npy_manifests/merlin_valid_ids.txt"
+  },
+  "train": {
+   "dir": "./data/Merlin/embeddings/merlin_segvol_orcafull_lam2_f4s2_b32/train",
+   "ids": "./vendor/npy_manifests/merlin_train_ids.txt"
+  }
+ }
+}

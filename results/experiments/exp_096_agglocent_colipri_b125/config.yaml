@@ -1,0 +1,13 @@
+exp_id: exp_096_agglocent_colipri_b125
+desc: "exp_096 — agglo+CENTROID EXTREME colipri b125, 5 families. Does centroid rescue location at extreme compression?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 125
+  params: {centroid: true}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

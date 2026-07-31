@@ -1,0 +1,6 @@
+exp_id: exp_bc3_orca_suprem_b8
+desc: "F1-F3 budget curve, 3-seed (band). exp_bc3_orca_suprem_b8"
+encoder: merlin_suprem
+compression: {method: agglo_organ, budget: 8, params: {lam: 2, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}}
+probe: {families: [density_merlin, size_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

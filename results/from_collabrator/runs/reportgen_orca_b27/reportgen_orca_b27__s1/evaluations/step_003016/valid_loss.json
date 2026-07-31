@@ -1,0 +1,12 @@
+{
+  "eval_batch_size": 1,
+  "reportgen_artifact_manifest": "/orange/anon/anon/RJ_CT_compresstoken/data/tokens/manifest_orca_b27.json",
+  "resume_checkpoint": "/orange/anon/anon/RJ_CT_compresstoken/runs/reportgen_orca_b27/reportgen_orca_b27__s1",
+  "step": 3016,
+  "valid_batches": 1564,
+  "valid_limit": 0,
+  "valid_loss": 0.9472101102472084,
+  "valid_ppl": 2.5785058679979653,
+  "valid_samples": 1564,
+  "valid_target_tokens": 531816
+}

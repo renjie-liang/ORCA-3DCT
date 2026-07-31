@@ -1,0 +1,6 @@
+exp_id: exp_ceilmax_suprem_uncompressed
+desc: "DEFINITIVE suprem uncompressed ceiling: identity_pos (full 1728 tok + f4s2 position) + high-capacity readout (dim512/heads8), 20 epochs, 3 seeds. Matched to segvol/colipri/ctclip ceilmax. suprem probes were still rising at ep10 -> 20 epochs to plateau."
+encoder: merlin_suprem
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease_merlin, density_merlin, size_merlin, location_merlin], epochs: 20, bs: 64, readout_dim: 512, readout_heads: 8, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

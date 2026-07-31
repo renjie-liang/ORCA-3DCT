@@ -1,0 +1,35 @@
+{
+  "pred": "./results_llm/s1sweep_b8/vqa_single_colipri_orcasin_b8__location/vqa_single_colipri_orcasin_b8__location__s1/evaluations/step_022600/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa/per_family/valid_location.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "location/heart_x@tertile": {
+      "acc": 0.5255754475703325,
+      "n": 1564,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "location/ivc_z@tertile": {
+      "acc": 0.560179257362356,
+      "n": 1562,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    },
+    "location/lung_LR_logratio@tertile": {
+      "acc": 0.5668586052463211,
+      "n": 1563,
+      "qtype": "catalog_tertile",
+      "chance": 0.3333333333333333
+    }
+  },
+  "per_axis": {
+    "location": {
+      "acc": 0.5508637236084453,
+      "n": 4689
+    }
+  },
+  "overall": {
+    "acc": 0.5508637236084453,
+    "n": 4689
+  }
+}

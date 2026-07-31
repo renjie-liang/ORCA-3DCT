@@ -1,0 +1,197 @@
+{
+  "pred": "./results_llm/merlin_segvol_b32/vqa_single_merlin_segvol_avgpack_b32__disease/vqa_single_merlin_segvol_avgpack_b32__disease__s1/evaluations/step_025504/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa_merlin_v1/per_family/valid_disease.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "disease/abdominal_aortic_aneurysm@presence": {
+      "acc": 0.7948717948717948,
+      "n": 78,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/anasarca@presence": {
+      "acc": 0.9003392705682782,
+      "n": 2358,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/aortic_valve_calcification@presence": {
+      "acc": 0.8347826086956521,
+      "n": 115,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/appendicitis@presence": {
+      "acc": 0.5760869565217391,
+      "n": 92,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/ascites@presence": {
+      "acc": 0.8260038240917782,
+      "n": 523,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/atelectasis@presence": {
+      "acc": 0.7395301327885597,
+      "n": 1958,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/atherosclerosis@presence": {
+      "acc": 0.925089179548157,
+      "n": 841,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/biliary_ductal_dilation@presence": {
+      "acc": 0.8565217391304348,
+      "n": 230,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/bowel_obstruction@presence": {
+      "acc": 0.9557093425605536,
+      "n": 1445,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/cardiomegaly@presence": {
+      "acc": 0.7731958762886598,
+      "n": 388,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/coronary_calcification@presence": {
+      "acc": 0.8309178743961353,
+      "n": 414,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/fracture@presence": {
+      "acc": 0.6405405405405405,
+      "n": 370,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/free_air@presence": {
+      "acc": 0.9609292502639916,
+      "n": 947,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/gallstones@presence": {
+      "acc": 0.628032345013477,
+      "n": 371,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/hepatic_steatosis@presence": {
+      "acc": 0.8865248226950354,
+      "n": 282,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/hepatomegaly@presence": {
+      "acc": 0.9664889565879665,
+      "n": 1313,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/hiatal_hernia@presence": {
+      "acc": 0.863275781614559,
+      "n": 2143,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/hydronephrosis@presence": {
+      "acc": 0.9653012048192771,
+      "n": 2075,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/lymphadenopathy@presence": {
+      "acc": 0.8679245283018868,
+      "n": 212,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/metastatic_disease@presence": {
+      "acc": 0.7959183673469388,
+      "n": 147,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/osteopenia@presence": {
+      "acc": 0.9065134099616858,
+      "n": 1305,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/pancreatic_atrophy@presence": {
+      "acc": 0.9618544600938967,
+      "n": 3408,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/pleural_effusion@presence": {
+      "acc": 0.7992592592592592,
+      "n": 1350,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/prostatomegaly@presence": {
+      "acc": 0.9105058365758755,
+      "n": 1285,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/renal_cyst@presence": {
+      "acc": 0.7268656716417911,
+      "n": 2010,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/renal_hypodensities@presence": {
+      "acc": 0.9197368421052632,
+      "n": 1520,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/splenomegaly@presence": {
+      "acc": 0.9680070443205165,
+      "n": 3407,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/submucosal_edema@presence": {
+      "acc": 0.6823104693140795,
+      "n": 277,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/surgically_absent_gallbladder@presence": {
+      "acc": 0.7175745784695201,
+      "n": 3084,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    },
+    "disease/thrombosis@presence": {
+      "acc": 0.7766990291262136,
+      "n": 103,
+      "qtype": "catalog_presence",
+      "chance": 0.5
+    }
+  },
+  "per_axis": {
+    "disease": {
+      "acc": 0.8697541922410502,
+      "n": 34051
+    }
+  },
+  "overall": {
+    "acc": 0.8697541922410502,
+    "n": 34051
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "pred": "./results_llm/merlin_segvol_b32/vqa_single_merlin_segvol_orca_b32__location_binary/vqa_single_merlin_segvol_orca_b32__location_binary__s1/evaluations/step_015008/raw_btb3d_output.jsonl",
+  "gold": "./data/vqa_merlin_v1/per_family/valid_location_merlin_binary.json",
+  "n_unmatched": 0,
+  "per_target": {
+    "location_merlin/kidney_lr_z_asym@binary": {
+      "acc": 0.48863864870299617,
+      "n": 4973,
+      "qtype": "catalog_clinical",
+      "chance": 0.5
+    },
+    "location_merlin/kidney_z@binary": {
+      "acc": 0.4976875125678665,
+      "n": 4973,
+      "qtype": "catalog_clinical",
+      "chance": 0.5
+    }
+  },
+  "per_axis": {
+    "location_merlin": {
+      "acc": 0.49316308063543135,
+      "n": 9946
+    }
+  },
+  "overall": {
+    "acc": 0.49316308063543135,
+    "n": 9946
+  }
+}

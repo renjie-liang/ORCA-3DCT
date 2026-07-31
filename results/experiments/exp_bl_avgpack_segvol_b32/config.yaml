@@ -1,0 +1,6 @@
+exp_id: exp_bl_avgpack_segvol_b32
+desc: "Average pooling (avgpack r4 on 8x16x16 -> 2x4x4=32 tokens) on Merlin SegVol, 4 families, 3-seed. T3 small-budget row."
+encoder: merlin_segvol
+compression: {method: avgpack, params: {r: 4}}
+probe: {families: [disease_merlin, density_merlin, size_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

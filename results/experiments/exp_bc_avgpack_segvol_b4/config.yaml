@@ -1,0 +1,6 @@
+exp_id: exp_bc_avgpack_segvol_b4
+desc: "budget-curve point: avgpack r8 merlin_segvol. F1-F3 budget curve, single seed."
+encoder: merlin_segvol
+compression: {method: avgpack, params: {r: 8}}
+probe: {families: [density_merlin, size_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026]}
+data: {limit: 0, num_workers: 12}

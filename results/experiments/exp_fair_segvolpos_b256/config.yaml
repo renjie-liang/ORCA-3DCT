@@ -1,0 +1,15 @@
+exp_id: exp_fair_segvolpos_b256
+desc: "Merlin FAIR baseline: avgpack r=2 (256 tokens) WITH the identical f4s2 sinusoidal centroid block.
+  Without this arm the Merlin deltas carry exactly the confound the colipri run just removed -- the probe
+  readout is permutation-invariant, so a fixed grid's positional token ORDER is discarded while ORCA carries
+  position in its features. The Merlin location column must not be quoted until this lands. 3 seeds."
+encoder: merlin_segvol
+compression:
+  method: avgpack
+  params: {r: 2, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}
+probe:
+  families: [density_merlin, size_merlin, location_merlin]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data: {limit: 0, num_workers: 12}
