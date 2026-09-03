@@ -38,10 +38,6 @@ ARMS = {
 
 # name -> (patterns, destination, approx GB, one-line description)
 BUNDLES = {
-    "annotations": (
-        ["annotations/**"], DATA, 0.09,
-        "CT-RATE reports, the 18 abnormality labels, and the report-generation question set",
-    ),
     "compressed": (
         ["compressed/colipri/**"], DATA / "embeddings", 25.3,
         "ORCA and Grid-average tokens, CoLiPri, all four budgets",
@@ -62,9 +58,35 @@ BUNDLES = {
 
 # Everything a report-generation cell needs, and nothing else.
 BUNDLE_SETS = {
-    "reportgen": ["annotations", "compressed"],
+    "reportgen": ["compressed"],
     "all": list(BUNDLES),
 }
+
+# Reports, labels and the question set are CT-RATE's own files, not ours, so they are not mirrored here.
+# CT-RATE is gated; accept its terms once and these three downloads land where the code expects them.
+CTRATE = [
+    ("dataset/vqa/train_vqa.json",                          "data/vqa/train_reportgen.json",       "1.2 GB"),
+    ("dataset/vqa/valid_vqa.json",                          "data/vqa/valid_reportgen.json",       "37 MB"),
+    ("dataset/radiology_text_reports/validation_reports.csv", "data/reports/validation_reports.csv", "5 MB"),
+    ("dataset/multi_abnormality_labels/valid_predicted_labels.csv", "data/labels/valid_predicted_labels.csv", "0.2 MB"),
+]
+
+
+def fetch_ctrate() -> None:
+    """Pull the four CT-RATE files the trainer needs, straight from the CT-RATE repo."""
+    from huggingface_hub import hf_hub_download
+
+    print("\nfetching annotations from ibrahimhamamci/CT-RATE (gated — accept its terms on the Hub first)")
+    for remote, local, size in CTRATE:
+        dst = ROOT / local
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if dst.exists():
+            print(f"  have {local}")
+            continue
+        print(f"  {remote}  ({size})")
+        src = hf_hub_download("ibrahimhamamci/CT-RATE", remote, repo_type="dataset")
+        shutil.copy2(src, dst)
+        print(f"    -> {local}")
 
 
 def human(gb: float) -> str:
@@ -79,8 +101,10 @@ def do_list() -> None:
         print(f"  {name:<14} {human(gb):>9}   {desc}")
     print(f"\n  shortcuts: {', '.join(f'{k} = {" + ".join(v)}' for k, v in BUNDLE_SETS.items())}")
     print("\n  --budget / --encoder narrow a bundle; see --help.\n")
-    print("  Base weights are NOT redistributed here; download.py fetches Llama-3.1-8B-Instruct from")
-    print("  meta-llama, and RadBertClassifier.pth must come from the CT-CLIP release (see README).\n")
+    print("  Only what we computed is mirrored here. The reports, the 18 abnormality labels and the")
+    print("  question set are CT-RATE's own files -- `--annotations` fetches them from the CT-RATE repo,")
+    print("  which is gated. Llama-3.1-8B-Instruct comes from meta-llama via `--base-weights`, and")
+    print("  RadBertClassifier.pth must come from the CT-CLIP release (see README).\n")
 
 
 def fetch(patterns: list[str], dest: Path, budget: int | None, encoder: str | None) -> Path:
@@ -149,6 +173,8 @@ def main() -> None:
     ap.add_argument("--bundle", help=f"one of {', '.join(list(BUNDLES) + list(BUNDLE_SETS))}")
     ap.add_argument("--budget", type=int, choices=[8, 27, 64, 216], help="restrict token bundles to one budget")
     ap.add_argument("--encoder", help="restrict the uncompressed bundle to one encoder, e.g. colipri")
+    ap.add_argument("--annotations", action="store_true",
+                    help="also fetch the reports, labels and question set from the CT-RATE repo")
     ap.add_argument("--base-weights", action="store_true", help="also fetch Llama-3.1-8B-Instruct")
     args = ap.parse_args()
 
@@ -173,6 +199,9 @@ def main() -> None:
     if any(n == "compressed" for n in names):
         print("\nwriting manifests")
         write_manifests(store, args.budget)
+
+    if args.annotations:
+        fetch_ctrate()
 
     if args.base_weights:
         print("\nbase weights")

@@ -49,6 +49,10 @@ for p in "$CODE/vqa_train.py" "$CODE/zero1_author_reportgen.dsconfig" \
          "$W/Llama-3.1-8B-Instruct" "$W/RadBertClassifier.pth"; do
   [[ -e "$p" ]] || { echo "MISSING: $p" >&2; fail=1; }
 done
+if [[ ! -f "$DATA/vqa/train_reportgen.json" || ! -f "$DATA/reports/validation_reports.csv" ]]; then
+  echo "  -> the reports, labels and question set are CT-RATE's own files and are not mirrored with the" >&2
+  echo "     token bundles. Accept CT-RATE's terms on the Hub, then:  python download.py --annotations" >&2
+fi
 [[ $fail -eq 0 ]] || { echo "package is incomplete — do not proceed" >&2; exit 1; }
 
 # The manifest points at the stacked token arrays; check them and report what we are about to train on.

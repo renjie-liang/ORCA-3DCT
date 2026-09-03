@@ -29,7 +29,17 @@ Cells without a link are computed but not uploaded yet — the CoLiPri rows are 
 
 **Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). CoLiPri covers 24,128 / 1,564 — that is the encoder's own coverage of the corpus, not a subsetting choice of ours.
 
-The segmentation comes from TotalSegmentator; with the uncompressed grids it is all you need to run ORCA yourself. **Also released:** the CT-RATE reports, the 18 abnormality labels, and the report-generation question set.
+The segmentation comes from TotalSegmentator; with the uncompressed grids it is all you need to run ORCA yourself.
+
+**What we do not mirror.** Only the arrays we computed are hosted here. The reports, the 18 abnormality labels and the report-generation question set are CT-RATE's own files, so take them from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) directly — accept its terms once, then `python download.py --annotations` puts these four where the code expects them:
+
+| CT-RATE path | lands at | |
+|---|---|---|
+| `dataset/vqa/{train,valid}_vqa.json` | `data/vqa/{train,valid}_reportgen.json` | 1.2 GB / 37 MB |
+| `dataset/radiology_text_reports/validation_reports.csv` | `data/reports/` | 5 MB |
+| `dataset/multi_abnormality_labels/valid_predicted_labels.csv` | `data/labels/` | 0.2 MB |
+
+The question set is CT-CHAT's multi-task VQA; the trainer keeps only its `report_generation` records, so no preprocessing is needed.
 
 ### Loading
 
@@ -78,7 +88,8 @@ git clone https://github.com/renjie-liang/ORCA-3DCT.git && cd ORCA-3DCT
 
 conda env create -f environment.yml && conda activate orca3dct   # python 3.12
 
-python download.py --bundle reportgen --budget 216               # ~35 GB: tokens + labels + base weights
+python download.py --bundle reportgen --budget 216               # 8.8 GB of ORCA tokens
+python download.py --annotations --base-weights                  # CT-RATE text + Llama-3.1-8B
 bash llm_engine/run_reportgen.sh --smoke                         # ~15 min wiring check
 bash llm_engine/run_reportgen.sh --method ORCA --budget 216      # the real cell (~36 h on one B200)
 ```
