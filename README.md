@@ -20,10 +20,11 @@ All arrays are `float16`, one row per volume, aligned to a sibling `*_ids.txt`.
 
 | Encoder | ORCA `B=216` | ORCA `B=64` | ORCA `B=27` | ORCA `B=8` | Grid avg `B=216` | Grid avg `B=64` | Grid avg `B=27` | Grid avg `B=8` | Uncompressed | Organ segmentation |
 |---|---|---|---|---|---|---|---|---|---|---|
-| [COLIPRI](https://arxiv.org/abs/2510.15042) | [216×792 · 8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b216) | [64×792 · 2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b64) | [27×792 · 1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b27) | [8×792 · 0.33 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b8) | [216×768 · 8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b216) | [64×768 · 2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b64) | [27×768 · 1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b27) | [8×768 · 0.32 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b8) | [24×24×24×768 · 545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri) | [11×24×24×24 · 0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri) |
+| [COLIPRI](https://arxiv.org/abs/2510.15042) | [216×792 · 8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b216_d792_lam0p5) | [64×792 · 2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b64_d792_lam0p5) | [27×792 · 1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b27_d792_lam0p5) | [8×792 · 0.33 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b8_d792_lam0p5) | [216×768 · 8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b216_d768) | [64×768 · 2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b64_d768) | [27×768 · 1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b27_d768) | [8×768 · 0.32 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b8_d768) | [24×24×24×768 · 545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri) | [11×24×24×24 · 0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri) |
 | [CT-CLIP](https://doi.org/10.1038/s41551-025-01599-y) | 216×536 · 13.0 GB | 64×536 · 3.44 GB | 27×536 · 1.45 GB | 8×536 · 0.43 GB | 216×512 · 12.4 GB | 64×512 · 3.29 GB | 27×512 · 1.39 GB | 8×512 · 0.41 GB | 24×24×24×512 · 710 GB | [11×24×24×24 · 0.83 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/ctclip) |
-| [FVLM](https://arxiv.org/abs/2501.14548) | — | — | — | — | — | — | — | — | [5×256 · 0.3 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm) | — |
-| [ViSD-Boost](https://arxiv.org/abs/2508.03742) | — | — | — | — | — | — | — | — | [6×256 · 0.4 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost) | — |
+| [ViSD-Boost + CT-CLIP](https://arxiv.org/abs/2508.03742) | — | — | — | — | — | — | — | — | [5×256 · 0.13 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost_ctclip/visd_boost_ctclip_native_b5_d256) | — |
+| [ViSD-Boost](https://arxiv.org/abs/2508.03742) | — | — | — | — | — | — | — | — | [4×256 · 0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost/visd_boost_native_b4_d256) | — |
+| [FVLM](https://arxiv.org/abs/2501.14548) | — | — | — | — | — | — | — | — | [4×256 · 0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm/fvlm_native_b4_d256) | — |
 
 Cells without a link are computed but not uploaded yet — the COLIPRI rows are complete.
 
@@ -50,9 +51,9 @@ import numpy as np
 from huggingface_hub import snapshot_download
 
 d = snapshot_download("LiangRenjie/ORCA-3DCT", repo_type="dataset",
-                      allow_patterns="compressed/colipri/ORCA_b216/*")
-tokens = np.load(f"{d}/compressed/colipri/ORCA_b216/valid.npy", mmap_mode="r")  # (1564, 216, 792) fp16
-ids    = open(f"{d}/compressed/colipri/ORCA_b216/valid_ids.txt").read().split()
+                      allow_patterns="compressed/colipri/colipri_ORCA_b216_d792_lam0p5/*")
+tokens = np.load(f"{d}/compressed/colipri/colipri_ORCA_b216_d792_lam0p5/valid.npy", mmap_mode="r")  # (1564, 216, 792) fp16
+ids    = open(f"{d}/compressed/colipri/colipri_ORCA_b216_d792_lam0p5/valid_ids.txt").read().split()
 tokens[ids.index("valid_1000_a_2")]        # -> (216, 792), ready for a projector
 ```
 

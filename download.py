@@ -25,15 +25,18 @@ CKPT = ROOT / "checkpoints"
 # Grid shape and token dim per (method, budget). ORCA regions have no spatial layout, hence [B,1,1];
 # Grid average keeps the cube it pooled over. Both feed the decoder the same NUMBER of tokens, which is
 # what makes the comparison budget-matched.
+# (method, budget) -> the directory as it is named in the release, plus the shape the trainer needs.
+# Directory names are the ones the arrays were built under: they carry the token dim and, for ORCA, the
+# organ-prior weight, neither of which is recoverable from a tidier name.
 ARMS = {
-    ("ORCA", 8):      {"grid": [8, 1, 1],   "dim": 792},
-    ("ORCA", 27):     {"grid": [27, 1, 1],  "dim": 792},
-    ("ORCA", 64):     {"grid": [64, 1, 1],  "dim": 792},
-    ("ORCA", 216):    {"grid": [216, 1, 1], "dim": 792},
-    ("GridAvg", 8):   {"grid": [2, 2, 2],   "dim": 768},
-    ("GridAvg", 27):  {"grid": [3, 3, 3],   "dim": 768},
-    ("GridAvg", 64):  {"grid": [4, 4, 4],   "dim": 768},
-    ("GridAvg", 216): {"grid": [6, 6, 6],   "dim": 768},
+    ("ORCA", 8):      {"dir": "colipri_ORCA_b8_d792_lam0p5",   "grid": [8, 1, 1],   "dim": 792},
+    ("ORCA", 27):     {"dir": "colipri_ORCA_b27_d792_lam0p5",  "grid": [27, 1, 1],  "dim": 792},
+    ("ORCA", 64):     {"dir": "colipri_ORCA_b64_d792_lam0p5",  "grid": [64, 1, 1],  "dim": 792},
+    ("ORCA", 216):    {"dir": "colipri_ORCA_b216_d792_lam0p5", "grid": [216, 1, 1], "dim": 792},
+    ("GridAvg", 8):   {"dir": "colipri_GridAvg_b8_d768",       "grid": [2, 2, 2],   "dim": 768},
+    ("GridAvg", 27):  {"dir": "colipri_GridAvg_b27_d768",      "grid": [3, 3, 3],   "dim": 768},
+    ("GridAvg", 64):  {"dir": "colipri_GridAvg_b64_d768",      "grid": [4, 4, 4],   "dim": 768},
+    ("GridAvg", 216): {"dir": "colipri_GridAvg_b216_d768",     "grid": [6, 6, 6],   "dim": 768},
 }
 
 # name -> (patterns, destination, approx GB, one-line description)
@@ -43,12 +46,12 @@ BUNDLES = {
         "ORCA and Grid-average tokens, COLIPRI, all four budgets",
     ),
     "uncompressed": (
-        ["uncompressed/**"], DATA / "embeddings" / "uncompressed", 546.0,
-        "the raw encoder grids — 545 GB for COLIPRI, ~1 GB for the pooled encoders",
+        ["uncompressed/**"], DATA / "embeddings" / "uncompressed", 545.3,
+        "the raw encoder grids — 545 GB for COLIPRI, 0.33 GB for the pooled encoders",
     ),
     "organ_masks": (
-        ["organ_masks/**"], DATA, 0.3,
-        "TotalSegmentator organ occupancy on the COLIPRI grid — needed to run ORCA yourself",
+        ["organ_masks/**"], DATA, 1.13,
+        "TotalSegmentator organ occupancy on the COLIPRI and CT-CLIP token grids",
     ),
     "checkpoints": (
         ["checkpoints/**"], CKPT, 11.2,
@@ -111,7 +114,7 @@ def fetch(patterns: list[str], dest: Path, budget: int | None, encoder: str | No
     from huggingface_hub import snapshot_download
 
     if budget is not None:
-        patterns = [p.replace("colipri/**", f"colipri/*_b{budget}/*") for p in patterns]
+        patterns = [p.replace("colipri/**", f"colipri/*_b{budget}_*/*") for p in patterns]
     if encoder is not None:
         patterns = [p.replace("uncompressed/**", f"uncompressed/{encoder}/**") for p in patterns]
     print(f"  patterns: {patterns}")
@@ -128,7 +131,7 @@ def write_manifests(store: Path, budget: int | None) -> None:
     for (method, bud), spec in ARMS.items():
         if budget is not None and bud != budget:
             continue
-        arm_dir = store / "compressed" / "colipri" / f"{method}_b{bud}"
+        arm_dir = store / "compressed" / "colipri" / spec["dir"]
         if not arm_dir.is_dir():
             continue
         splits = {}
