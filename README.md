@@ -41,8 +41,6 @@ ids    = open(f"{d}/compressed/colipri/colipri_ORCA_b216_d792_lam0p5/valid_ids.t
 tokens[ids.index("valid_1000_a_2")]        # -> (216, 792), ready for a projector
 ```
 
-Row *i* of the array is line *i* of the id file. The uncompressed grids are one `.npy` per volume instead, named by volume id.
-
 ---
 
 ## Main results
