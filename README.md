@@ -69,15 +69,19 @@ git clone https://github.com/renjie-liang/ORCA-3DCT.git && cd ORCA-3DCT
 
 conda env create -f environment.yml && conda activate orca3dct   # python 3.12
 
-python download.py --bundle reportgen --budget 216               # 8.8 GB of ORCA tokens
-python download.py --annotations --base-weights                  # reports and labels, then Llama-3.1-8B
-bash llm_engine/run_reportgen.sh --smoke                         # ~15 min wiring check
-bash llm_engine/run_reportgen.sh --method ORCA --budget 216      # the real cell (~36 h on one B200)
+python download.py --bundle reportgen --budget 216   # 8.8 GB of ORCA tokens
+
+# both are gated — accept the terms on the Hub first
+#   https://huggingface.co/datasets/ibrahimhamamci/CT-RATE
+#   https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+python download.py --annotations                    # CT-RATE reports and labels
+python download.py --base-weights                   # Llama-3.1-8B
+
+bash llm_engine/run_reportgen.sh --smoke                    # ~15 min wiring check
+bash llm_engine/run_reportgen.sh --method ORCA --budget 216 # the real cell (~36 h on one B200)
 ```
 
 See **[TRAINING.md](TRAINING.md)** for the full pipeline and the traps worth knowing.
-
-`--annotations` pulls the reports and labels from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE), which is gated — accept its terms there first.
 
 **For anything beyond a single cell, use [CheapCT](https://github.com/renjie-liang/CheapCT)'s vLLM inference and GREEN.** Evaluation, not training, is what this study costs — about ten times the training it follows — and the vLLM path is far faster than the reference implementations kept here.
 
