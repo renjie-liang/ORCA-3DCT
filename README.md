@@ -30,8 +30,6 @@ Cells without a link are computed but not uploaded yet — the COLIPRI rows are 
 
 ### Loading
 
-These are raw arrays, not a tabular dataset — `load_dataset()` and the dataset viewer do not apply. Use `hf download` and memory-map:
-
 ```python
 import numpy as np
 from huggingface_hub import snapshot_download
