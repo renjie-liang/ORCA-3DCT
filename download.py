@@ -40,15 +40,15 @@ ARMS = {
 BUNDLES = {
     "compressed": (
         ["compressed/colipri/**"], DATA / "embeddings", 25.3,
-        "ORCA and Grid-average tokens, CoLiPri, all four budgets",
+        "ORCA and Grid-average tokens, COLIPRI, all four budgets",
     ),
     "uncompressed": (
         ["uncompressed/**"], DATA / "embeddings" / "uncompressed", 546.0,
-        "the raw encoder grids — 545 GB for CoLiPri, ~1 GB for the pooled encoders",
+        "the raw encoder grids — 545 GB for COLIPRI, ~1 GB for the pooled encoders",
     ),
     "organ_masks": (
         ["organ_masks/**"], DATA, 0.3,
-        "TotalSegmentator organ occupancy on the CoLiPri grid — needed to run ORCA yourself",
+        "TotalSegmentator organ occupancy on the COLIPRI grid — needed to run ORCA yourself",
     ),
     "checkpoints": (
         ["checkpoints/**"], CKPT, 11.2,

@@ -53,7 +53,7 @@ class ResamplerProjector(nn.Module):
       'pure'   = fully learned attention (no external importance signal).
       'l2norm' = add per-token L2-norm (z-scored per sample) as an additive importance bias on
                  the attention logits (background air = low norm -> down-weighted). Mapless.
-    in_dim   = projector input per-token dim (768 raw CoLiPri / 512 CT-CLIP; pack2 -> *8).
+    in_dim   = projector input per-token dim (768 raw COLIPRI / 512 CT-CLIP; pack2 -> *8).
     latent_dim = bottleneck width D' (the count-axis budget, e.g. 1024).
     hidden   = LLM hidden size (4096 Llama-3.1-8B).
     """

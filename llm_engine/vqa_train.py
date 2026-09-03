@@ -714,7 +714,7 @@ def load_author_architecture_from_scratch(
 
 def _reportgen_base_dim(args: Any) -> int:
     """Per-token visual dim. Encoder-agnostic: npy_grid / npy_stacked encoders read it from the
-    manifest (512 CT-CLIP / 768 CoLiPri / 792 ORCA); BTB3D uses the LFQ codebook dim."""
+    manifest (512 CT-CLIP / 768 COLIPRI / 792 ORCA); BTB3D uses the LFQ codebook dim."""
     mani = json.loads(Path(args.reportgen_artifact_manifest).read_text())
     if mani.get("artifact_type") in ("npy_grid", "npy_stacked"):
         return int(mani["visual_dim"])

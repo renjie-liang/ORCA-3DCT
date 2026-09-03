@@ -855,7 +855,7 @@ def _visual_token_projector_input_dim(mode: str, base_dim: int = CODEBOOK_DIM) -
 
 def _reportgen_base_dim(args: Any) -> int:
     """Per-token visual dim BEFORE visual_token_compression. Encoder-agnostic: npy_grid
-    encoders read it from the manifest (512 CT-CLIP / 768 CoLiPri); BTB3D uses the LFQ
+    encoders read it from the manifest (512 CT-CLIP / 768 COLIPRI); BTB3D uses the LFQ
     codebook dim (x4 for the 8x8x8 config)."""
     mani = json.loads(Path(args.reportgen_artifact_manifest).read_text())
     if mani.get("artifact_type") == "npy_grid":

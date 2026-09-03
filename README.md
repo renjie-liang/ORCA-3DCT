@@ -20,14 +20,14 @@ All arrays are `float16`, one row per volume, aligned to a sibling `*_ids.txt`.
 
 | Encoder | ORCA `B=216` | ORCA `B=64` | ORCA `B=27` | ORCA `B=8` | Grid avg `B=216` | Grid avg `B=64` | Grid avg `B=27` | Grid avg `B=8` | Uncompressed | Organ segmentation |
 |---|---|---|---|---|---|---|---|---|---|---|
-| [CoLiPri](https://arxiv.org/abs/2510.15042) | [216×792 · 8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b216) | [64×792 · 2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b64) | [27×792 · 1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b27) | [8×792 · 0.33 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b8) | [216×768 · 8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b216) | [64×768 · 2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b64) | [27×768 · 1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b27) | [8×768 · 0.32 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b8) | [24×24×24×768 · 545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri) | [11×24×24×24 · 0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri) |
+| [COLIPRI](https://arxiv.org/abs/2510.15042) | [216×792 · 8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b216) | [64×792 · 2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b64) | [27×792 · 1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b27) | [8×792 · 0.33 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/ORCA_b8) | [216×768 · 8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b216) | [64×768 · 2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b64) | [27×768 · 1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b27) | [8×768 · 0.32 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/GridAvg_b8) | [24×24×24×768 · 545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri) | [11×24×24×24 · 0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri) |
 | [CT-CLIP](https://doi.org/10.1038/s41551-025-01599-y) | 216×536 · 13.0 GB | 64×536 · 3.44 GB | 27×536 · 1.45 GB | 8×536 · 0.43 GB | 216×512 · 12.4 GB | 64×512 · 3.29 GB | 27×512 · 1.39 GB | 8×512 · 0.41 GB | 24×24×24×512 · 710 GB | [11×24×24×24 · 0.83 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/ctclip) |
 | [FVLM](https://arxiv.org/abs/2501.14548) | — | — | — | — | — | — | — | — | [5×256 · 0.3 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm) | — |
 | [ViSD-Boost](https://arxiv.org/abs/2508.03742) | — | — | — | — | — | — | — | — | [6×256 · 0.4 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost) | — |
 
-Cells without a link are computed but not uploaded yet — the CoLiPri rows are complete.
+Cells without a link are computed but not uploaded yet — the COLIPRI rows are complete.
 
-**Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). CoLiPri covers 24,128 / 1,564 — that is the encoder's own coverage of the corpus, not a subsetting choice of ours.
+**Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). COLIPRI covers 24,128 / 1,564, because its authors take one reconstruction per scan to be sufficient; CT-RATE ships several reconstructions of the same study.
 
 The segmentation comes from TotalSegmentator; with the uncompressed grids it is all you need to run ORCA yourself.
 
@@ -62,7 +62,7 @@ Row *i* of the array is line *i* of the id file. The uncompressed grids are one 
 
 ## Main results
 
-Grid average vs. ORCA at $B{=}216$ (CT-RATE / CoLiPri; higher is better):
+Grid average vs. ORCA at $B{=}216$ (CT-RATE / COLIPRI; higher is better):
 
 | task | measure | Grid average | ORCA |
 |---|---|---|---|
