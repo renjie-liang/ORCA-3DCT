@@ -87,37 +87,13 @@ See **[TRAINING.md](TRAINING.md)** for the full pipeline and the traps worth kno
 
 ### Environment
 
-Only three pins matter; take whatever else your CUDA stack prefers.
+Only three pins matter and everything else can be whatever your CUDA stack prefers.
 
 | pinned | why |
 |---|---|
 | `python=3.12` | the engine uses 3.10+ syntax |
-| `transformers>=4.50,<5` | `LlamaAttention.forward` changed shape across 4.x; we ran 4.57 |
+| `transformers>=4.50` | `LlamaAttention.forward` changed shape across 4.x. We ran 4.57.1 |
 | `deepspeed>=0.14` | the ZeRO-1 config uses post-0.14 keys |
-
-If `flash-attn` will not build, drop it — the engine falls back to sdpa and only speed is lost.
-
----
-
-## Repository layout
-
-```
-probe/            compressors + probing read-outs
-                  compressors/branch_c/agglo_organ.py   <- ORCA itself
-                  experiments/<exp_id>.yaml             <- the 228 configs behind results/
-llm_engine/       LLaVA-style report-generation trainer
-                  run_reportgen.sh   <- the entry point
-                  base/llava_config/ <- architecture config (no weights)
-                  llava/             <- the vendored LLaVA decoder
-eval/green/       the GREEN clinical-report metric
-figures/          figure code + rendered PDFs
-results/          probing scores, GREEN scores, significance tests
-results_llm/      report-generation and VQA per-run metrics
-data/             downloaded — embeddings, labels, reports, organ masks
-checkpoints/      downloaded — base weights and our trained checkpoints
-```
-
-Heavy assets are not committed; `download.py` places them where the code expects.
 
 ---
 
