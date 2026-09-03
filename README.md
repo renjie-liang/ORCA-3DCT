@@ -28,16 +28,6 @@ Cells without a link are computed but not uploaded yet — the COLIPRI rows are 
 
 **Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). COLIPRI covers 24,128 / 1,564, because its authors take one reconstruction per scan to be sufficient; CT-RATE ships several reconstructions of the same study.
 
-**What we do not mirror.** Only the arrays we computed are hosted here. The reports, the 18 abnormality labels and the report-generation question set are CT-RATE's own files, so take them from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) directly — accept its terms once, then `python download.py --annotations` puts these four where the code expects them:
-
-| CT-RATE path | lands at | |
-|---|---|---|
-| `dataset/vqa/{train,valid}_vqa.json` | `data/vqa/{train,valid}_reportgen.json` | 1.2 GB / 37 MB |
-| `dataset/radiology_text_reports/validation_reports.csv` | `data/reports/` | 5 MB |
-| `dataset/multi_abnormality_labels/valid_predicted_labels.csv` | `data/labels/` | 0.2 MB |
-
-The question set is CT-CHAT's multi-task VQA; the trainer keeps only its `report_generation` records, so no preprocessing is needed.
-
 ### Loading
 
 These are raw arrays, not a tabular dataset — `load_dataset()` and the dataset viewer do not apply. Use `hf download` and memory-map:
@@ -86,12 +76,14 @@ git clone https://github.com/renjie-liang/ORCA-3DCT.git && cd ORCA-3DCT
 conda env create -f environment.yml && conda activate orca3dct   # python 3.12
 
 python download.py --bundle reportgen --budget 216               # 8.8 GB of ORCA tokens
-python download.py --annotations --base-weights                  # CT-RATE text + Llama-3.1-8B
+python download.py --annotations --base-weights                  # reports and labels, then Llama-3.1-8B
 bash llm_engine/run_reportgen.sh --smoke                         # ~15 min wiring check
 bash llm_engine/run_reportgen.sh --method ORCA --budget 216      # the real cell (~36 h on one B200)
 ```
 
 `download.py --list` shows every bundle and its size before you commit the disk. See **[TRAINING.md](TRAINING.md)** for the full recipe, costs, and the traps worth knowing.
+
+Only what we computed is hosted here; the reports and labels are CT-RATE's own files, so `--annotations` pulls them from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE), which is gated — accept its terms once and the download goes through.
 
 **For anything beyond a single cell, use [CheapCT](https://github.com/renjie-liang/CheapCT)'s vLLM inference and GREEN.** Evaluation, not training, is what this study costs — about ten times the training it follows — and the vLLM path is far faster than the reference implementations kept here.
 
