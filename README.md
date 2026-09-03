@@ -110,6 +110,4 @@ Code: Apache-2.0. `llm_engine/llava/` is from LLaVA. Embeddings: CC-BY-NC-SA-4.0
 
 ## Acknowledgements
 
-[CT-RATE / CT-CLIP](https://github.com/ibrahimethemhamamci/CT-CLIP) · [COLIPRI](https://huggingface.co/microsoft/colipri) · [FVLM](https://github.com/alibaba-damo-academy/FVLM) · [ViSD-Boost](https://github.com/alibaba-damo-academy/ViSD-Boost) · [TotalSegmentator](https://github.com/wasserth/TotalSegmentator) · [LLaVA](https://github.com/haotian-liu/LLaVA)
-
-Our other work on 3D CT: [CheapCT](https://github.com/renjie-liang/CheapCT) · [AdaRAG-CT](https://github.com/renjie-liang/Adaptive-RAG-for-3DCT-Report-Generation)
+[CT-RATE / CT-CLIP](https://github.com/ibrahimethemhamamci/CT-CLIP) · [COLIPRI](https://huggingface.co/microsoft/colipri) · [FVLM](https://github.com/alibaba-damo-academy/FVLM) · [ViSD-Boost](https://github.com/alibaba-damo-academy/ViSD-Boost) · [TotalSegmentator](https://github.com/wasserth/TotalSegmentator) · [LLaVA](https://github.com/haotian-liu/LLaVA) · [CheapCT](https://github.com/renjie-liang/CheapCT) · [AdaRAG-CT](https://github.com/renjie-liang/Adaptive-RAG-for-3DCT-Report-Generation)
