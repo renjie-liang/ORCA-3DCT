@@ -97,11 +97,11 @@ Only three pins matter and everything else can be whatever your CUDA stack prefe
 
 ---
 
-## License, attribution, and terms
+## License
 
-The **code** in this repository is released under [Apache-2.0](LICENSE). `llm_engine/llava/` is the LLaVA decoder (Apache-2.0, Copyright 2023 Haotian Liu), reached here via the BTB3D fork at commit `0eeb6e6`; the files carry their original headers and our changes are marked in place.
+Code: [Apache-2.0](LICENSE). `llm_engine/llava/` is LLaVA (Apache-2.0, © 2023 Haotian Liu).
 
-The **released embeddings are derived from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE)** and inherit its terms: **CC-BY-NC-SA-4.0**, academic and research use only, no commercial use, no re-identification. Downloading them means accepting CT-RATE's terms as well as this license. If you use them, cite CT-RATE and the encoder whose outputs you used, alongside ORCA.
+Embeddings: **CC-BY-NC-SA-4.0**, inherited from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) — research use only. Cite CT-RATE if you use them.
 
 ```bibtex
 @article{orca2026,
