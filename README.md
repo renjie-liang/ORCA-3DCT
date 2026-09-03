@@ -15,13 +15,13 @@ We also release the organ segmentation resampled from TotalSegmentator onto each
 
 ### CT-RATE
 
-| Encoder | ORCA `B=216` | ORCA `B=64` | ORCA `B=27` | ORCA `B=8` | Grid avg `B=216` | Grid avg `B=64` | Grid avg `B=27` | Grid avg `B=8` | Uncompressed | Organ segmentation |
+| <sub>Encoder</sub> | <sub>ORCA `B=216`</sub> | <sub>ORCA `B=64`</sub> | <sub>ORCA `B=27`</sub> | <sub>ORCA `B=8`</sub> | <sub>Grid avg `B=216`</sub> | <sub>Grid avg `B=64`</sub> | <sub>Grid avg `B=27`</sub> | <sub>Grid avg `B=8`</sub> | <sub>Uncompressed</sub> | <sub>Organ segmentation</sub> |
 |---|---|---|---|---|---|---|---|---|---|---|
-| [COLIPRI](https://arxiv.org/abs/2510.15042) | [216×792 · 8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b216_d792_lam0p5) | [64×792 · 2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b64_d792_lam0p5) | [27×792 · 1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b27_d792_lam0p5) | [8×792 · 0.33 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b8_d792_lam0p5) | [216×768 · 8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b216_d768) | [64×768 · 2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b64_d768) | [27×768 · 1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b27_d768) | [8×768 · 0.32 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b8_d768) | [24×24×24×768 · 545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri) | [11×24×24×24 · 0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri) |
-| [CT-CLIP](https://doi.org/10.1038/s41551-025-01599-y) | 216×536 · 13.0 GB | 64×536 · 3.44 GB | 27×536 · 1.45 GB | 8×536 · 0.43 GB | 216×512 · 12.4 GB | 64×512 · 3.29 GB | 27×512 · 1.39 GB | 8×512 · 0.41 GB | 24×24×24×512 · 710 GB | [11×24×24×24 · 0.83 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/ctclip) |
-| [ViSD-Boost + CT-CLIP](https://arxiv.org/abs/2508.03742) | — | — | — | — | — | — | — | — | [5×256 · 0.13 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost_ctclip/visd_boost_ctclip_native_b5_d256) | — |
-| [ViSD-Boost](https://arxiv.org/abs/2508.03742) | — | — | — | — | — | — | — | — | [4×256 · 0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost/visd_boost_native_b4_d256) | — |
-| [FVLM](https://arxiv.org/abs/2501.14548) | — | — | — | — | — | — | — | — | [4×256 · 0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm/fvlm_native_b4_d256) | — |
+| <sub>[COLIPRI](https://arxiv.org/abs/2510.15042)</sub> | <sub>[216×792 · 8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b216_d792_lam0p5)</sub> | <sub>[64×792 · 2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b64_d792_lam0p5)</sub> | <sub>[27×792 · 1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b27_d792_lam0p5)</sub> | <sub>[8×792 · 0.33 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b8_d792_lam0p5)</sub> | <sub>[216×768 · 8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b216_d768)</sub> | <sub>[64×768 · 2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b64_d768)</sub> | <sub>[27×768 · 1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b27_d768)</sub> | <sub>[8×768 · 0.32 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b8_d768)</sub> | <sub>[24×24×24×768 · 545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri)</sub> | <sub>[11×24×24×24 · 0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri)</sub> |
+| <sub>[CT-CLIP](https://doi.org/10.1038/s41551-025-01599-y)</sub> | <sub>216×536 · 13.0 GB</sub> | <sub>64×536 · 3.44 GB</sub> | <sub>27×536 · 1.45 GB</sub> | <sub>8×536 · 0.43 GB</sub> | <sub>216×512 · 12.4 GB</sub> | <sub>64×512 · 3.29 GB</sub> | <sub>27×512 · 1.39 GB</sub> | <sub>8×512 · 0.41 GB</sub> | <sub>24×24×24×512 · 710 GB</sub> | <sub>[11×24×24×24 · 0.83 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/ctclip)</sub> |
+| <sub>[ViSD-Boost + CT-CLIP](https://arxiv.org/abs/2508.03742)</sub> | — | — | — | — | — | — | — | — | <sub>[5×256 · 0.13 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost_ctclip/visd_boost_ctclip_native_b5_d256)</sub> | — |
+| <sub>[ViSD-Boost](https://arxiv.org/abs/2508.03742)</sub> | — | — | — | — | — | — | — | — | <sub>[4×256 · 0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost/visd_boost_native_b4_d256)</sub> | — |
+| <sub>[FVLM](https://arxiv.org/abs/2501.14548)</sub> | — | — | — | — | — | — | — | — | <sub>[4×256 · 0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm/fvlm_native_b4_d256)</sub> | — |
 
 Cells without a link are computed but not uploaded yet — the COLIPRI rows are complete.
 
@@ -44,20 +44,16 @@ tokens[ids.index("valid_1000_a_2")]        # -> (216, 792), ready for a projecto
 
 ## Main results
 
-Grid average vs. ORCA at $B{=}216$ (CT-RATE / COLIPRI; higher is better):
+CT-RATE with the COLIPRI encoder at a budget of 216 tokens. The first five columns are probing read-outs — AUROC for disease, $R^2$ for the rest — and the last three are report-generation metrics.
 
-| task | measure | Grid average | ORCA |
-|---|---|---|---|
-| Probing (AUROC / $R^2$) | disease  | 0.851 | **0.852** |
-|                         | size     | 0.681 | **0.720** |
-|                         | density  | 0.865 | **0.913** |
-|                         | location | 0.247 | **0.677** |
-|                         | texture  | 0.760 | **0.816** |
-| Report generation       | CE-F1    | **0.475** | 0.470 |
-|                         | CRG      | **0.438** | 0.436 |
-|                         | GREEN    | 0.319 | **0.329** |
+|  | <sub>disease</sub> | <sub>size</sub> | <sub>density</sub> | <sub>location</sub> | <sub>texture</sub> | <sub>CE-F1</sub> | <sub>CRG</sub> | <sub>GREEN</sub> |
+|---|---|---|---|---|---|---|---|---|
+| <sub>Uncompressed (13,824 tok)</sub> | <sub>0.848</sub> | <sub>0.727</sub> | <sub>0.915</sub> | <sub>0.252</sub> | <sub>0.811</sub> | — | — | — |
+| <sub>Uncompressed + centroid</sub> | <sub>0.849</sub> | <sub>0.791</sub> | <sub>0.930</sub> | <sub>0.773</sub> | <sub>0.829</sub> | — | — | — |
+| <sub>Grid average</sub> | <sub>0.851</sub> | <sub>0.681</sub> | <sub>0.865</sub> | <sub>0.247</sub> | <sub>0.760</sub> | <sub>**0.475**</sub> | <sub>**0.438**</sub> | <sub>0.319</sub> |
+| <sub>**ORCA**</sub> | <sub>**0.852**</sub> | <sub>**0.720**</sub> | <sub>**0.913**</sub> | <sub>**0.677**</sub> | <sub>**0.816**</sub> | <sub>0.470</sub> | <sub>0.436</sub> | <sub>**0.329**</sub> |
 
-ORCA wins every probing attribute and leads on GREEN, the strongest clinical effecacy; the report-generation text metrics are near-saturated across compressors. It also shrinks the LLM visual context $64\times$. Full results are under `results/` and `results_llm/`.
+ORCA wins every probing attribute and leads on GREEN; the report-generation text metrics are near-saturated across compressors. It also shrinks the LLM visual context $64\times$. Full results are under `results/` and `results_llm/`.
 
 ---
 
