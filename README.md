@@ -12,9 +12,7 @@ A 3D CT scan produces thousands to tens of thousands of visual tokens, and they 
 
 We provide both compressed and uncompressed embeddings at **[ORCA-3DCT](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT)**. Each encoder's outputs were obtained either by running its authors' released checkpoint or by reproducing the encoder from its paper.
 
-We also release the **organ segmentation** resampled onto each encoder's token grid: for every volume, an `(11, *grid)` float16 array giving the fraction of each token occupied by each of eleven thoracic structures — lung, airway, heart, aorta, central vessels, mediastinum, hiatus, pleura, chest-wall bone, thoracic spine, upper abdomen. Soft occupancy in [0, 1], not a hard label. Match the set to the encoder you are using: encoders resample and crop the volume differently, so a segmentation built for one grid does not align with another.
-
-All arrays are `float16`, one row per volume, aligned to a sibling `*_ids.txt`.
+We also release the organ segmentation resampled from TotalSegmentator onto each encoder's token grid. Use the matched set: encoders resample and crop the volume differently, so a segmentation built for one grid does not align with another.
 
 ### CT-RATE
 
