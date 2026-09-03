@@ -77,7 +77,7 @@ bash llm_engine/run_reportgen.sh --method ORCA --budget 216      # the real cell
 
 See **[TRAINING.md](TRAINING.md)** for the full pipeline and the traps worth knowing.
 
-Only what we computed is hosted here; the reports and labels are CT-RATE's own files, so `--annotations` pulls them from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE), which is gated — accept its terms once and the download goes through.
+`--annotations` pulls the reports and labels from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE), which is gated — accept its terms there first.
 
 **For anything beyond a single cell, use [CheapCT](https://github.com/renjie-liang/CheapCT)'s vLLM inference and GREEN.** Evaluation, not training, is what this study costs — about ten times the training it follows — and the vLLM path is far faster than the reference implementations kept here.
 
