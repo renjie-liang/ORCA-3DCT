@@ -99,9 +99,9 @@ Only three pins matter and everything else can be whatever your CUDA stack prefe
 
 ## License
 
-Code: [Apache-2.0](LICENSE). `llm_engine/llava/` is LLaVA (Apache-2.0, © 2023 Haotian Liu).
+Code: Apache-2.0. `llm_engine/llava/` is from LLaVA.
 
-Embeddings: **CC-BY-NC-SA-4.0**, inherited from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) — research use only. Cite CT-RATE if you use them.
+Embeddings: CC-BY-NC-SA-4.0, inherited from CT-RATE, research use only.
 
 ```bibtex
 @article{orca2026,
