@@ -1,14 +1,12 @@
 # Training and evaluation
 
-Every command here is plain `python` / `deepspeed` and runs on one GPU. We ran everything through SLURM, but the submission wrappers were specific to our cluster, so what they wrapped is written out below instead — adapt the resources to your own scheduler.
-
-Paths are relative to the repository root, and every heavy asset resolves under `data/` and `checkpoints/` (see [README](README.md) for the download).
+Every command runs on one GPU. Paths are relative to the repository root; heavy assets resolve under `data/` and `checkpoints/` (see [README](README.md) for the download).
 
 ---
 
-## 1. Probing read-outs
+## 1. Probing
 
-A probing run is fully described by one YAML under `probe/experiments/`:
+A run is one YAML under `probe/experiments/`:
 
 ```yaml
 exp_id: exp_bc3_orca_colipri_b216
@@ -22,35 +20,31 @@ data: {limit: 0, num_workers: 8}
 ```
 
 ```bash
-python probe/run.py         probe/experiments/<exp_id>.yaml   # scores -> results/experiments/<exp_id>/
+python probe/run.py         probe/experiments/<exp_id>.yaml   # -> results/experiments/<exp_id>/
 python probe/run_heldout.py probe/experiments/<exp_id>.yaml   # held-out split variant
 python probe/summarize_sweep.py                               # aggregate a sweep into one table
 ```
 
-`run.py` copies the config next to its results, so `results/experiments/<exp_id>/config.yaml` always records exactly what produced those numbers.
-
-**Cache the compressor for Ward-based methods.** `agglo_organ` (ORCA) re-derives its merge tree per volume; without a cache a full-train run recomputes it 24k times and takes hours instead of minutes.
+**Cache the compressor.** ORCA (`agglo_organ`) re-derives its merge tree per volume, so without a cache a full run recomputes it 24k times — hours instead of minutes.
 
 ```bash
 PROBE_CACHE_ROOT=$PWD/cache python probe/run.py probe/experiments/<exp_id>.yaml
 ```
 
-`PROBE_CACHE_ROOT` **must be absolute**. A relative value resolves against the working directory and silently misses the cache — the run still succeeds, just far slower and with no warning.
+`PROBE_CACHE_ROOT` must be **absolute**. A relative path silently misses the cache: the run still succeeds, just far slower, with no warning.
 
-Our resources: 1× L4, 8 CPU, 64 GB, ≤12 h per experiment.
+We used 1× L4, 8 CPU, 64 GB, ≤12 h per experiment.
 
 ---
 
 ## 2. Report generation
 
-Two stages per cell. Stage 2 warm-starts from stage 1's best epoch, so stage 1 must finish first.
+Two stages per cell, stage 2 warm-started from stage 1, so stage 1 must finish first.
 
 | stage | trains | LR | epochs | steps/epoch |
 |---|---|---|---|---|
-| `s1` | projector only (`--projector-only`, LoRA frozen) | 5e-4 | 8 | 1,508 |
-| `s2` | LoRA **+** projector, warm-started from s1's best epoch | 2e-5 | 8 | 1,508 |
-
-Both evaluate on the **full 1,564-volume validation set after every epoch**, which is where the time goes: ~0.2 h training vs ~2 h evaluation per epoch, so ~18 h per stage and ~36 h per cell. [CheapCT](https://github.com/renjie-liang/CheapCT)'s vLLM inference cuts that down substantially — see §3.
+| `s1` | projector only (LoRA frozen) | 5e-4 | 8 | 1,508 |
+| `s2` | LoRA + projector, from s1's best epoch | 2e-5 | 8 | 1,508 |
 
 ```bash
 bash llm_engine/run_reportgen.sh --smoke                        # ~15 min wiring check — do this first
@@ -58,7 +52,9 @@ bash llm_engine/run_reportgen.sh --method ORCA --budget 216     # both stages, i
 bash llm_engine/run_reportgen.sh --method ORCA --budget 216 --stage s1
 ```
 
-Under the hood each stage is one `deepspeed` call:
+Both stages evaluate on the full 1,564-volume validation set after every epoch: ~0.2 h training and ~2 h evaluation per epoch, so ~36 h per cell.
+
+Each stage is one `deepspeed` call:
 
 ```bash
 deepspeed --num_gpus=1 llm_engine/vqa_train.py \
@@ -74,32 +70,26 @@ deepspeed --num_gpus=1 llm_engine/vqa_train.py \
   --deepspeed-config llm_engine/zero1_author_reportgen.dsconfig
 ```
 
-Stage 2 drops `--projector-only`, sets `--lr 2e-5`, and adds `--init-weights-from-checkpoint <s1_run>/checkpoints/<best_step>`, where the best step comes from
+Stage 2 drops `--projector-only`, sets `--lr 2e-5`, and adds `--init-weights-from-checkpoint <s1_run>/checkpoints/<best_step>`, where the best step is chosen by clinical F1:
 
 ```bash
-python llm_engine/pick_best_epoch.py --run_dir <s1_run>   # writes <s1_run>/best.json, by clinical F1
+python llm_engine/pick_best_epoch.py --run_dir <s1_run>   # writes <s1_run>/best.json
 ```
 
-Selection is by **clinical F1**, not by a text metric: BLEU and ROUGE reward copying the reference's phrasing, and only the RadBERT labels speak to whether the compressed tokens kept the findings.
+`--steps` is a **cumulative** total and the runner auto-resumes from `checkpoints/training_state_latest.pt`. A job that hits its wall-clock limit loses at most one epoch, and a long cell can be split across short jobs by asking for `k × 2 × 1508` steps in link *k*.
 
-`--steps` is a **cumulative** total and the runner auto-resumes from `checkpoints/training_state_latest.pt`, so a job that hits a wall-clock limit loses at most one epoch and re-running the same command picks up where it stopped. That is also how a long cell can be split into short jobs on a busy queue: ask for `k × 2 × 1508` steps in link *k*.
+**Do not raise `--eval-batch-size`.** Evaluation is ~10× the training cost, so batching it is the obvious speed-up and is deliberately not taken: generation runs with `padding_side="left"`, and batched left-padded generation does not fail loudly — it quietly produces slightly worse reports, which lands directly in the clinical F1 being measured.
 
-Our resources: 1× B200, 8 CPU, 120 GB, 24 h per job. Peak GPU was ~40 GB (s1) / ~52 GB (s2), so a 24 GB card cannot run this cell.
-
-### Do not raise `--eval-batch-size`
-
-It stays at 1. Evaluation is ~10× the training cost, so batching it is the obvious speed-up, and it is deliberately not taken: generation runs with `padding_side="left"`, and batched left-padded generation does not fail loudly — it quietly produces slightly worse reports, which lands directly in the clinical F1 the study is trying to measure.
+We used 1× B200, 8 CPU, 120 GB, 24 h per job. Peak GPU was ~40 GB (s1) and ~52 GB (s2), so a 24 GB card cannot run this cell.
 
 ---
 
 ## 3. Scoring
 
-> **Use the vLLM path instead.** [CheapCT](https://github.com/renjie-liang/CheapCT) ships vLLM implementations of both inference and GREEN, and they are dramatically faster than the reference code below. Evaluation dominates this study's cost — around 2 h per epoch for the 1,564-volume validation set, roughly ten times the training it follows, and GREEN alone is ~7 h per prediction file on an L4. Strongly recommended if you plan to run more than one cell.
-
-The reference implementations are kept here because they are what produced the published numbers:
+[CheapCT](https://github.com/renjie-liang/CheapCT) provides vLLM inference and GREEN. We recommend using it for inference and scoring. The implementations below are what produced the published numbers.
 
 ```bash
-# clinical F1 + BLEU/ROUGE-L/METEOR/CIDEr + CRG, per epoch (written by the trainer as metrics_fast.json)
+# clinical F1 + BLEU/ROUGE-L/METEOR/CIDEr + CRG, per epoch (the trainer writes metrics_fast.json)
 python llm_engine/pick_best_epoch.py --run_dir <run_dir>
 
 # GREEN clinical score — one prediction file per job, ~7 h for 1,564 examples on an L4
@@ -111,12 +101,8 @@ GREEN needs `checkpoints/GREEN-RadLlama2-7b` **and** `paraphrase-mpnet-base-v2` 
 
 ---
 
-## 4. Inference cost profile
-
-Reproduces the prefill / KV-cache / latency numbers:
+## 4. Inference cost
 
 ```bash
 python llm_engine/profile_inference.py --budgets 8 27 64 216 1728 13824 --out results_llm/inference_cost.json
 ```
-
-Multi-pass alternating sweep, median over passes, so a warm-up pass cannot bias one budget.
