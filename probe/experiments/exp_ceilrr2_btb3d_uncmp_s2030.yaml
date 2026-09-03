@@ -1,0 +1,6 @@
+exp_id: exp_ceilrr2_btb3d_uncmp_s2030
+desc: "BTB3D uncompressed+sin (31744 tok), lr 3e-4 + 60ep, seed 2030. Stabilize + verify the single-seed reference."
+encoder: btb3d
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 60, lr: 0.0003, bs: 48, seeds: [2030]}
+data: {limit: 0, num_workers: 8}

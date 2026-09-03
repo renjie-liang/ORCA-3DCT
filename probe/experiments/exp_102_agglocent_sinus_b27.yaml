@@ -1,0 +1,13 @@
+exp_id: exp_102_agglocent_sinus_b27
+desc: "sinusoidal position encoding, scale 1 -- linear-readable position basis"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_encoding: sinusoidal, centroid_scale: 1.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

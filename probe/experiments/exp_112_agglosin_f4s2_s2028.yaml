@@ -1,0 +1,13 @@
+exp_id: exp_112_agglosin_f4s2_s2028
+desc: "multi-seed confirm: colipri sinusoidal centroid freqs=4 scale=2.0, seed 2028. Pair with the 2026 run to get 3 seeds."
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2028]
+data: {limit: 0, num_workers: 16}

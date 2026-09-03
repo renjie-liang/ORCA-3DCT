@@ -42,19 +42,15 @@ from dtbd3d.core.visual_embedding import (
     materialize_reportgen_features_from_codes,
     resolve_reportgen_artifact_manifest,
 )
-from dtbd3d.core.token_codec import CODEBOOK_DIM
+from dtbd3d.core.token_codec import CODEBOOK_DIM, merge_8x8_reportgen
 from dtbd3d.eval.make_reportgen_vqa_subset import volume_id_from_image
 from dtbd3d.eval.btb3d_to_metrics_jsonl import convert_btb3d_jsonl
 from dtbd3d.training.checkpoint import optimizer_state_to_cpu
 from dtbd3d.training.logging_utils import setup_rank0_logger
 
 
-# SELF-CONTAINED copy (2026-07-15): dtbd3d engine vendored into CompressToken/llm_engine (no DTBD3D dependency).
-# PROJECT_ROOT only backs _path() defaults for report-gen-only fields (llava_repo/radbert/reports_csv) which our
-# MCQ cells override via --model-path/--train-vqa-json/--reportgen-artifact-manifest + --skip-metrics. CORE_CODE_ROOT
-# points at the vendored package root so DEFAULT_REPRO_CONFIG resolves to the vendored repro yaml.
-PROJECT_ROOT = Path(".")
-CORE_CODE_ROOT = Path("./llm_engine/core_code")
+PROJECT_ROOT = Path(__file__).resolve().parents[5]
+CORE_CODE_ROOT = PROJECT_ROOT / "Experiment" / "core_code"
 DEFAULT_REPRO_CONFIG = CORE_CODE_ROOT / "dtbd3d" / "configs" / "repro_16x16x8.yaml"
 
 
@@ -67,7 +63,8 @@ def _load_repro_defaults(path: Path) -> dict[str, str]:
     raw = yaml.safe_load(path.read_text())
     paths = raw.get("paths", {})
     return {
-        "llava_repo": str(_path(paths["llava_repo"])),
+        "btb3d_repo": str(_path(paths["btb3d_repo"])),
+        "ctclip_repo": str(_path(paths["ctclip_repo"])),
         "model_path": str(_path(paths["model_path"])),
         "model_base": str(_path(paths["model_base"])),
         "train_vqa_json": str(_path("./data/ct_rate/dataset/vqa/train_vqa.json")),
@@ -131,10 +128,10 @@ def _log_startup_summary(logger: Any, config: dict[str, Any]) -> None:
         _format_params(trainable.get("total")),
     )
     logger.info(
-        "[visual] projector_input_dim=%s token_selection=%s token_budget=%s",
+        "[visual] token_compression=%s projector_input_dim=%s reportgen_compression=%s",
+        config.get("visual_token_compression"),
         config.get("projector_input_dim"),
-        config.get("token_selection"),
-        config.get("token_budget"),
+        config.get("compression"),
     )
     logger.info(
         "[eval] valid_samples=%s limit=%s max_new_tokens=%s repetition_penalty=%s eval_batch_size=%s shard=%s/%s",
@@ -175,18 +172,121 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reportgen-artifact-manifest", required=True)
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--run-name", default="reportgen_artifact_train")
+    parser.add_argument("--compression", choices=["16x16x8", "8x8x8"], default="16x16x8")
+    parser.add_argument(
+        "--visual-token-compression",
+        choices=[
+            "none",
+            "pool2x2_avg",
+            "pool2x2_max",
+            "pool2x2x2_avg",
+            "pool2x2x2_max",
+            "pack2x2",
+            "pack2x2x2",
+            "pack3x3x3",
+            "pack4x4x4",
+            "pack5x5x5",
+            "pack6x6x6",
+            "pack8x8x8",
+        ],
+        default="none",
+        help=(
+            "Optional runtime token reduction applied after materializing 16x16x8 visual tokens. "
+            "pool modes keep the 18-dim projector input; pack modes concatenate local tokens and "
+            "therefore require a freshly initialized matching projector."
+        ),
+    )
     parser.add_argument(
         "--token-selection",
-        choices=["none", "uniform_pool"],
+        choices=["none", "strided", "random", "l2norm", "organ_mask", "lesion_mask", "attention_mask", "uniform_pool", "adaptive_regroup"],
         default="none",
-        help="Visual token count reduction: none=keep the full grid; "
-        "uniform_pool=MERGE (avg-pool) the grid to --token-budget tokens, per-token dim preserved.",
+        help="Content-aware token budget allocation: keep --token-budget tokens by this "
+        "strategy after compression. none=keep all; strided=uniform baseline; "
+        "random=lower bound; l2norm=importance by token feature L2 norm; "
+        "organ_mask/lesion_mask=importance by precomputed anatomy/lesion map; "
+        "uniform_pool=MERGE (avg-pool, not select) the grid to --token-budget tokens, "
+        "dim preserved (dim-matched merging baseline; H0 count-vs-dim).",
     )
     parser.add_argument(
         "--token-budget",
         type=int,
         default=0,
-        help="Number of visual tokens to keep when --token-selection=uniform_pool (0 = keep all).",
+        help="Number of visual tokens to keep when --token-selection != none (0 = keep all).",
+    )
+    parser.add_argument(
+        "--token-fine-k",
+        type=int,
+        default=-1,
+        help="adaptive_regroup only: number of top-importance tokens kept at FULL "
+        "resolution (the rest are avg-pooled into budget-fine_k coarse tokens). "
+        "-1 = budget//2.",
+    )
+    parser.add_argument(
+        "--adp-mode",
+        choices=["none", "post", "pre"],
+        default="none",
+        help="Learned dim-reduce in the projector (requires pack: --visual-token-compression pack*). "
+        "post=Linear(packed->D'); pre=shared per-block Linear(native->d) then concat. none=off.",
+    )
+    parser.add_argument(
+        "--adp-out",
+        type=int,
+        default=0,
+        help="Target per-token dim D' for --adp-mode (e.g. 256/512/1024).",
+    )
+    parser.add_argument(
+        "--resampler-mode",
+        choices=["none", "pure", "l2norm"],
+        default="none",
+        help="Learned cross-attention resampler in the projector: num_latents queries attend the "
+        "full grid -> num_latents tokens. pure=fully learned; l2norm=add per-token L2-norm bias "
+        "(mapless importance). none=off. Works with --visual-token-compression none (raw grid) or "
+        "pack* (lighter grid). Generalizes avgpool/pack/adp.",
+    )
+    parser.add_argument(
+        "--resampler-latents",
+        type=int,
+        default=216,
+        help="Number of output tokens N for --resampler-mode (the count-axis budget).",
+    )
+    parser.add_argument(
+        "--resampler-out",
+        type=int,
+        default=1024,
+        help="Bottleneck/latent width D' for --resampler-mode (the dim-axis budget).",
+    )
+    parser.add_argument(
+        "--dim-reduce-npz",
+        default="",
+        help="Optional fixed dim-reduce (PCA) matrix npz with {mean,components[k,Din]}; "
+        "applied per-token. Empty = no dim-reduce.",
+    )
+    parser.add_argument(
+        "--dim-reduce-order",
+        choices=["pre", "post"],
+        default="post",
+        help="Apply dim-reduce BEFORE pack (pre: per-token native->k, then pack) or "
+        "AFTER pack (post: pack->concat, then concat->k).",
+    )
+    parser.add_argument(
+        "--noise-input",
+        action="store_true",
+        help="Replace the visual embedding with FRESH unit-Gaussian noise per __getitem__ "
+        "(npy_grid only; same grid/dim as real). The metric-floor 'bottom board' control: "
+        "zero visual info -> model learns the language prior. Train AND eval with this on.",
+    )
+    parser.add_argument(
+        "--oracle-report-text-npz",
+        default="",
+        help="Paper-2 Part-2 ORACLE upper bound: concat this report-text embedding (128-d) onto every "
+        "visual token (+128 projector dim). The synthetic embedding PROVABLY contains the report -> "
+        "measures how much the LLM can DECODE. LEAKAGE/oracle analysis, NOT deployable. Train AND eval on.",
+    )
+    parser.add_argument(
+        "--token-importance-dir",
+        default="",
+        help="Base dir of precomputed per-volume importance maps "
+        "(<dir>/{organ,lesion}/<split>/<volume_id>.npy); required for *_mask selection.",
     )
     parser.add_argument("--model-path", default=defaults["model_path"])
     parser.add_argument("--model-base", default=defaults["model_base"])
@@ -203,8 +303,8 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Freeze all LoRA weights and train only the multimodal projector.",
     )
-    parser.add_argument("--llava-repo", default=defaults["llava_repo"],
-                        help="directory containing the `llava` package")
+    parser.add_argument("--btb3d-repo", default=defaults["btb3d_repo"])
+    parser.add_argument("--ctclip-repo", default=defaults["ctclip_repo"])
     parser.add_argument("--train-vqa-json", default=defaults["train_vqa_json"])
     parser.add_argument("--valid-vqa-json", default=defaults["valid_vqa_json"])
     # Paper-2 image-grounded VQA: filter records by this id-prefix (report-gen default unchanged); and allow
@@ -337,8 +437,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _ensure_python_paths(llava_repo: Path) -> None:
-    for path in (CORE_CODE_ROOT, llava_repo):
+def _ensure_python_paths(btb3d_repo: Path, ctclip_repo: Path) -> None:
+    for path in (CORE_CODE_ROOT, btb3d_repo, ctclip_repo):
         path_str = str(path)
         if path_str not in sys.path:
             sys.path.insert(0, path_str)
@@ -507,6 +607,10 @@ def _load_author_configured_base(
     model_base: Path,
     *,
     mm_hidden_size_override: int | None = None,
+    mm_projector_type_override: str | None = None,
+    mm_adp_out: int | None = None,
+    mm_adp_native: int | None = None,
+    mm_resampler_latents: int | None = None,
 ) -> tuple[Any, torch.nn.Module]:
     from llava.constants import (
         TOKEN_FOR_LONG_ANSWER,
@@ -521,6 +625,12 @@ def _load_author_configured_base(
     cfg = LlavaConfig.from_pretrained(config_path)
     if mm_hidden_size_override is not None:
         cfg.mm_hidden_size = int(mm_hidden_size_override)
+    if mm_projector_type_override is not None:
+        cfg.mm_projector_type = str(mm_projector_type_override)  # adp_post / adp_pre / resampler_*
+        cfg.mm_adp_out = int(mm_adp_out)
+        cfg.mm_adp_native = int(mm_adp_native)
+        if mm_resampler_latents is not None:
+            cfg.mm_resampler_latents = int(mm_resampler_latents)
     cfg.pad_token_id = None
     cfg.vocab_size = cfg.vocab_size - 1 - 4
     base_model = LlavaLlamaForCausalLM.from_pretrained(
@@ -644,6 +754,10 @@ def load_author_architecture_from_scratch(
     device: torch.device,
     projector_input_dim: int | None = None,
     reinit_lora: tuple[int, int] | None = None,
+    mm_projector_type_override: str | None = None,
+    mm_adp_out: int | None = None,
+    mm_adp_native: int | None = None,
+    mm_resampler_latents: int | None = None,
 ) -> tuple[Any, torch.nn.Module]:
     """Load the author full-token architecture while random-initializing ReportGen trainables.
 
@@ -660,6 +774,10 @@ def load_author_architecture_from_scratch(
         config_model_path,
         model_base,
         mm_hidden_size_override=projector_input_dim,
+        mm_projector_type_override=mm_projector_type_override,
+        mm_adp_out=mm_adp_out,
+        mm_adp_native=mm_adp_native,
+        mm_resampler_latents=mm_resampler_latents,
     )
 
     if checkpoint_path is not None:
@@ -712,19 +830,118 @@ def load_author_architecture_from_scratch(
     return tokenizer, model
 
 
+def _visual_token_compression_factor(mode: str) -> tuple[int, int, int]:
+    if mode == "none":
+        return (1, 1, 1)
+    if mode in ("pool2x2_avg", "pool2x2_max", "pack2x2"):
+        return (1, 2, 2)
+    if mode in ("pool2x2x2_avg", "pool2x2x2_max", "pack2x2x2"):
+        return (2, 2, 2)
+    if mode == "pack4x4x4":
+        return (4, 4, 4)
+    # generic isotropic/anisotropic packNxNxN (e.g. pack3x3x3, pack5x5x5, pack6x6x6, pack8x8x8)
+    m = re.fullmatch(r"pack(\d+)x(\d+)x(\d+)", mode)
+    if m:
+        return (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    raise ValueError(f"unsupported visual token compression mode: {mode}")
+
+
+def _visual_token_projector_input_dim(mode: str, base_dim: int = CODEBOOK_DIM) -> int:
+    if mode == "none" or mode.startswith("pool"):
+        return int(base_dim)
+    factor_t, factor_h, factor_w = _visual_token_compression_factor(mode)
+    return int(base_dim) * factor_t * factor_h * factor_w
+
+
 def _reportgen_base_dim(args: Any) -> int:
-    """Per-token visual dim. Encoder-agnostic: npy_grid / npy_stacked encoders read it from the
-    manifest (512 CT-CLIP / 768 CoLiPri / 792 ORCA); BTB3D uses the LFQ codebook dim."""
+    """Per-token visual dim BEFORE visual_token_compression. Encoder-agnostic: npy_grid
+    encoders read it from the manifest (512 CT-CLIP / 768 CoLiPri); BTB3D uses the LFQ
+    codebook dim (x4 for the 8x8x8 config)."""
     mani = json.loads(Path(args.reportgen_artifact_manifest).read_text())
-    if mani.get("artifact_type") in ("npy_grid", "npy_stacked"):
+    if mani.get("artifact_type") == "npy_grid":
         return int(mani["visual_dim"])
-    return CODEBOOK_DIM
+    return CODEBOOK_DIM * 4 if args.compression == "8x8x8" else CODEBOOK_DIM
 
 
 def _effective_projector_input_dim(args: Any) -> int:
-    """mm_projector input dim = per-token visual dim (uniform_pool preserves it).
-    Single source of truth so the model build and the saved checkpoint metadata agree."""
-    return _reportgen_base_dim(args)
+    """Actual mm_projector input dim = packed dim, with the dataset-side dim-reduce (fixed
+    PCA, --dim-reduce-npz) override applied. adp (--adp-mode, projector-side reduce) keeps
+    the packed dim. Single source of truth so the model build AND the saved checkpoint
+    metadata agree (mismatch here previously broke pca stage2 resume)."""
+    pid = _visual_token_projector_input_dim(args.visual_token_compression, _reportgen_base_dim(args))
+    if getattr(args, "dim_reduce_npz", ""):
+        k = int(np.load(args.dim_reduce_npz)["components"].shape[0])
+        if args.dim_reduce_order == "post":
+            pid = k
+        else:  # pre: per-token native->k, then pack concatenates the k-dim tokens
+            ft, fh, fw = (_visual_token_compression_factor(args.visual_token_compression)
+                          if args.visual_token_compression != "none" else (1, 1, 1))
+            pid = k * ft * fh * fw
+    if getattr(args, "oracle_report_text_npz", ""):  # Part-2 oracle adds the report-text emb dim/token
+        pid += int(np.load(args.oracle_report_text_npz)["emb"].shape[1])  # 128 TF-IDF / 768 BERT / ...
+    return pid
+
+
+def _apply_dim_reduce(features: np.ndarray, mean: np.ndarray, comp: np.ndarray) -> np.ndarray:
+    """Fixed PCA projection on the last axis: features[...,Din] -> [...,k].
+    comp = [k, Din] components; mean = [Din]."""
+    din = features.shape[-1]
+    x = features.reshape(-1, din).astype(np.float32) - mean
+    out = x @ comp.T  # [., k]
+    return out.reshape(*features.shape[:-1], comp.shape[0]).astype(np.float32, copy=False)
+
+
+def _pad_visual_tokens_to_factor(features: np.ndarray, factor: tuple[int, int, int]) -> np.ndarray:
+    """Pad `(B,T,H,W,C)` feature grids by edge replication for block reductions."""
+
+    if features.ndim != 5:
+        raise ValueError(f"visual token features must be [B,T,H,W,C], got {features.shape}")
+    pad_t = (-features.shape[1]) % factor[0]
+    pad_h = (-features.shape[2]) % factor[1]
+    pad_w = (-features.shape[3]) % factor[2]
+    if pad_t == 0 and pad_h == 0 and pad_w == 0:
+        return features
+    return np.pad(
+        features,
+        ((0, 0), (0, pad_t), (0, pad_h), (0, pad_w), (0, 0)),
+        mode="edge",
+    )
+
+
+def _apply_visual_token_compression(features: np.ndarray, mode: str) -> np.ndarray:
+    """Apply simple runtime token compression to `(B,T,H,W,C)` ReportGen features."""
+
+    if mode == "none":
+        if features.ndim != 5:
+            raise ValueError(f"visual token features must be [B,T,H,W,C], got {features.shape}")
+        return features.astype(np.float32, copy=False)
+
+    factor_t, factor_h, factor_w = _visual_token_compression_factor(mode)
+    padded = _pad_visual_tokens_to_factor(features, (factor_t, factor_h, factor_w)).astype(np.float32, copy=False)
+    batch, total_t, total_h, total_w, channels = padded.shape
+    blocks = padded.reshape(
+        batch,
+        total_t // factor_t,
+        factor_t,
+        total_h // factor_h,
+        factor_h,
+        total_w // factor_w,
+        factor_w,
+        channels,
+    )
+    if mode.endswith("_avg"):
+        return blocks.mean(axis=(2, 4, 6), dtype=np.float32).astype(np.float32, copy=False)
+    if mode.endswith("_max"):
+        return blocks.max(axis=(2, 4, 6)).astype(np.float32, copy=False)
+    if mode.startswith("pack"):
+        return blocks.transpose(0, 1, 3, 5, 7, 2, 4, 6).reshape(
+            batch,
+            total_t // factor_t,
+            total_h // factor_h,
+            total_w // factor_w,
+            channels * factor_t * factor_h * factor_w,
+        ).astype(np.float32, copy=False)
+    raise ValueError(f"unsupported visual token compression mode: {mode}")
 
 
 def _factor3(n: int) -> tuple[int, int, int]:
@@ -745,24 +962,107 @@ def _factor3(n: int) -> tuple[int, int, int]:
     return best[1]
 
 
-def _select_visual_tokens(features: np.ndarray, mode: str, budget: int) -> np.ndarray:
-    """Reduce a `(1,T,H,W,C)` grid to ~`budget` tokens, per-token channel dim C preserved.
+def _resize_importance_to_grid(importance: np.ndarray, t: int, h: int, w: int) -> np.ndarray:
+    """Resize a precomputed [D,H,W] importance map to the packed token grid."""
+    imp = torch.as_tensor(np.asarray(importance, dtype=np.float32))[None, None]
+    out = F.adaptive_avg_pool3d(imp, output_size=(t, h, w))[0, 0]
+    return out.numpy().astype(np.float32, copy=False)
 
-    mode: none -> keep the full grid; uniform_pool -> avg-pool the grid to ~budget tokens
-    via a near-cube target shape (the projector input dim is unchanged).
+
+def _select_visual_tokens(
+    features: np.ndarray, mode: str, budget: int, seed: int,
+    importance: np.ndarray | None = None, fine_k: int = -1,
+) -> np.ndarray:
+    """Select `budget` tokens from a `(1,T,H,W,C)` grid -> `(1,budget,1,1,C)`.
+
+    Content-aware token budget allocation (Paper A). Selection preserves the
+    per-token channel dim (projector input unchanged); only the token COUNT and
+    WHICH tokens are kept change. Spatial order of kept tokens is preserved
+    (sorted indices) so the comparison isolates selection strategy.
+
+    mode: none | strided | random | l2norm | organ_mask | lesion_mask | attention_mask
+        | uniform_pool | adaptive_regroup.
+    organ_mask/lesion_mask/attention_mask require `importance` ([D,H,W] map).
+    uniform_pool MERGES (avg-pools) rather than selects: dim-matched merging baseline
+    for the H0 count-vs-dim experiment (pack2x2x2 + uniform_pool-448 vs pack4x4x4-448).
+    adaptive_regroup (HEADLINE, H1): keep top-`fine_k` important tokens fine + avg-pool
+    the rest into budget-fine_k coarse tokens (importance-driven non-uniform allocation).
     """
     if mode == "none" or budget <= 0:
         return features
     if features.ndim != 5 or features.shape[0] != 1:
         raise ValueError(f"_select_visual_tokens expects (1,T,H,W,C), got {features.shape}")
     _, t, h, w, c = features.shape
-    if budget >= t * h * w:
+    m = t * h * w
+    flat = features.reshape(m, c)  # row-major over (T,H,W) == projector flatten(1,3)
+    if budget >= m:
         return features
-    # MERGE (not select): avg-pool the (1,T,H,W,C) grid to ~budget tokens; per-token dim C preserved.
-    tn, hn, wn = _factor3(budget)
-    x = torch.as_tensor(features[0], dtype=torch.float32).permute(3, 0, 1, 2)[None]  # (1,C,T,H,W)
-    pooled = F.adaptive_avg_pool3d(x, (tn, hn, wn))[0].permute(1, 2, 3, 0)  # (Tn,Hn,Wn,C)
-    return pooled.numpy()[None].astype(np.float32, copy=False)
+    if mode == "uniform_pool":
+        # MERGE (not select): avg-pool the (1,T,H,W,C) grid to ~budget tokens via a
+        # near-cube target shape; per-token dim C preserved (projector unchanged).
+        tn, hn, wn = _factor3(budget)
+        x = torch.as_tensor(features[0], dtype=torch.float32).permute(3, 0, 1, 2)[None]  # (1,C,T,H,W)
+        pooled = F.adaptive_avg_pool3d(x, (tn, hn, wn))[0].permute(1, 2, 3, 0)  # (Tn,Hn,Wn,C)
+        return pooled.numpy()[None].astype(np.float32, copy=False)
+    if mode == "adaptive_regroup":
+        # HEADLINE (H1, "spend the budget where the diagnosis is"): keep the top-`fine_k`
+        # most-important tokens at FULL resolution + avg-pool the WHOLE grid into
+        # m=budget-fine_k coarse tokens, then concat -> budget tokens (dim C preserved).
+        # Mirrors compress/regroup.py:adaptive_regroup. Importance from the precomputed
+        # organ/lesion map; falls back to per-token L2 norm if None. fine_k<0 => budget//2.
+        k_fine = budget // 2 if fine_k < 0 else max(0, min(int(fine_k), budget))
+        m_coarse = budget - k_fine
+        if importance is None:
+            score = np.linalg.norm(flat.astype(np.float32), axis=1)
+        else:
+            score = _resize_importance_to_grid(importance, t, h, w).reshape(m)
+            norms = np.linalg.norm(flat.astype(np.float32), axis=1)
+            score = score + 1e-6 * (norms / (norms.max() + 1e-9))  # stable tie-break
+        if k_fine > 0:
+            fine_idx = np.sort(np.argpartition(-score, k_fine - 1)[:k_fine])
+            fine_tokens = flat[fine_idx].astype(np.float32)
+        else:
+            fine_tokens = np.empty((0, c), np.float32)
+        if m_coarse > 0:
+            tn, hn, wn = _factor3(m_coarse)
+            xc = torch.as_tensor(features[0], dtype=torch.float32).permute(3, 0, 1, 2)[None]  # (1,C,T,H,W)
+            coarse = F.adaptive_avg_pool3d(xc, (tn, hn, wn))[0].permute(1, 2, 3, 0).numpy().reshape(-1, c)
+        else:
+            coarse = np.empty((0, c), np.float32)
+        tokens = np.concatenate([coarse, fine_tokens], axis=0)  # (~budget, C); coarse first, fine last
+        kk = tokens.shape[0]
+        tn, hn, wn = _factor3(kk)
+        if tn * hn * wn != kk:  # prime/awkward count: trim to nearest factorable
+            tokens = tokens[: tn * hn * wn]
+        return tokens.reshape(1, tn, hn, wn, c).astype(np.float32, copy=False)
+    if mode == "strided":
+        idx = np.linspace(0, m - 1, budget).round().astype(np.int64)
+        idx = np.unique(idx)
+    elif mode == "random":
+        rng = np.random.default_rng(seed & 0x7FFFFFFF)
+        idx = np.sort(rng.choice(m, size=budget, replace=False))
+    elif mode == "l2norm":
+        # importance = per-token L2 norm (low-norm air/background dropped first)
+        norms = np.linalg.norm(flat.astype(np.float32), axis=1)
+        idx = np.sort(np.argpartition(-norms, budget - 1)[:budget])
+    elif mode in ("organ_mask", "lesion_mask", "attention_mask"):
+        if importance is None:
+            raise ValueError(f"{mode} requires precomputed importance map")
+        # resize precomputed [D,H,W] importance to packed grid -> per-token score.
+        # tie-break with per-token L2 norm so flat-zero background ordering is stable.
+        score = _resize_importance_to_grid(importance, t, h, w).reshape(m)
+        norms = np.linalg.norm(flat.astype(np.float32), axis=1)
+        score = score + 1e-6 * (norms / (norms.max() + 1e-9))
+        idx = np.sort(np.argpartition(-score, budget - 1)[:budget])
+    else:
+        raise ValueError(f"unsupported token-selection mode: {mode}")
+    selected = flat[idx]  # (k, C)
+    k = selected.shape[0]
+    tn, hn, wn = _factor3(k)
+    if tn * hn * wn != k:  # prime/awkward k: trim to nearest factorable count
+        k2 = tn * hn * wn
+        selected = selected[:k2]
+    return selected.reshape(1, tn, hn, wn, c).astype(np.float32, copy=False)
 
 
 @dataclass(frozen=True)
@@ -931,24 +1231,46 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
         split: str,
         vqa_json: Path,
         tokenizer: Any,
+        compression: str,
+        visual_token_compression: str,
         max_samples: int,
         token_selection: str = "none",
         token_budget: int = 0,
+        token_importance_dir: str = "",
+        dim_reduce_npz: str = "",
+        dim_reduce_order: str = "post",
+        noise_input: bool = False,
+        oracle_npz: str = "",
         record_type: str = "report_generation",
         multi_qa: bool = False,
+        token_fine_k: int = -1,
     ) -> None:
         super().__init__()
         self.split = split
+        self.noise_input = bool(noise_input)
         self.record_type = record_type
         self.multi_qa = bool(multi_qa)
+        # Paper-2 Part-2 oracle: concat report-text emb onto every visual token (isolated helper)
+        self.oracle_emb = None
+        if oracle_npz:
+            from dtbd3d.training.scripts.oracle_reporttext import load_oracle_emb
+            self.oracle_emb = load_oracle_emb(oracle_npz)
+        self.dim_reduce_order = dim_reduce_order
+        self._dimred_mean = None
+        self._dimred_comp = None
+        if dim_reduce_npz:
+            _z = np.load(dim_reduce_npz)
+            self._dimred_mean = _z["mean"].astype(np.float32)
+            self._dimred_comp = _z["components"].astype(np.float32)
         self.token_selection = token_selection
         self.token_budget = int(token_budget)
+        self.token_fine_k = int(token_fine_k)
+        self.token_importance_dir = token_importance_dir
+        self._importance_cache: dict[str, np.ndarray] = {}
         self.manifest_path = manifest_path.resolve()
         self.manifest = json.loads(self.manifest_path.read_text())
         if self.manifest.get("artifact_type") == "npy_grid":
             self.backend = "npy_grid"
-        elif self.manifest.get("artifact_type") == "npy_stacked":
-            self.backend = "npy_stacked"
         elif "token_artifacts" in self.manifest:
             self.backend = "final_eval_token_artifact"
         else:
@@ -964,39 +1286,9 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
                 raise ValueError(f"{artifact.ids_path} has {len(self.ids)} ids but tokens has {self.tokens.shape[0]} rows")
             self.id_to_row = {volume_id: row for row, volume_id in enumerate(self.ids)}
             self.codebook, _ = load_reportgen_codebook(artifact.codebook_path, artifact.codebook_metadata_path)
-        elif self.backend == "npy_stacked":
-            # One memmapped [N, prod(grid_shape), C] array per split plus a parallel id list, which is
-            # how the released token bundles ship: 25,692 per-volume files per arm is unusable over HTTP,
-            # and a single array is also the faster read. Row i of the array IS line i of the id file;
-            # each row reshapes to the same [T,H,W,C] the per-volume npy_grid backend yields, bit for bit.
-            split_entries = self.manifest.get("splits")
-            if not isinstance(split_entries, dict) or split not in split_entries:
-                available = sorted(split_entries) if isinstance(split_entries, dict) else []
-                raise KeyError(f"split {split!r} not found in {self.manifest_path}; available={available}")
-            se = split_entries[split]
-            array_path = Path(se["array"])
-            ids_path = Path(se["ids"])
-            if not array_path.exists():
-                raise FileNotFoundError(array_path)
-            if not ids_path.exists():
-                raise FileNotFoundError(ids_path)
-            self.stacked = np.load(array_path, mmap_mode="r")
-            self.ids = [line.strip() for line in ids_path.read_text().splitlines() if line.strip()]
-            if len(self.ids) != self.stacked.shape[0]:
-                raise ValueError(
-                    f"{ids_path} has {len(self.ids)} ids but {array_path} has {self.stacked.shape[0]} rows"
-                )
-            self.grid_shape = tuple(int(v) for v in self.manifest["grid_shape"])
-            visual_dim = int(self.manifest["visual_dim"])
-            expected = int(np.prod(self.grid_shape))
-            if self.stacked.shape[1:] != (expected, visual_dim):
-                raise ValueError(
-                    f"{array_path} rows are {self.stacked.shape[1:]}, but manifest grid_shape="
-                    f"{self.grid_shape} visual_dim={visual_dim} implies ({expected}, {visual_dim})"
-                )
-            self.id_to_row = {volume_id: row for row, volume_id in enumerate(self.ids)}
         elif self.backend == "npy_grid":
             # Encoder-agnostic per-volume npy grids ([T,H,W,C], or [C,T,H,W] with axis_transpose).
+            # Source of `features` only; all downstream (compression/selection/projector) reused.
             self.npy_transpose = self.manifest.get("axis_transpose")  # e.g. [1,2,3,0] for (C,T,H,W)->(T,H,W,C)
             split_entries = self.manifest.get("splits")
             if not isinstance(split_entries, dict) or split not in split_entries:
@@ -1009,6 +1301,9 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
                 raise FileNotFoundError(ids_path)
             self.ids = [line.strip() for line in ids_path.read_text().splitlines() if line.strip()]
             self.id_to_row = {volume_id: row for row, volume_id in enumerate(self.ids)}
+            if self.noise_input:
+                # [T,H,W,C] (post-transpose) shape for fresh-noise generation in __getitem__
+                self._noise_shape = tuple(self.manifest["grid_shape"]) + (int(self.manifest["visual_dim"]),)
         else:
             split_entries = self.manifest.get("splits")
             if not isinstance(split_entries, dict) or split not in split_entries:
@@ -1031,6 +1326,8 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
         self.records = _load_records(vqa_json, self.ids, max_samples,
                                      type_filter=self.record_type, multi_qa=self.multi_qa)
         self.tokenizer = tokenizer
+        self.compression = compression
+        self.visual_token_compression = visual_token_compression
 
         from llava import conversation as conversation_lib
         from llava.train.train import DataArguments
@@ -1042,6 +1339,17 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
 
     def __len__(self) -> int:
         return len(self.records)
+
+    def _load_importance(self, volume_id: str) -> np.ndarray:
+        if volume_id in self._importance_cache:
+            return self._importance_cache[volume_id]
+        source = {"organ_mask": "organ", "lesion_mask": "lesion", "attention_mask": "attention", "adaptive_regroup": "organ"}[self.token_selection]
+        path = Path(self.token_importance_dir) / source / self.split / f"{volume_id}.npy"
+        if not path.exists():
+            raise FileNotFoundError(f"missing token importance for {volume_id}: {path}")
+        imp = np.load(path).astype(np.float32)
+        self._importance_cache[volume_id] = imp
+        return imp
 
     def __getitem__(self, index: int) -> dict[str, Any]:
         from llava import conversation as conversation_lib
@@ -1057,29 +1365,22 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
             codes = np.asarray(self.tokens[row], dtype=np.uint32)
             features = materialize_reportgen_features_from_codes(
                 codes,
-                "16x16x8",
+                self.compression,
                 REPORTGEN_CHANNEL_ORDER,
                 self.codebook,
             )
-        elif self.backend == "npy_stacked":
-            row = self.id_to_row[record.volume_id]
-            arr = np.asarray(self.stacked[row]).reshape(*self.grid_shape, -1)
-            features = np.ascontiguousarray(arr, dtype=np.float32)[None]  # [1,T,H,W,C]
-            if os.environ.get("VQA_SMOKE_DEBUG"):                          # smoke only: trace token flow
-                print(f"[SMOKE npy_stacked] {record.volume_id}: row {row} -> {arr.shape} "
-                      f"({int(np.prod(self.grid_shape))} tokens, dim={arr.shape[-1]}), "
-                      f"finite={np.isfinite(features).all()}", flush=True)
         elif self.backend == "npy_grid":
-            arr = np.load(self.npy_dir / f"{record.volume_id}.npy")
-            if self.npy_transpose is not None:
-                arr = np.transpose(arr, self.npy_transpose)
-            if arr.ndim != 4:
-                raise ValueError(f"{record.volume_id} npy grid must be [T,H,W,C] (after transpose), got {arr.shape}")
-            features = np.ascontiguousarray(arr, dtype=np.float32)[None]  # [1,T,H,W,C]
-            if os.environ.get("VQA_SMOKE_DEBUG"):                          # smoke only: trace token flow
-                print(f"[SMOKE npy_grid] {record.volume_id}: loaded {arr.shape} -> features {features.shape} "
-                      f"(T*H*W={arr.shape[0]*arr.shape[1]*arr.shape[2]} tokens, dim={arr.shape[3]}), "
-                      f"finite={np.isfinite(features).all()}", flush=True)
+            if self.noise_input:
+                # bottom-board control: FRESH unit-Gaussian noise (no per-volume caching ->
+                # no volume-id leak); same [1,T,H,W,C] shape -> identical downstream pipeline.
+                features = np.random.randn(1, *self._noise_shape).astype(np.float32)
+            else:
+                arr = np.load(self.npy_dir / f"{record.volume_id}.npy")
+                if self.npy_transpose is not None:
+                    arr = np.transpose(arr, self.npy_transpose)
+                if arr.ndim != 4:
+                    raise ValueError(f"{record.volume_id} npy grid must be [T,H,W,C] (after transpose), got {arr.shape}")
+                features = np.ascontiguousarray(arr, dtype=np.float32)[None]  # [1,T,H,W,C]
         else:
             row = self.visual_rows[record.volume_id]
             shard_path = self.manifest_path.parent / record_split_relative_path(row["split"], row["shard"])
@@ -1088,18 +1389,45 @@ class ArtifactReportgenDataset(Dataset[dict[str, Any]]):
             if z_quantized.ndim != 4:
                 raise ValueError(f"{record.volume_id} z_quantized must be [C,D,H,W], got {tuple(z_quantized.shape)}")
             features_cdhw = z_quantized.float().numpy()[None]
+            expected_dim = CODEBOOK_DIM * 4 if self.compression == "8x8x8" else CODEBOOK_DIM
+            if self.compression == "8x8x8" and features_cdhw.shape[1] == CODEBOOK_DIM:
+                features_cdhw = merge_8x8_reportgen(features_cdhw).astype(np.float32, copy=False)
             features = features_cdhw.transpose(0, 2, 3, 4, 1)
-            if features.shape[-1] != CODEBOOK_DIM:
+            if features.shape[-1] != expected_dim:
                 raise ValueError(
                     f"{record.volume_id} materialized channel dim is {features.shape[-1]}; "
-                    f"the released 16x16x8 author checkpoint expects {CODEBOOK_DIM}-dim visual tokens"
+                    f"the released {self.compression} author checkpoint expects {expected_dim}-dim visual tokens"
+                )
+        pre_compression_dim = int(features.shape[-1])
+        if self._dimred_mean is not None and self.dim_reduce_order == "pre":
+            features = _apply_dim_reduce(features, self._dimred_mean, self._dimred_comp)  # per-token native->k
+        features = _apply_visual_token_compression(features, self.visual_token_compression)
+        if self._dimred_mean is not None and self.dim_reduce_order == "post":
+            features = _apply_dim_reduce(features, self._dimred_mean, self._dimred_comp)  # packed->k
+        if self._dimred_mean is None:
+            expected_projector_dim = _visual_token_projector_input_dim(
+                self.visual_token_compression,
+                pre_compression_dim,
+            )
+            if features.shape[-1] != expected_projector_dim:
+                raise ValueError(
+                    f"{record.volume_id} compressed channel dim is {features.shape[-1]}; "
+                    f"expected {expected_projector_dim} for visual_token_compression={self.visual_token_compression}"
                 )
         if self.token_selection != "none" and self.token_budget > 0:
-            features = _select_visual_tokens(features, self.token_selection, self.token_budget)
-        if os.environ.get("VQA_NOISE_INPUT"):  # FLOOR CONTROL: replace visual tokens with fresh unit-Gaussian noise (same shape) -> VQA accuracy should collapse to the language prior. Mirrors report-gen --noise-input.
-            if index == 0:
-                print(f"[NOISE-FLOOR] VQA_NOISE_INPUT active: replacing visual features {features.shape} with fresh N(0,1) noise", flush=True)
-            features = np.random.randn(*features.shape).astype(np.float32)
+            _seed = 0
+            for _ch in record.volume_id.encode():
+                _seed = (_seed * 131 + _ch) & 0x7FFFFFFF
+            _importance = None
+            if self.token_selection in ("organ_mask", "lesion_mask", "attention_mask", "adaptive_regroup"):
+                _importance = self._load_importance(record.volume_id)
+            features = _select_visual_tokens(
+                features, self.token_selection, self.token_budget, seed=_seed,
+                importance=_importance, fine_k=self.token_fine_k,
+            )
+        if self.oracle_emb is not None:  # Part-2 oracle: +128 report-text dims on every token
+            from dtbd3d.training.scripts.oracle_reporttext import inject
+            features = inject(features, record.volume_id, self.oracle_emb)
         image = torch.from_numpy(np.asarray(features[0], dtype=np.float32))
 
         sources = preprocess_multimodal(copy.deepcopy([record.conversations]), self.data_args)
@@ -1331,9 +1659,16 @@ def _checkpoint_metadata(checkpoint_dir: Path) -> dict[str, Any]:
 def _validate_checkpoint_model_compatibility(
     checkpoint_dir: Path,
     *,
+    visual_token_compression: str,
     projector_input_dim: int,
 ) -> dict[str, Any]:
     metadata = _checkpoint_metadata(checkpoint_dir)
+    saved_visual_compression = metadata.get("visual_token_compression")
+    if saved_visual_compression is not None and saved_visual_compression != visual_token_compression:
+        raise ValueError(
+            f"checkpoint visual_token_compression={saved_visual_compression!r} does not match "
+            f"current {visual_token_compression!r}"
+        )
     saved_projector_dim = metadata.get("projector_input_dim")
     if saved_projector_dim is not None and int(saved_projector_dim) != int(projector_input_dim):
         raise ValueError(
@@ -1466,7 +1801,8 @@ def save_checkpoint(
         "step": int(step),
         "run_name": args.run_name,
         "reportgen_artifact_manifest": str(args.reportgen_artifact_manifest),
-        "compression": "16x16x8",
+        "compression": args.compression,
+        "visual_token_compression": args.visual_token_compression,
         "projector_input_dim": _effective_projector_input_dim(args),
         "gradient_accumulation_steps": int(args.gradient_accumulation_steps),
         "effective_batch_size": int(args.batch_size) * int(args.gradient_accumulation_steps),
@@ -1672,7 +2008,7 @@ def run_generation_eval(
         keep_empty_answers=False,
     )
     env = os.environ.copy()
-    py_paths = [str(CORE_CODE_ROOT), str(_path(args.llava_repo))]
+    py_paths = [str(CORE_CODE_ROOT), str(_path(args.btb3d_repo)), str(_path(args.ctclip_repo))]
     if env.get("PYTHONPATH"):
         py_paths.append(env["PYTHONPATH"])
     env["PYTHONPATH"] = ":".join(py_paths)
@@ -1816,12 +2152,48 @@ def main() -> int:
         raise ValueError("--valid-num-shards must be >= 1")
     if args.valid_shard_index < 0 or args.valid_shard_index >= args.valid_num_shards:
         raise ValueError("--valid-shard-index must satisfy 0 <= index < --valid-num-shards")
-    # VQA is multiple-choice (answer = one letter): max-new-tokens 16 over the full valid set is correct.
-    # (The report-gen guard "full validation requires >=512" does not apply to VQA and is removed.)
+    if args.valid_limit == 0 and args.max_new_tokens < 512:
+        raise ValueError("full validation requires --max-new-tokens >= 512")
+    if args.visual_token_compression != "none" and args.compression != "16x16x8":
+        raise ValueError("runtime --visual-token-compression is currently supported only with --compression 16x16x8")
+    reportgen_input_dim = _reportgen_base_dim(args)
     projector_input_dim = _effective_projector_input_dim(args)
+    # adp (learned dim-reduce inside the projector): operates on the PACKED token, so
+    # projector input dim = packed dim (native*r^3); the projector reduces packed->D'->hidden.
+    adp_projector_type = adp_out = adp_native = None
+    resampler_latents = None
+    if args.adp_mode != "none":
+        if not args.visual_token_compression.startswith("pack"):
+            raise ValueError("--adp-mode requires --visual-token-compression pack* (pack provides the packed token)")
+        if args.adp_out < 1:
+            raise ValueError("--adp-out must be >= 1 for --adp-mode")
+        if args.dim_reduce_npz:
+            raise ValueError("--adp-mode (learned) and --dim-reduce-npz (fixed PCA) are mutually exclusive")
+        adp_projector_type = "adp_" + args.adp_mode
+        adp_out = int(args.adp_out)
+        adp_native = int(reportgen_input_dim)  # per-token native dim (for adp_pre block reshape)
+    if args.resampler_mode != "none":
+        # resampler: learned cross-attention; works with raw grid (none) or pack*. The projector
+        # input dim = packed dim (none->base, pack2->base*8); resampler reduces packed->D'->N tokens.
+        if args.adp_mode != "none":
+            raise ValueError("--resampler-mode and --adp-mode are mutually exclusive")
+        if args.dim_reduce_npz:
+            raise ValueError("--resampler-mode and --dim-reduce-npz are mutually exclusive")
+        if args.resampler_out < 1 or args.resampler_latents < 1:
+            raise ValueError("--resampler-out and --resampler-latents must be >= 1")
+        adp_projector_type = "resampler_" + args.resampler_mode
+        adp_out = int(args.resampler_out)            # reuse mm_adp_out as the bottleneck width D'
+        adp_native = int(reportgen_input_dim)        # stored, unused by resampler
+        resampler_latents = int(args.resampler_latents)
+    if projector_input_dim != reportgen_input_dim and not args.init_from_scratch:
+        raise ValueError(
+            f"{args.visual_token_compression} changes projector input dim from {reportgen_input_dim} "
+            f"to {projector_input_dim}; use --init-from-scratch so the mm_projector is initialized with matching shape"
+        )
 
-    llava_repo = _path(args.llava_repo)
-    _ensure_python_paths(llava_repo)
+    btb3d_repo = _path(args.btb3d_repo)
+    ctclip_repo = _path(args.ctclip_repo)
+    _ensure_python_paths(btb3d_repo, ctclip_repo)
 
     author_model_path = _path(args.model_path)
     if args.resume_checkpoint and args.init_weights_from_checkpoint:
@@ -1842,6 +2214,7 @@ def main() -> int:
             raise ValueError(f"resume checkpoint step {start_step} must be lower than --steps {args.steps}")
         resume_metadata = _validate_checkpoint_model_compatibility(
             resume_checkpoint,
+            visual_token_compression=args.visual_token_compression,
             projector_input_dim=projector_input_dim,
         )
         saved_grad_accum = resume_metadata.get("gradient_accumulation_steps")
@@ -1856,6 +2229,7 @@ def main() -> int:
             raise FileNotFoundError(init_weights_checkpoint)
         _validate_checkpoint_model_compatibility(
             init_weights_checkpoint,
+            visual_token_compression=args.visual_token_compression,
             projector_input_dim=projector_input_dim,
         )
         model_path = init_weights_checkpoint
@@ -1894,6 +2268,10 @@ def main() -> int:
             device=device,
             projector_input_dim=projector_input_dim,
             reinit_lora=reinit_lora,
+            mm_projector_type_override=adp_projector_type,
+            mm_adp_out=adp_out,
+            mm_adp_native=adp_native,
+            mm_resampler_latents=resampler_latents,
         )
     else:
         tokenizer, model = load_author_model_trainable(
@@ -1920,11 +2298,19 @@ def main() -> int:
         "valid",
         _path(args.valid_vqa_json),
         tokenizer,
+        args.compression,
+        args.visual_token_compression,
         args.valid_limit,
         args.token_selection,
         args.token_budget,
+        args.token_importance_dir,
+        args.dim_reduce_npz,
+        args.dim_reduce_order,
+        args.noise_input,
+        args.oracle_report_text_npz,
         record_type=args.record_type,
         multi_qa=args.multi_qa_per_volume,
+        token_fine_k=args.token_fine_k,
     )
     _apply_valid_shard(valid_dataset, args.valid_num_shards, args.valid_shard_index)
     shard_suffix = (
@@ -1947,11 +2333,19 @@ def main() -> int:
             "train",
             _path(args.train_vqa_json),
             tokenizer,
+            args.compression,
+            args.visual_token_compression,
             args.train_limit,
             args.token_selection,
             args.token_budget,
+            args.token_importance_dir,
+            args.dim_reduce_npz,
+            args.dim_reduce_order,
+            args.noise_input,
+            args.oracle_report_text_npz,
             record_type=args.record_type,
             multi_qa=args.multi_qa_per_volume,
+            token_fine_k=args.token_fine_k,
         )
         train_sampler = StepIndexedBatchSampler(
             dataset_size=len(train_dataset),

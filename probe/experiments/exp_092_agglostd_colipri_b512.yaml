@@ -1,0 +1,15 @@
+exp_id: exp_092_agglostd_colipri_b512
+desc: "exp_092 — STANDARDIZED Ward test: agglo_merge standardize=true on colipri b512. Does z-scoring dims rescue ct_clip (18% eff dims) / stay neutral on colipri (85%)?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 512
+  params: {standardize: true}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data:
+  limit: 0
+  num_workers: 16

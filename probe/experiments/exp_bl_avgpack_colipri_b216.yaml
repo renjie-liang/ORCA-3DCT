@@ -1,0 +1,14 @@
+exp_id: exp_bl_avgpack_colipri_b216
+desc: "Average pooling (avgpack r4 -> 216 tokens) on colipri, 5 families, 3-seed. THE real baseline for T1 -- promoted from the 1-seed exp_003 to a FIN cell so the headline ORCA-vs-avgpack comparison is 3-seed on both sides."
+encoder: colipri
+compression:
+  method: avgpack
+  params: {r: 4}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data:
+  limit: 0
+  num_workers: 12

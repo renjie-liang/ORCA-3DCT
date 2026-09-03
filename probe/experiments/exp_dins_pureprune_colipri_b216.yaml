@@ -1,0 +1,15 @@
+exp_id: exp_dins_pureprune_colipri_b216
+desc: "MedPruner-DINS b216, PURE PRUNING ablation (drop the residual instead of folding it) -- isolates how much of the baseline's score comes from keeping the long tail."
+encoder: colipri
+compression:
+  method: medpruner_dins
+  budget: 216
+  params: {merge_residual: false}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data:
+  limit: 0
+  num_workers: 12

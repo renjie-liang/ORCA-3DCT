@@ -1,0 +1,6 @@
+exp_id: exp_ep40_tome_suprem_b216
+desc: "Epoch spot-check: SuPreM ToMe b216, 40ep. Verify ranking holds at convergence."
+encoder: merlin_suprem
+compression: {method: tome, budget: 216, params: {}}
+probe: {families: [density_merlin, size_merlin, location_merlin], epochs: 40, bs: 128, seeds: [2026]}
+data: {limit: 0, num_workers: 12}

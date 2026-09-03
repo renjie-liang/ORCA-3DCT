@@ -1,0 +1,50 @@
+phase: sub_task9_reportgen_smoke_btb3d16_train9571
+compression: 16x16x8
+
+model:
+  model_name_or_path: ./checkpoints/Llama-3.1-8B-Instruct
+  mm_projector_type: attn_pool+mlp2x_gelu
+  mm_hidden_size: 18
+  mm_context_size: 18
+  hidden_size: 4096
+  image_context_max_length: 128000
+  max_visual_tokens: 512
+  freeze_base_model: true
+  lora_r: 128
+  lora_alpha: 256
+  lora_dropout: 0.05
+  lora_bias: none
+
+data:
+  reportgen_artifact_manifest: results/reportgen_artifacts/btb3d16_lfq_binary_train9571/reportgen_artifact/manifest.json
+  token_shape: [31, 32, 32]
+  token_dim: 18
+  max_text_length: 8192
+  train:
+    vqa_json_path: ./data/ct_rate/dataset/vqa/train_vqa.json
+    max_samples: 128
+  valid:
+    vqa_json_path: ./data/ct_rate/dataset/vqa/valid_vqa.json
+    reports_csv_path: ./data/ct_rate/dataset/radiology_text_reports/validation_reports.csv
+    max_samples: 32
+
+training:
+  n_steps: 20
+  save_every: 20
+  eval_every: 20
+  lr: 2.0e-5
+  mm_projector_lr: 2.0e-5
+  warmup_ratio: 0.03
+  weight_decay: 0.0
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 2
+  max_grad_norm: 1.0
+  seed: 0
+  num_workers: 0
+
+evaluation:
+  labels_csv: ./data/ct_rate/dataset/multi_abnormality_labels/valid_predicted_labels.csv
+  radbert_checkpoint: ./checkpoints/RadBertClassifier.pth
+  device: cuda:0
+  max_new_tokens: 512
+  repetition_penalty: 1.3

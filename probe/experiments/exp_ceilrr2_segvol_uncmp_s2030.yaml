@@ -1,0 +1,6 @@
+exp_id: exp_ceilrr2_segvol_uncmp_s2030
+desc: "SegVol uncompressed+sin, LOWER LR 3e-4 (was 1e-3, diverged on some seeds) + 60ep, seed 2030. Stabilize the size reference (diagnosis: optimization instability, not epochs)."
+encoder: merlin_segvol
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [size_merlin, density_merlin, location_merlin, disease_merlin], epochs: 60, lr: 0.0003, bs: 64, seeds: [2030]}
+data: {limit: 0, num_workers: 8}

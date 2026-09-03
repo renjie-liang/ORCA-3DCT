@@ -1,0 +1,6 @@
+exp_id: exp_ceilmax_ctclip_uncompressed
+desc: "DEFINITIVE ct_clip uncompressed ceiling (low-r diagnostic): identity_pos (full 13824 tok + f4s2 position) + high-capacity readout (dim512/heads8), 20 epochs, 3 seeds. Fair ceiling for the ct_clip no-headroom test."
+encoder: ct_clip
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 20, bs: 32, readout_dim: 512, readout_heads: 8, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 6}

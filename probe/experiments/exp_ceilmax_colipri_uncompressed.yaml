@@ -1,0 +1,6 @@
+exp_id: exp_ceilmax_colipri_uncompressed
+desc: "DEFINITIVE colipri uncompressed ceiling (MAIN encoder): identity_pos (full 13824 tok + f4s2 position) + high-capacity readout (dim512/heads8), 20 epochs, 3 seeds. The fair 'approach ceiling' reference for the main CT-RATE table -- replaces the position-blind Uncompressed-grid row for the location comparison."
+encoder: colipri
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 20, bs: 32, readout_dim: 512, readout_heads: 8, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 6}

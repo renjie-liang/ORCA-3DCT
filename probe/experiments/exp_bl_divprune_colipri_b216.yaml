@@ -1,0 +1,13 @@
+exp_id: exp_bl_divprune_colipri_b216
+desc: "Baseline divprune on colipri b216, 5 families, 3 seeds -- fills the empty divprune column in T1/A1-A2. Registered
+  operator, never run before this. budget-matched to ORCA/avgpack."
+encoder: colipri
+compression:
+  method: divprune
+  budget: 216
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data: {limit: 0, num_workers: 12}

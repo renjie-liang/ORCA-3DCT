@@ -1,0 +1,6 @@
+exp_id: exp_bc3_dins_segvol_b256_disease
+desc: "T3 DINS-segvol disease col: MedPruner-DINS top-B by SegVol attention, merlin 30 findings. 3-seed."
+encoder: merlin_segvol
+compression: {method: medpruner_dins, budget: 256, params: {}}
+probe: {families: [disease_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

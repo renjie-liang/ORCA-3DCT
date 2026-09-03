@@ -1,0 +1,15 @@
+exp_id: exp_bl_dins_colipri_b216
+desc: "MedPruner-DINS b216 colipri, 3-seed. Top-B by encoder attention-received (verified correct 2026-07-20) + residual folded into the nearest kept token. Promotes the 1-seed exp_dins_colipri_b216 to a FIN cell."
+encoder: colipri
+compression:
+  method: medpruner_dins
+  budget: 216
+  params: {}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data:
+  limit: 0
+  num_workers: 12

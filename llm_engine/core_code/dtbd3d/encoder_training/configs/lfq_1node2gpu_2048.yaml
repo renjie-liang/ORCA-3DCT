@@ -1,0 +1,40 @@
+run:
+  name: lfq_1node2gpu_2048
+  out_root: results/v02_baseline_long_train
+
+train:
+  compression: 16x16x8
+  cache_root: ./data/volumes
+  ids_file: ./data/volumes/prep_npy_index/train_smoke_256_ids.txt
+  cache_split: train
+  steps: 2048
+  lr: 1.0e-6
+  crop_depth: 105
+  batch_size: 1
+  num_workers: 2
+  prefetch_factor: 2
+  pin_memory: true
+  nproc_per_node: 2
+  checkpoint_every: 512
+  eval_every_steps: 512
+  log_every: 100
+  log_rank0_only: true
+  recon_loss_weight: 5.0
+  entropy_loss_weight: 0.1
+  quantizer_aux_loss_weight: 1.0
+  commitment_cost: 0.25
+  diversity_gamma: 1.0
+  use_distributed_batch_entropy: true
+
+validation:
+  ids_file: ./data/btb3d_embeddings/16x16x8/valid/ids.txt
+  n_valid: 20
+  periodic_n_valid: 100
+  run_final_eval: false
+  device: cuda:0
+  compare_pretrained: true
+  save_viz: true
+  viz_window: 1200.0
+  viz_level: -700.0
+  viz_diff_window: 500.0
+  viz_dpi: 150

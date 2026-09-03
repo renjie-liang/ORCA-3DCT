@@ -1,0 +1,6 @@
+exp_id: exp_f5_f4s4_segvol_b256
+desc: "F5 position-hparam sweep: agglo_merge + sinusoidal centroid freqs=4 scale=4.0 on merlin_segvol b256, 3-seed. Shows ORCA is insensitive to the fixed f4s2 choice (no per-task tuning; training-free)."
+encoder: merlin_segvol
+compression: {method: agglo_merge, budget: 256, params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 4.0}}
+probe: {families: [disease_merlin, size_merlin, density_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

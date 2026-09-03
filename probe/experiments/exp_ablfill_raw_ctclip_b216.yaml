@@ -1,0 +1,6 @@
+exp_id: exp_ablfill_raw_ctclip_b216
+desc: "abl backfill config4 Ward+raw ctclip 3seed"
+encoder: ct_clip
+compression: {method: agglo_merge, budget: 216, params: {centroid: true, centroid_encoding: raw}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

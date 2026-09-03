@@ -1,0 +1,13 @@
+exp_id: exp_107_agglosin_f4s2_b27
+desc: "sinusoidal freqs=4, scale 2 -- does sinusoidal benefit from more scale like raw did?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

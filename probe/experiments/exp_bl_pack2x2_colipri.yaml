@@ -1,0 +1,14 @@
+exp_id: exp_bl_pack2x2_colipri
+desc: "Lossless 2x2x1 in-plane pack (btb3d RG-trainer pack2x2, 4 neighbours -> channels) on colipri, 5 families, 3-seed. Reduces token count 4x with NO information loss (dim 768->3072); a lossless reference between the uncompressed ceiling and the lossy compressors. bs=64 (N=3456 = 2x exp_058's 1728 at the same 3072 dim, which ran at bs=128)."
+encoder: colipri
+compression:
+  method: pack2x2
+  params: {}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 32                 # was 64; lowered after an L4 (23GB) landing + host-RAM pressure at 3072 dim
+  seeds: [2026, 2027, 2028]
+data:
+  limit: 0
+  num_workers: 4         # was 12; the OOM culprit -- 12 workers each prefetching 42MB/sample (3072 dim) hit 92GB RSS

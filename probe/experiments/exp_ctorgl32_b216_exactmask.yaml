@@ -1,0 +1,13 @@
+exp_id: exp_ctorgl32_b216_exactmask
+desc: "ct_clip agglo_organ lam=32 b216. EXACT mask (organ_masks_ctclip: CT-CLIP-geometry spacing-resample + crop/pad, IoU-verified identity align)."
+encoder: ct_clip
+compression:
+  method: agglo_organ
+  budget: 216
+  params: {lam: 32}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 8}

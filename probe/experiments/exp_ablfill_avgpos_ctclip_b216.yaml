@@ -1,0 +1,6 @@
+exp_id: exp_ablfill_avgpos_ctclip_b216
+desc: "abl backfill config2 avgpack+sin ctclip 3seed"
+encoder: ct_clip
+compression: {method: avgpack, params: {r: 4, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

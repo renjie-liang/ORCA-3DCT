@@ -1,0 +1,13 @@
+exp_id: exp_106_agglosin_f8_b27
+desc: "sinusoidal freqs=8 (48 dims), scale 1 -- does more frequency keep helping?"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 8, centroid_scale: 1.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}

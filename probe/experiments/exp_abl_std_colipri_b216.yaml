@@ -1,0 +1,15 @@
+exp_id: exp_abl_std_colipri_b216
+desc: "ORCA+sin f4s2 merge-param ablation (std) @ b216 colipri (robustness at 2nd budget)."
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 216
+  params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0, standardize: true}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data:
+  limit: 0
+  num_workers: 12

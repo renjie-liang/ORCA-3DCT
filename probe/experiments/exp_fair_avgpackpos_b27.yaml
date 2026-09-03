@@ -1,0 +1,18 @@
+exp_id: exp_fair_avgpackpos_b27
+desc: "FAIR-BASELINE arm: avgpack (fixed r=8 grid, 27 tokens) WITH the same f4s2 sinusoidal centroid block
+  ORCA gets, at the same scale (per-dim std parity verified: 2.0015 both sides).
+  Reason this exists: every probe readout is permutation-invariant, so fixed-grid pooling's position -- which
+  lives only in token ORDER -- is discarded before scoring, while ORCA carries position IN the features. The
+  headline location result (0.194 -> 0.560 at b27) therefore compares 'has coordinates' against 'has none',
+  not adaptive merging against a fixed grid. This arm gives pooling the coordinates so the contrast isolates
+  REGION FORMATION, which is what the paper actually claims. 3 seeds, matching the ORCA+sin curve exactly."
+encoder: colipri
+compression:
+  method: avgpack
+  params: {r: 8, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data: {limit: 0, num_workers: 16}

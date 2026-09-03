@@ -1,0 +1,6 @@
+exp_id: exp_f5_f8s2_colipri_b216
+desc: "F5 position-hparam sweep: agglo_merge + sinusoidal centroid freqs=8 scale=2.0 on colipri b216, 3-seed. Shows ORCA is insensitive to the fixed f4s2 choice (no per-task tuning; training-free)."
+encoder: colipri
+compression: {method: agglo_merge, budget: 216, params: {centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 8, centroid_scale: 2.0}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

@@ -1,0 +1,19 @@
+exp_id: exp_co_organ_lam0p5_b216
+desc: "FULL ORCA on the primary encoder: organ prior lam=0.5 TOGETHER WITH the f4s2 sinusoidal position block.
+  This cell was missing entirely -- colipri had organ-without-position (exp_orgl*_exactmask) and
+  position-without-organ (exp_orcasin_f4s2_*), but never both, so the complete method had never been run on
+  the primary dataset. It matters because the earlier colipri lambda sweep raised location (0.208 -> 0.318 at
+  b27) with NO position block, i.e. the organ prior may have been standing in for position; once position is
+  supplied explicitly that gain could be additive or redundant. Merlin says additive; colipri is untested.
+  Uses the EXACT colipri-geometry organ mask (the current ORGAN_ROOT); the apxmask runs are superseded."
+encoder: colipri
+compression:
+  method: agglo_organ
+  budget: 216
+  params: {lam: 0.5, centroid: true, centroid_encoding: sinusoidal, centroid_freqs: 4, centroid_scale: 2.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026, 2027, 2028]
+data: {limit: 0, num_workers: 16}

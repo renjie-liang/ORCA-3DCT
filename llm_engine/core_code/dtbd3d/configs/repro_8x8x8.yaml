@@ -1,0 +1,68 @@
+# DTBD3D baseline reproduction — BTB3D 8x8x8
+#
+# Source: 3DCT_Encoder/adapters/slurm_btb3d_report_gen_8x8x8.sh + BTB3D paper §4.2.
+
+compression: 8x8x8
+split: valid
+
+tokens:
+  layout:        [31, 64, 64]      # T x H x W (4x more spatial tokens than 16x16x8)
+  per_volume:    126976            # 31 * 64 * 64
+  dim:           18                # raw LFQ; merged to 72-dim spatially via merge_tokens
+  codebook_size: 262144
+
+reference_recon_metrics:
+  psnr_db: 28.17
+  ssim:    0.760
+  mse:     0.001
+
+reference_report_metrics:
+  clinical_f1:        0.187
+  clinical_precision: 0.260
+  clinical_recall:    0.150
+  crg:                0.357
+  bleu_1:             0.411
+  bleu_2:             0.307
+  bleu_3:             0.245
+  bleu_4:             0.215
+  bleu_mean:          0.295
+  meteor:             0.220
+
+inference:
+  partition:           hpg-b200
+  gpus_per_node:       1
+  cpus_per_task:       8
+  mem_gb:              80              # 8x8x8 has 4x more tokens; bump memory
+  est_time_hours:
+    smoke_100:  1.0
+    full_valid: 8.0
+
+paths:
+  llava_repo:    ./llm_engine        # the directory holding the `llava` package
+  model_path:    ./data/btb3d_weights/report_generation/8_8_8/checkpoint-43000
+  model_base:    ./checkpoints/Llama-3.1-8B-Instruct
+  vqa_json:      ./data/ct_rate/dataset/vqa/valid_vqa.json
+  embed_path:    ./data/btb3d_embeddings/8x8x8/valid/nii_embedded_npz/
+  reports_csv:   ./data/ct_rate/dataset/radiology_text_reports/validation_reports.csv
+  labels_csv:    ./data/ct_rate/dataset/multi_abnormality_labels/valid_predicted_labels.csv
+  radbert_ckpt:  ./checkpoints/RadBertClassifier.pth
+
+llava_eval_args:
+  conv_mode:           llama3
+  temperature:         0
+  max_new_tokens:      512
+  repetition_penalty:  1.3
+  type_filter:         report_generation
+  num_gpus:            1
+  node_index:          0
+  total_nodes:         1
+  # NOTE on merge_tokens: BTB3D paper §4.2 says 8x8x8 uses 72-dim merged
+  # embeddings ("token count is quadrupled and the embeddings are reduced to
+  # 72 via merging"). The previous SLURM (slurm_btb3d_report_gen_8x8x8.sh)
+  # did NOT set --merge_tokens. Reproduction matched paper F1=0.187 in that
+  # configuration — leave OFF here. Re-evaluate if the smoke F1 deviates.
+  merge_tokens:        false
+
+# Status from prior run (per user, 2026-04-24): "8 the same as paper"
+known_repro_gap:
+  reported_by_user:  false

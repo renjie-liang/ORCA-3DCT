@@ -1,0 +1,6 @@
+exp_id: exp_ho_avgpack_merlin_suprem_b216
+desc: "held-out test: avgpack (r=2) merlin_suprem b216, train on trainho, eval valid+heldout. 3-seed."
+encoder: merlin_suprem
+compression: {method: avgpack, params: {r: 2}}
+probe: {families: [size_merlin, density_merlin, location_merlin], epochs: 10, bs: 128, seeds: [2026, 2027, 2028]}
+data: {limit: 0, num_workers: 12}

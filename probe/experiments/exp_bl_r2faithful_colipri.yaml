@@ -1,0 +1,14 @@
+exp_id: exp_bl_r2faithful_colipri
+desc: "MedRegion-CT R2 pooling, FAITHFUL to the released code (fast global + slow 2x2-pooled masked region, layout-preserving) on colipri, 5 families, 3-seed. Resolves [B4]: preserves in-slice (H,W) layout instead of collapsing each organ to one token. Variable-length (N̄ ~500 tok/vol -- larger than the old organ-collapse R2's ~205); compare ORCA near its b512 point. Report the actual mean N in T1's B column."
+encoder: colipri
+compression:
+  method: region_pool_r2_faithful
+  params: {}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 64
+  seeds: [2026, 2027, 2028]
+data:
+  limit: 0
+  num_workers: 8

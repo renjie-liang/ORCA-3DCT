@@ -1,0 +1,41 @@
+# Loose on purpose. Only the three pins below have ever actually broken this code; everything else should
+# install at whatever version your CUDA stack prefers.
+#
+#   python 3.12        the engine uses 3.10+ syntax (`int | None`, match, ...)
+#   transformers 4.5x  LlamaAttention.forward's signature moved across 4.x; we ran 4.57
+#   deepspeed >=0.14   zero1_author_reportgen.dsconfig uses post-0.14 keys
+#
+# torch is intentionally unpinned: pick the build that matches your driver. We ran torch 2.x / CUDA 12 on a
+# B200. If flash-attn will not compile, leave it out — the engine falls back to sdpa attention and the only
+# cost is speed.
+name: orca3dct
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - torch                      # match your CUDA; >=2.1
+      - transformers>=4.50,<5
+      - deepspeed>=0.14
+      - peft                       # LoRA
+      - accelerate
+      - numpy
+      - scipy
+      - scikit-learn               # probing read-outs + clinical P/R/F1
+      - pandas
+      - pyyaml
+      - tqdm
+      - safetensors
+      - huggingface_hub            # download.py
+      - sentencepiece
+      - protobuf
+      - einops
+      - einops_exts               # the attentional-pool projector
+      - nibabel                    # NIfTI, for the labels/reports pipeline
+      - SimpleITK
+      - nltk                       # METEOR
+      - rouge-score
+      - pycocoevalcap              # CIDEr
+      - matplotlib                 # figures/
+      # - flash-attn               # optional; drop it if the build fights you

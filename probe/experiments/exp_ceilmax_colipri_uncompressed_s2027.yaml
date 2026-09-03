@@ -1,0 +1,6 @@
+exp_id: exp_ceilmax_colipri_uncompressed_s2027
+desc: "Per-seed split (seed 2027) of exp_ceilmax_colipri_uncompressed: 3-seed ceiling parallelized one-seed-per-job. identity_pos + dim512/heads8, 20 epochs. Aggregate with the base run (seed 2026) + sibling s-seeds. 13824-token encoder, ~22min/epoch."
+encoder: colipri
+compression: {method: identity_pos, budget: 0, params: {centroid_scale: 2.0, centroid_encoding: sinusoidal, centroid_freqs: 4}}
+probe: {families: [disease, size, density, location, radiomics], epochs: 20, bs: 32, readout_dim: 512, readout_heads: 8, seeds: [2027]}
+data: {limit: 0, num_workers: 6}

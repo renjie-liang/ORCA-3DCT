@@ -1,0 +1,13 @@
+exp_id: exp_099_agglocent_s1_b27
+desc: "centroid scale 1.0 (RMS-norm) -- NEW baseline for the scale sweep"
+encoder: colipri
+compression:
+  method: agglo_merge
+  budget: 27
+  params: {centroid: true, centroid_scale: 1.0}
+probe:
+  families: [disease, size, density, location, radiomics]
+  epochs: 10
+  bs: 128
+  seeds: [2026]
+data: {limit: 0, num_workers: 16}
