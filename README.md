@@ -107,3 +107,7 @@ Code: Apache-2.0. `llm_engine/llava/` is from LLaVA. Embeddings: CC-BY-NC-SA-4.0
   year    = {2026}
 }
 ```
+
+## Acknowledgements
+
+[CT-RATE / CT-CLIP](https://github.com/ibrahimethemhamamci/CT-CLIP) · [COLIPRI](https://huggingface.co/microsoft/colipri) · [FVLM](https://github.com/alibaba-damo-academy/FVLM) · [ViSD-Boost](https://github.com/alibaba-damo-academy/ViSD-Boost) · [TotalSegmentator](https://github.com/wasserth/TotalSegmentator) · [LLaVA](https://github.com/haotian-liu/LLaVA) · [BTB3D](https://github.com/ibrahimethemhamamci/BTB3D)
