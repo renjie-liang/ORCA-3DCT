@@ -28,8 +28,6 @@ Cells without a link are computed but not uploaded yet — the COLIPRI rows are 
 
 **Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). COLIPRI covers 24,128 / 1,564, because its authors take one reconstruction per scan to be sufficient; CT-RATE ships several reconstructions of the same study.
 
-The segmentation comes from TotalSegmentator; with the uncompressed grids it is all you need to run ORCA yourself.
-
 **What we do not mirror.** Only the arrays we computed are hosted here. The reports, the 18 abnormality labels and the report-generation question set are CT-RATE's own files, so take them from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) directly — accept its terms once, then `python download.py --annotations` puts these four where the code expects them:
 
 | CT-RATE path | lands at | |
