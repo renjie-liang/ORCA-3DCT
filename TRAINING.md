@@ -50,7 +50,7 @@ Two stages per cell. Stage 2 warm-starts from stage 1's best epoch, so stage 1 m
 | `s1` | projector only (`--projector-only`, LoRA frozen) | 5e-4 | 8 | 1,508 |
 | `s2` | LoRA **+** projector, warm-started from s1's best epoch | 2e-5 | 8 | 1,508 |
 
-Both evaluate on the **full 1,564-volume validation set after every epoch**, which is where the time goes: ~0.2 h training vs ~2 h evaluation per epoch, so ~18 h per stage and ~36 h per cell.
+Both evaluate on the **full 1,564-volume validation set after every epoch**, which is where the time goes: ~0.2 h training vs ~2 h evaluation per epoch, so ~18 h per stage and ~36 h per cell. [CheapCT](https://github.com/renjie-liang/CheapCT)'s vLLM inference cuts that down substantially — see §3.
 
 ```bash
 bash llm_engine/run_reportgen.sh --smoke                        # ~15 min wiring check — do this first
@@ -93,6 +93,10 @@ It stays at 1. Evaluation is ~10× the training cost, so batching it is the obvi
 ---
 
 ## 3. Scoring
+
+> **Use the vLLM path instead.** [CheapCT](https://github.com/renjie-liang/CheapCT) ships vLLM implementations of both inference and GREEN, and they are dramatically faster than the reference code below. Evaluation dominates this study's cost — around 2 h per epoch for the 1,564-volume validation set, roughly ten times the training it follows, and GREEN alone is ~7 h per prediction file on an L4. Strongly recommended if you plan to run more than one cell.
+
+The reference implementations are kept here because they are what produced the published numbers:
 
 ```bash
 # clinical F1 + BLEU/ROUGE-L/METEOR/CIDEr + CRG, per epoch (written by the trainer as metrics_fast.json)

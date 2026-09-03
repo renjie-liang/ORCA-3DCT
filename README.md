@@ -96,6 +96,8 @@ bash llm_engine/run_reportgen.sh --method ORCA --budget 216      # the real cell
 
 `download.py --list` shows every bundle and its size before you commit the disk. See **[TRAINING.md](TRAINING.md)** for the full recipe, costs, and the traps worth knowing.
 
+**For anything beyond a single cell, use [CheapCT](https://github.com/renjie-liang/CheapCT)'s vLLM inference and GREEN.** Evaluation, not training, is what this study costs — about ten times the training it follows — and the vLLM path is far faster than the reference implementations kept here.
+
 ### Environment
 
 Only three pins matter; take whatever else your CUDA stack prefers.
