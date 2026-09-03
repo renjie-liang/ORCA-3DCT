@@ -58,7 +58,7 @@ Grid average vs. ORCA at $B{=}216$ (CT-RATE / COLIPRI; higher is better):
 |                         | CRG      | **0.438** | 0.436 |
 |                         | GREEN    | 0.319 | **0.329** |
 
-ORCA wins every probing attribute and leads on GREEN, the strongest clinical score; the report-generation text metrics are near-saturated across compressors. It also shrinks the LLM visual context $64\times$. Full results are under `results/` and `results_llm/`.
+ORCA wins every probing attribute and leads on GREEN, the strongest clinical effecacy; the report-generation text metrics are near-saturated across compressors. It also shrinks the LLM visual context $64\times$. Full results are under `results/` and `results_llm/`.
 
 ---
 
@@ -75,7 +75,7 @@ bash llm_engine/run_reportgen.sh --smoke                         # ~15 min wirin
 bash llm_engine/run_reportgen.sh --method ORCA --budget 216      # the real cell (~36 h on one B200)
 ```
 
-`download.py --list` shows every bundle and its size before you commit the disk. See **[TRAINING.md](TRAINING.md)** for the full recipe, costs, and the traps worth knowing.
+See **[TRAINING.md](TRAINING.md)** for the full pipeline and the traps worth knowing.
 
 Only what we computed is hosted here; the reports and labels are CT-RATE's own files, so `--annotations` pulls them from [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE), which is gated — accept its terms once and the download goes through.
 
