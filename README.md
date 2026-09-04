@@ -23,7 +23,7 @@ We also release the organ segmentation resampled from TotalSegmentator onto each
 | <sub>[ViSD-Boost](https://arxiv.org/abs/2508.03742)</sub> | — | — | — | — | — | — | <sub>[4×256<br>0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost/visd_boost_native_b4_d256)</sub> | — |
 | <sub>[FVLM](https://arxiv.org/abs/2501.14548)</sub> | — | — | — | — | — | — | <sub>[4×256<br>0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm/fvlm_native_b4_d256)</sub> | — |
 
-**Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). COLIPRI covers 24,128 / 1,564, because its authors take one reconstruction per scan to be sufficient; CT-RATE ships several reconstructions of the same study.
+**Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). COLIPRI covers 24,128 / 1,564, because its authors take one reconstruction per scan to be sufficient.
 
 ### Loading
 
