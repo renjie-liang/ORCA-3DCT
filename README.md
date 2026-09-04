@@ -17,8 +17,8 @@ We also release the organ segmentation resampled from TotalSegmentator onto each
 
 | <sub>Encoder</sub> | <sub>ORCA `B=216`</sub> | <sub>ORCA `B=64`</sub> | <sub>ORCA `B=27`</sub> | <sub>Grid avg `B=216`</sub> | <sub>Grid avg `B=64`</sub> | <sub>Grid avg `B=27`</sub> | <sub>Uncompressed</sub> | <sub>Organ segmentation</sub> |
 |---|---|---|---|---|---|---|---|---|
-| <sub>[COLIPRI](https://arxiv.org/abs/2510.15042)</sub> | <sub>[216×792<br>8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b216_d792_lam0p5)</sub> | <sub>[64×792<br>2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b64_d792_lam0p5)</sub> | <sub>[27×792<br>1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b27_d792_lam0p5)</sub> | <sub>[216×768<br>8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b216_d768)</sub> | <sub>[64×768<br>2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b64_d768)</sub> | <sub>[27×768<br>1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b27_d768)</sub> | <sub>[24×24×24×768<br>545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri)</sub> | <sub>[11×24×24×24<br>0.30 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri)</sub> |
-| <sub>[CT-CLIP](https://doi.org/10.1038/s41551-025-01599-y)</sub> | <sub>216×536<br>13.0 GB</sub> | <sub>64×536<br>3.44 GB</sub> | <sub>27×536<br>1.45 GB</sub> | <sub>216×512<br>12.4 GB</sub> | <sub>64×512<br>3.29 GB</sub> | <sub>27×512<br>1.39 GB</sub> | <sub>24×24×24×512<br>710 GB</sub> | <sub>[11×24×24×24<br>0.83 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/ctclip)</sub> |
+| <sub>[COLIPRI](https://arxiv.org/abs/2510.15042)</sub> | <sub>[216×792<br>8.79 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b216_d792_lam0p5)</sub> | <sub>[64×792<br>2.60 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b64_d792_lam0p5)</sub> | <sub>[27×792<br>1.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_ORCA_b27_d792_lam0p5)</sub> | <sub>[216×768<br>8.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b216_d768)</sub> | <sub>[64×768<br>2.53 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b64_d768)</sub> | <sub>[27×768<br>1.07 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/compressed/colipri/colipri_GridAvg_b27_d768)</sub> | <sub>[24×24×24×768<br>545 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/colipri)</sub> | <sub>[11×24×24×24<br>0.37 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/colipri)</sub> |
+| <sub>[CT-CLIP](https://doi.org/10.1038/s41551-025-01599-y)</sub> | <sub>216×536<br>13.0 GB</sub> | <sub>64×536<br>3.44 GB</sub> | <sub>27×536<br>1.45 GB</sub> | <sub>216×512<br>12.4 GB</sub> | <sub>64×512<br>3.29 GB</sub> | <sub>27×512<br>1.39 GB</sub> | <sub>24×24×24×512<br>710 GB</sub> | <sub>[11×24×24×24<br>0.93 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/organ_masks/ctclip)</sub> |
 | <sub>[ViSD-Boost + CT-CLIP](https://arxiv.org/abs/2508.03742)</sub> | — | — | — | — | — | — | <sub>[5×256<br>0.13 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost_ctclip/visd_boost_ctclip_native_b5_d256)</sub> | — |
 | <sub>[ViSD-Boost](https://arxiv.org/abs/2508.03742)</sub> | — | — | — | — | — | — | <sub>[4×256<br>0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/visd_boost/visd_boost_native_b4_d256)</sub> | — |
 | <sub>[FVLM](https://arxiv.org/abs/2501.14548)</sub> | — | — | — | — | — | — | <sub>[4×256<br>0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/uncompressed/fvlm/fvlm_native_b4_d256)</sub> | — |
@@ -38,6 +38,14 @@ d = snapshot_download("LiangRenjie/ORCA-3DCT", repo_type="dataset",
 tokens = np.load(f"{d}/compressed/colipri/colipri_ORCA_b216_d792_lam0p5/valid.npy", mmap_mode="r")  # (1564, 216, 792) fp16
 ids    = open(f"{d}/compressed/colipri/colipri_ORCA_b216_d792_lam0p5/valid_ids.txt").read().split()
 tokens[ids.index("valid_1000_a_2")]        # -> (216, 792), ready for a projector
+```
+
+Organ masks are `.npz`, one member per volume, so a single volume decompresses on its own:
+
+```python
+z = np.load(f"{d}/organ_masks/colipri/valid.npz")
+z["valid_1000_a_2"]        # -> (11, 24, 24, 24) fp16, soft occupancy in [0, 1]
+z["_channel_names"]        # -> lung, airway, heart, aorta, ...
 ```
 
 ---
