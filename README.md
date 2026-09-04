@@ -101,10 +101,11 @@ Only three pins matter and everything else can be whatever your CUDA stack prefe
 Code: Apache-2.0. `llm_engine/llava/` is from LLaVA. Embeddings: CC-BY-NC-SA-4.0, inherited from CT-RATE, research use only.
 
 ```bibtex
-@article{orca2026,
-  title   = {ORCA: ORgan-Centroid Aggregation for Training-Free 3D CT Visual Token Compression},
-  journal = {arXiv preprint arXiv:2608.00345},
-  year    = {2026}
+@article{liang2026orca,
+  title={ORCA: ORgan-Centroid Aggregation for Training-Free 3D CT Visual Token Compression},
+  author={Liang, Renjie and Xu, Zijian and Pan, Jinqian and Sun, Chengkun and Fan, Zhengkang and Li, Shawn and Qin, You and Liu, Mei and Xu, Jie},
+  journal={arXiv preprint arXiv:2608.00345},
+  year={2026}
 }
 ```
 
