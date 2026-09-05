@@ -42,19 +42,19 @@ ARMS = {
 # name -> (patterns, destination, approx GB, one-line description)
 BUNDLES = {
     "compressed": (
-        ["compressed/colipri/**"], DATA / "embeddings", 25.3,
+        ["ct_rate/compressed/colipri/**"], DATA / "embeddings", 25.3,
         "ORCA and Grid-average tokens, COLIPRI, all four budgets",
     ),
     "uncompressed": (
-        ["uncompressed/**"], DATA / "embeddings" / "uncompressed", 545.3,
-        "the raw encoder grids — 545 GB for COLIPRI, 0.33 GB for the pooled encoders",
+        ["ct_rate/uncompressed/**"], DATA / "embeddings" / "uncompressed", 1256.3,
+        "the raw encoder grids — 546 GB for COLIPRI, 710 GB for CT-CLIP, 0.33 GB for the pooled encoders",
     ),
     "organ_masks": (
-        ["organ_masks/**"], DATA, 1.13,
+        ["ct_rate/organ_masks/**"], DATA, 1.30,
         "TotalSegmentator organ occupancy on the COLIPRI and CT-CLIP token grids",
     ),
     "checkpoints": (
-        ["checkpoints/**"], CKPT, 11.2,
+        ["ct_rate/checkpoints/**"], CKPT, 11.3,
         "our four report-generation checkpoints (best epoch per arm, by clinical F1)",
     ),
 }
@@ -116,7 +116,7 @@ def fetch(patterns: list[str], dest: Path, budget: int | None, encoder: str | No
     if budget is not None:
         patterns = [p.replace("colipri/**", f"colipri/*_b{budget}_*/*") for p in patterns]
     if encoder is not None:
-        patterns = [p.replace("uncompressed/**", f"uncompressed/{encoder}/**") for p in patterns]
+        patterns = [p.replace("ct_rate/uncompressed/**", f"ct_rate/uncompressed/{encoder}/**") for p in patterns]
     print(f"  patterns: {patterns}")
     local = snapshot_download(REPO, repo_type="dataset", allow_patterns=patterns)
     dest.mkdir(parents=True, exist_ok=True)
@@ -131,7 +131,7 @@ def write_manifests(store: Path, budget: int | None) -> None:
     for (method, bud), spec in ARMS.items():
         if budget is not None and bud != budget:
             continue
-        arm_dir = store / "compressed" / "colipri" / spec["dir"]
+        arm_dir = store / "ct_rate" / "compressed" / "colipri" / spec["dir"]
         if not arm_dir.is_dir():
             continue
         splits = {}
