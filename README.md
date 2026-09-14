@@ -10,7 +10,7 @@ A 3D CT scan produces thousands to tens of thousands of visual tokens, and they 
 
 ## Released embeddings
 
-We provide both compressed and uncompressed embeddings at **[ORCA-3DCT](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT)**. Each encoder's outputs were obtained either by running its authors' released checkpoint or by reproducing the encoder from its paper.
+We provide both compressed and uncompressed embeddings at **[ORCA-3DCT](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT)**, covering [CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) and [Merlin](https://github.com/StanfordMIMI/Merlin). Each encoder's outputs were obtained either by running its authors' released checkpoint or by reproducing the encoder from its paper.
 We also release the organ segmentation resampled from TotalSegmentator onto each encoder's token grid. Use the matched set: encoders resample and crop the volume differently, so a segmentation built for one grid does not align with another.
 
 ### CT-RATE
@@ -24,6 +24,18 @@ We also release the organ segmentation resampled from TotalSegmentator onto each
 | <sub>[FVLM](https://arxiv.org/abs/2501.14548)</sub> | — | — | — | — | — | — | <sub>[4×256<br>0.10 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/ct_rate/uncompressed/fvlm/fvlm_native_b4_d256)</sub> | — |
 
 **Coverage.** CT-CLIP covers all of CT-RATE (47,149 train / 3,039 valid). COLIPRI covers 24,128 / 1,564, because its authors take one reconstruction per scan to be sufficient.
+
+### Merlin
+
+Abdominal CT (15,309 train / 5,055 valid), on the [SuPreM](https://arxiv.org/abs/2501.11253) and [SegVol](https://arxiv.org/abs/2311.13385) encoders. ORCA uses each encoder's own organ-prior weight (SuPreM `lam0p5`, SegVol `lam10000`) and each encoder's native token budgets. Organ segmentation is resampled from TotalSegmentator onto each encoder's token grid; use the matched set.
+
+| Encoder | ORCA `B=216` | ORCA `B=64` | ORCA `B=27` | Grid avg `B=216` | Grid avg `B=64` | Grid avg `B=27` | Uncompressed | Organ segmentation |
+|---|---|---|---|---|---|---|---|---|
+| <sub>[SuPreM](https://arxiv.org/abs/2501.11253)</sub> | <sub>[216×216<br>1.8 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/suprem/suprem_ORCA_b216_d216_lam0p5)</sub> | <sub>[64×216<br>538 MB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/suprem/suprem_ORCA_b64_d216_lam0p5)</sub> | <sub>[27×216<br>227 MB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/suprem/suprem_ORCA_b27_d216_lam0p5)</sub> | <sub>[216×192<br>1.6 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/suprem/suprem_GridAvg_b216_d192)</sub> | <sub>[64×192<br>478 MB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/suprem/suprem_GridAvg_b64_d192)</sub> | <sub>[27×192<br>202 MB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/suprem/suprem_GridAvg_b27_d192)</sub> | <sub>[12×12×12×192<br>~16 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/uncompressed/suprem)</sub> | <sub>[masks](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/organ_masks/suprem)</sub> |
+
+| Encoder | ORCA `B=256` | ORCA `B=108` | ORCA `B=32` | Grid avg `B=256` | Grid avg `B=108` | Grid avg `B=32` | Uncompressed | Organ segmentation |
+|---|---|---|---|---|---|---|---|---|
+| <sub>[SegVol](https://arxiv.org/abs/2311.13385)</sub> | <sub>[256×792<br>7.7 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/segvol/segvol_ORCA_b256_d792_lam10000)</sub> | <sub>[108×792<br>3.3 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/segvol/segvol_ORCA_b108_d792_lam10000)</sub> | <sub>[32×792<br>985 MB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/segvol/segvol_ORCA_b32_d792_lam10000)</sub> | <sub>[256×768<br>7.5 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/segvol/segvol_GridAvg_b256_d768)</sub> | <sub>[108×768<br>3.2 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/segvol/segvol_GridAvg_b108_d768)</sub> | <sub>[32×768<br>955 MB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/compressed/segvol/segvol_GridAvg_b32_d768)</sub> | <sub>[8×16×16×768<br>~74 GB](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/uncompressed/segvol)</sub> | <sub>[masks](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/merlin/organ_masks/segvol)</sub> |
 
 ### Loading
 
@@ -98,7 +110,7 @@ Only three pins matter and everything else can be whatever your CUDA stack prefe
 
 ## License
 
-Code: Apache-2.0. `llm_engine/llava/` is from LLaVA. Embeddings: CC-BY-NC-SA-4.0, inherited from CT-RATE, research use only.
+Code: Apache-2.0. `llm_engine/llava/` is from LLaVA. CT-RATE embeddings: CC-BY-NC-SA-4.0, inherited from CT-RATE, research use only. Merlin embeddings: CC BY-NC, research use only.
 
 ```bibtex
 @article{liang2026orca,
@@ -111,4 +123,4 @@ Code: Apache-2.0. `llm_engine/llava/` is from LLaVA. Embeddings: CC-BY-NC-SA-4.0
 
 ## Acknowledgements
 
-[CheapCT](https://github.com/renjie-liang/CheapCT) · [AdaRAG-CT](https://github.com/renjie-liang/Adaptive-RAG-for-3DCT-Report-Generation) · [CT-RATE / CT-CLIP](https://github.com/ibrahimethemhamamci/CT-CLIP) · [COLIPRI](https://huggingface.co/microsoft/colipri) · [FVLM](https://github.com/alibaba-damo-academy/FVLM) · [ViSD-Boost](https://github.com/alibaba-damo-academy/ViSD-Boost) · [TotalSegmentator](https://github.com/wasserth/TotalSegmentator) · [LLaVA](https://github.com/haotian-liu/LLaVA)
+[CheapCT](https://github.com/renjie-liang/CheapCT) · [AdaRAG-CT](https://github.com/renjie-liang/Adaptive-RAG-for-3DCT-Report-Generation) · [CT-RATE / CT-CLIP](https://github.com/ibrahimethemhamamci/CT-CLIP) · [Merlin](https://github.com/StanfordMIMI/Merlin) · [COLIPRI](https://huggingface.co/microsoft/colipri) · [FVLM](https://github.com/alibaba-damo-academy/FVLM) · [ViSD-Boost](https://github.com/alibaba-damo-academy/ViSD-Boost) · [SuPreM](https://arxiv.org/abs/2501.11253) · [SegVol](https://arxiv.org/abs/2311.13385) · [TotalSegmentator](https://github.com/wasserth/TotalSegmentator) · [LLaVA](https://github.com/haotian-liu/LLaVA)

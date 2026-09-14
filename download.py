@@ -57,11 +57,25 @@ BUNDLES = {
         ["ct_rate/checkpoints/**"], CKPT, 11.3,
         "our four report-generation checkpoints (best epoch per arm, by clinical F1)",
     ),
+    # --- Merlin (abdominal CT), SuPreM + SegVol encoders. Data only; no report-gen manifests are written ---
+    "merlin_compressed": (
+        ["merlin/compressed/**"], DATA / "embeddings", 29.0,
+        "ORCA and Grid-average tokens, Merlin, SuPreM + SegVol",
+    ),
+    "merlin_uncompressed": (
+        ["merlin/uncompressed/**"], DATA / "embeddings" / "uncompressed", 90.0,
+        "the raw Merlin encoder grids (SegVol 8x16x16x768, SuPreM 12x12x12x192)",
+    ),
+    "merlin_organ_masks": (
+        ["merlin/organ_masks/**"], DATA, 0.2,
+        "TotalSegmentator organ occupancy on the Merlin SuPreM and SegVol token grids",
+    ),
 }
 
 # Everything a report-generation cell needs, and nothing else.
 BUNDLE_SETS = {
     "reportgen": ["compressed"],
+    "merlin": ["merlin_compressed", "merlin_organ_masks"],
     "all": list(BUNDLES),
 }
 
@@ -115,8 +129,12 @@ def fetch(patterns: list[str], dest: Path, budget: int | None, encoder: str | No
 
     if budget is not None:
         patterns = [p.replace("colipri/**", f"colipri/*_b{budget}_*/*") for p in patterns]
+        patterns = [p.replace("merlin/compressed/**", f"merlin/compressed/*/*_b{budget}_*/**") for p in patterns]
     if encoder is not None:
         patterns = [p.replace("ct_rate/uncompressed/**", f"ct_rate/uncompressed/{encoder}/**") for p in patterns]
+        patterns = [p.replace("merlin/compressed/**", f"merlin/compressed/{encoder}/**") for p in patterns]
+        patterns = [p.replace("merlin/uncompressed/**", f"merlin/uncompressed/{encoder}/**") for p in patterns]
+        patterns = [p.replace("merlin/organ_masks/**", f"merlin/organ_masks/{encoder}/**") for p in patterns]
     print(f"  patterns: {patterns}")
     local = snapshot_download(REPO, repo_type="dataset", allow_patterns=patterns)
     dest.mkdir(parents=True, exist_ok=True)
