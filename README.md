@@ -71,7 +71,9 @@ CT-RATE with the COLIPRI encoder at a budget of 216 tokens. The first five colum
 | <sub>Grid average</sub> | <sub>0.851</sub> | <sub>0.681</sub> | <sub>0.865</sub> | <sub>0.247</sub> | <sub>0.760</sub> | <sub>**0.475**</sub> | <sub>**0.438**</sub> | <sub>0.319</sub> |
 | <sub>**ORCA**</sub> | <sub>**0.852**</sub> | <sub>**0.720**</sub> | <sub>**0.913**</sub> | <sub>**0.677**</sub> | <sub>**0.816**</sub> | <sub>0.470</sub> | <sub>0.436</sub> | <sub>**0.329**</sub> |
 
-ORCA wins every probing attribute and leads on GREEN; the report-generation text metrics are near-saturated across compressors. It also shrinks the LLM visual context $64\times$. Full results are under `results/` and `results_llm/`.
+ORCA wins every probing attribute and leads on GREEN; the report-generation text metrics are near-saturated across compressors. It also shrinks the LLM visual context $64\times$.
+
+`results/` and `results_llm/` hold every metric behind these tables, per arm and per epoch, including BLEU-1 to BLEU-4, ROUGE-L, METEOR, CIDEr, CRG and the per-finding clinical breakdown. The reports our models generated are on the Hub under [`ct_rate/reportgen_predictions/`](https://huggingface.co/datasets/LiangRenjie/ORCA-3DCT/tree/main/ct_rate/reportgen_predictions), one file per row of the table above, so any report metric can be recomputed without re-running inference.
 
 ---
 
