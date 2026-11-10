@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use ORCA-3DCT, please cite the accompanying paper."
+title: "ORCA: ORgan-Centroid Aggregation for Training-Free 3D CT Visual Token Compression"
+type: software
+authors:
+  - family-names: Liang
+    given-names: Renjie
+  - family-names: Xu
+    given-names: Zijian
+  - family-names: Pan
+    given-names: Jinqian
+  - family-names: Sun
+    given-names: Chengkun
+  - family-names: Fan
+    given-names: Zhengkang
+  - family-names: Li
+    given-names: Shawn
+  - family-names: Qin
+    given-names: You
+  - family-names: Liu
+    given-names: Mei
+  - family-names: Xu
+    given-names: Jie
+preferred-citation:
+  type: article
+  title: "ORCA: ORgan-Centroid Aggregation for Training-Free 3D CT Visual Token Compression"
+  authors:
+    - family-names: Liang
+      given-names: Renjie
+    - family-names: Xu
+      given-names: Zijian
+    - family-names: Pan
+      given-names: Jinqian
+    - family-names: Sun
+      given-names: Chengkun
+    - family-names: Fan
+      given-names: Zhengkang
+    - family-names: Li
+      given-names: Shawn
+    - family-names: Qin
+      given-names: You
+    - family-names: Liu
+      given-names: Mei
+    - family-names: Xu
+      given-names: Jie
+  journal: "arXiv preprint arXiv:2608.00345"
+  year: 2026
+  url: "https://arxiv.org/abs/2608.00345"
